@@ -1,0 +1,60 @@
+.viewer {
+  border: 1px solid var(--color-border-soft);
+  background: #0a0a0c;
+}
+
+.viewer header {
+  display: grid;
+  gap: 0.25rem;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid var(--color-border-soft);
+  background: var(--color-panel-soft);
+}
+
+.viewer header span,
+.viewer header strong,
+.terminal {
+  font-family: var(--font-mono);
+}
+
+.viewer header span {
+  color: var(--color-primary-bright);
+  font-size: 0.58rem;
+  letter-spacing: 0.15em;
+}
+
+.viewer header strong {
+  color: var(--color-text-strong);
+}
+
+.terminal {
+  min-height: 21rem;
+  padding: 1.25rem;
+  color: #a9d9a2;
+  font-size: clamp(0.65rem, 1.3vw, 0.8rem);
+}
+
+.terminal p {
+  display: grid;
+  grid-template-columns: 2rem 1fr;
+  gap: 0.75rem;
+  margin: 0 0 0.8rem;
+}
+
+.terminal p span {
+  color: var(--color-text-subtle);
+}
+
+.terminal i {
+  display: block;
+  width: 0.55rem;
+  height: 1rem;
+  background: var(--color-success);
+  animation: blink 900ms steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}

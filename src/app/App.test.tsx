@@ -1,5 +1,7 @@
-import { render, screen } from '@testing-library/react'
+import { act } from 'react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
+import { vi } from 'vitest'
 
 import { App } from './App'
 
@@ -40,5 +42,28 @@ describe('App', () => {
     expect(
       screen.getByRole('heading', { name: '入退室ログ記録' }),
     ).toBeVisible()
+  })
+
+  it('denies a wrong camera answer and accepts maintenance in hiragana', async () => {
+    vi.useFakeTimers()
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: /監視カメラ/ }))
+    const input = screen.getByLabelText('SECURITY KEY')
+
+    fireEvent.change(input, { target: { value: 'ちがいます' } })
+    fireEvent.click(screen.getByRole('button', { name: '認証' }))
+    expect(screen.getByText('ACCESS DENIED')).toBeVisible()
+    act(() => vi.advanceTimersByTime(2_000))
+
+    fireEvent.change(screen.getByLabelText('SECURITY KEY'), {
+      target: { value: 'めんてなんす' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: '認証' }))
+    expect(screen.getByText('ACCESS GRANTED')).toBeVisible()
+    act(() => vi.advanceTimersByTime(2_000))
+
+    expect(screen.getByText('ARCHIVE BROWSER')).toBeVisible()
+    vi.useRealTimers()
   })
 })

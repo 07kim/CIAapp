@@ -1,82 +1,30 @@
 .gate {
-  display: grid;
-  width: min(100%, 44rem);
-  min-height: calc(100vh - 15rem);
-  margin: auto;
-  place-content: center;
-  justify-items: center;
-  text-align: center;
-}
-
-.lockGraphic {
   position: relative;
-  width: 7rem;
-  height: 6rem;
-  margin-bottom: 2rem;
-  border: 1px solid var(--color-primary);
-  background: rgb(197 29 36 / 12%);
-  box-shadow: 0 0 3rem rgb(197 29 36 / 16%);
-}
-
-.lockGraphic::before {
-  position: absolute;
-  top: -2.7rem;
-  left: 1.5rem;
-  width: 3.8rem;
-  height: 3.6rem;
-  border: 0.55rem solid var(--color-primary-bright);
-  border-bottom: 0;
-  border-radius: 2rem 2rem 0 0;
-  content: '';
-}
-
-.lockGraphic span {
-  position: absolute;
-  top: 2rem;
-  left: 50%;
-  width: 0.75rem;
-  height: 1.8rem;
-  background: var(--color-primary-bright);
-  clip-path: polygon(50% 0, 100% 38%, 72% 100%, 28% 100%, 0 38%);
-  translate: -50% 0;
-}
-
-.classification,
-.phaseNotice span,
-.phaseNotice strong {
-  font-family: var(--font-mono);
-  letter-spacing: 0.15em;
-}
-
-.classification {
-  color: var(--color-primary-bright);
-  font-size: 0.7rem;
-}
-
-.gate h1 {
-  margin: 0.7rem 0;
-  color: var(--color-text-strong);
-  font-size: clamp(2rem, 6vw, 4rem);
-}
-
-.gate > p {
-  color: var(--color-text-muted);
-}
-
-.phaseNotice {
   display: grid;
-  gap: 0.45rem;
-  width: min(100%, 28rem);
-  margin-top: 2rem;
-  padding: 1rem;
-  border: 1px dashed var(--color-border-soft);
-  color: var(--color-text-subtle);
+  min-height: calc(100vh - 14rem);
+  place-items: center;
+  isolation: isolate;
 }
 
-.phaseNotice span {
-  font-size: 0.6rem;
+.backdrop {
+  position: absolute;
+  inset: 8% 0;
+  z-index: -1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  align-content: space-between;
+  color: rgb(239 69 76 / 23%);
+  font-family: var(--font-mono);
+  font-size: clamp(0.55rem, 1vw, 0.75rem);
+  letter-spacing: 0.2em;
 }
 
-.phaseNotice strong {
-  font-size: 0.72rem;
+.backdrop span:nth-child(even) {
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .gate {
+    min-height: calc(100vh - 11rem);
+  }
 }

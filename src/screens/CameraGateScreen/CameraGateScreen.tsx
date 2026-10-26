@@ -1,18 +1,28 @@
+import type { AuthenticationStatus } from '../../app/app-state'
+import { AuthPanel } from '../../components/AuthPanel/AuthPanel'
 import styles from './CameraGateScreen.module.css'
 
-export function CameraGateScreen() {
+type CameraGateScreenProps = {
+  status: AuthenticationStatus
+  onAuthenticate: (answer: string) => void
+}
+
+export function CameraGateScreen({ status, onAuthenticate }: CameraGateScreenProps) {
   return (
     <section aria-labelledby="camera-gate-title" className={styles.gate}>
-      <div aria-hidden="true" className={styles.lockGraphic}>
-        <span />
+      <div className={styles.backdrop} aria-hidden="true">
+        <span>CAM-01</span>
+        <span>CAM-02</span>
+        <span>ARCHIVE NODE</span>
+        <span>AUTH REQUIRED</span>
       </div>
-      <span className={styles.classification}>RESTRICTED SYSTEM</span>
-      <h1 id="camera-gate-title">監視カメラ認証</h1>
-      <p>このシステムへのアクセスにはセキュリティ認証が必要です。</p>
-      <div className={styles.phaseNotice}>
-        <span>AUTHENTICATION MODULE</span>
-        <strong>PHASE 3 で接続予定</strong>
-      </div>
+      <AuthPanel
+        eyebrow="RESTRICTED SURVEILLANCE NETWORK"
+        hint="保守担当者用のセキュリティキーを入力してください。"
+        onSubmit={onAuthenticate}
+        status={status}
+        title="監視カメラ認証"
+      />
     </section>
   )
 }

@@ -4,6 +4,7 @@ import styles from './AppShell.module.css'
 
 type AppShellProps = {
   children: ReactNode
+  compact?: boolean
   onRequestHome?: () => void
   subtitle: string
   title: string
@@ -20,6 +21,7 @@ function formatClock(date: Date) {
 
 export function AppShell({
   children,
+  compact = false,
   onRequestHome,
   subtitle,
   title,
@@ -32,11 +34,11 @@ export function AppShell({
   }, [])
 
   return (
-    <div className={styles.shell}>
+    <div className={`${styles.shell} ${compact ? styles.compact : ''}`}>
       <header className={styles.header}>
         <div className={styles.brand} aria-label="CIA Internet Co.">
           <span aria-hidden="true" className={styles.brandMark}>
-            CIA
+            <img src="/assets/brand/cia-logo-source.png" alt="" />
           </span>
           <span>
             <strong>CIA Internet Co.</strong>

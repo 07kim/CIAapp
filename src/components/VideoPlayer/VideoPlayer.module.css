@@ -1,0 +1,124 @@
+.player {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.viewport {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--color-border-soft);
+  background:
+    radial-gradient(circle at 58% 40%, #333239 0 8%, transparent 9%),
+    linear-gradient(152deg, #17171b 0 38%, #0b0b0d 39% 60%, #202024 61% 100%);
+  color: #d7d7d9;
+  font-family: var(--font-mono);
+}
+
+.viewport::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent 45%, rgb(255 255 255 / 4%) 50%, transparent 55%);
+  content: '';
+  opacity: 0;
+  translate: -80% 0;
+}
+
+.playing::after {
+  opacity: 1;
+  animation: scan 4s linear infinite;
+}
+
+.noise,
+.frameGrid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.noise {
+  background: repeating-linear-gradient(0deg, transparent 0 3px, rgb(255 255 255 / 3%) 4px);
+}
+
+.frameGrid {
+  background-image:
+    linear-gradient(rgb(239 69 76 / 6%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(239 69 76 / 6%) 1px, transparent 1px);
+  background-size: 25% 25%;
+}
+
+.rec,
+.channel,
+.timestamp {
+  position: absolute;
+  z-index: 2;
+  font-size: clamp(0.55rem, 1.4vw, 0.8rem);
+  letter-spacing: 0.08em;
+  text-shadow: 0 1px 3px black;
+}
+
+.rec {
+  top: 1rem;
+  right: 1rem;
+  color: var(--color-danger);
+}
+
+.channel {
+  top: 1rem;
+  left: 1rem;
+}
+
+.timestamp {
+  right: 1rem;
+  bottom: 1rem;
+}
+
+.placeholder {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  color: rgb(246 242 242 / 75%);
+  text-align: center;
+}
+
+.placeholder strong {
+  letter-spacing: 0.18em;
+}
+
+.placeholder span {
+  margin-top: 0.55rem;
+  color: rgb(246 242 242 / 45%);
+  font-family: var(--font-body);
+  font-size: clamp(0.65rem, 1.5vw, 0.85rem);
+}
+
+.controls {
+  display: grid;
+  grid-template-columns: auto auto 1fr auto;
+  gap: 0.8rem;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+}
+
+.controls button {
+  width: 2.8rem;
+  height: 2.3rem;
+  border: 1px solid var(--color-primary);
+  background: rgb(197 29 36 / 18%);
+  color: var(--color-primary-bright);
+  cursor: pointer;
+}
+
+.controls input {
+  width: 100%;
+  accent-color: var(--color-primary-bright);
+}
+
+@keyframes scan {
+  to {
+    translate: 80% 0;
+  }
+}

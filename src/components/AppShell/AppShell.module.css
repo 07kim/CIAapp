@@ -55,17 +55,20 @@
 }
 
 .brandMark {
-  display: grid;
+  position: relative;
   width: 3.2rem;
   aspect-ratio: 1;
-  place-items: center;
-  background: var(--color-primary);
-  color: white;
-  font-family: var(--font-display);
-  font-weight: 900;
-  letter-spacing: 0.05em;
+  overflow: hidden;
   clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  padding-top: 0.8rem;
+  filter: drop-shadow(0 0 0.55rem rgb(239 69 76 / 25%));
+}
+
+.brandMark img {
+  position: absolute;
+  top: -0.58rem;
+  left: -0.58rem;
+  width: 12rem;
+  max-width: none;
 }
 
 .brand > span:last-child {
@@ -144,6 +147,11 @@
   width: min(100%, 92rem);
   margin: 0 auto;
   padding: clamp(1.5rem, 5vw, 5rem);
+}
+
+.compact .content {
+  width: 100%;
+  padding: 0;
 }
 
 .footer {

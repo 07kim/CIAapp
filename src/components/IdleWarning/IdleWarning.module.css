@@ -1,0 +1,35 @@
+.warning {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 2.5rem;
+  z-index: 80;
+  display: grid;
+  gap: 0.35rem;
+  width: min(26rem, calc(100vw - 3rem));
+  padding: 1rem 1.2rem;
+  border: 1px solid var(--color-danger);
+  background: rgb(26 7 9 / 96%);
+  box-shadow: 0 0 2.5rem rgb(255 48 56 / 22%);
+  font-family: var(--font-mono);
+  animation: warning-pulse 1s ease-in-out infinite alternate;
+}
+
+.warning span {
+  color: var(--color-danger);
+  font-size: 0.58rem;
+  letter-spacing: 0.16em;
+}
+
+.warning strong {
+  color: var(--color-text-strong);
+}
+
+.warning small {
+  color: var(--color-text-muted);
+}
+
+@keyframes warning-pulse {
+  to {
+    border-color: var(--color-primary-muted);
+  }
+}
