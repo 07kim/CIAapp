@@ -4,6 +4,13 @@
 
 Phase 2まで完了しています。PCホーム、2つのアプリ入口、共通ヘッダー、ホーム確認を操作できます。監視カメラの謎認証と映像閲覧はまだ実装していません。
 
+## 公開先
+
+- 本番サイト: https://cia-internet-event-terminal.vercel.app
+- GitHub: https://github.com/07kim/cia-internet-event-terminal（非公開）
+
+`main`への反映でVercel本番環境が自動更新されます。Pull Requestと`main`へのpushではGitHub Actionsが型検査、Lint、単体テスト、本番ビルドを実行します。
+
 ## 採用予定の構成
 
 - React

@@ -84,12 +84,18 @@
 
 ## Phase 8: GitHub / Vercel公開フロー
 
-- 状態: In progress
+- 状態: Completed
 - 目的: Pull RequestごとのPreviewと、`main`からの本番公開を設定する。
 - 前提: GitHubリポジトリとVercelプロジェクトへの接続許可（2026-10-27承認済み）。
 - 対象: 非公開GitHubリポジトリ、GitHub Actionsによる自動検査、VercelのGit連携、運用文書の更新。
 - 検証計画: ローカルとGitHub Actionsで型検査・Lint・単体テスト・本番ビルドを実行し、Vercelの本番URLをブラウザで確認する。
 - 完了条件: 必須チェックが通った変更だけを本番へ反映でき、以前の版へ戻せる。
+- 検証結果:
+  - 非公開GitHubリポジトリを作成し、`main`へ初回版をpush
+  - GitHub Actionsの品質チェックが成功
+  - GitHubとVercelのGit連携が完了
+  - Vercel本番デプロイが`Ready`になり、固定URLをブラウザで表示確認
+  - GitのcommitとVercelのdeployment履歴から以前の版へ戻せる状態を確認
 
 ## Phase 9: 入退室ログアプリ
 

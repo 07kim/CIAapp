@@ -21,8 +21,11 @@
 - Phase 2完了時点で型検査、Lint、5件の単体・UIテスト、本番ビルドを再検証。
 - GitHub Actionsで型検査、Lint、単体テスト、本番ビルドを実行する品質チェックを追加。
 - Pull Request用の確認テンプレートと、検証後にGitHub/Vercelへ反映する運用ルールを追加。
+- 非公開GitHubリポジトリを作成し、Phase 2までの検証済み初回版をpush。
+- GitHub Actionsの品質チェック成功を確認。
+- GitHubリポジトリをVercelへ接続し、`main`からの自動本番デプロイを設定。
+- Vercel本番サイトへ固定URLを設定し、ブラウザで表示を確認。
 
 ### Not implemented
 
 - 監視カメラの謎認証・映像閲覧、入退室ログの実機能、放置リセット、オフライン対応はまだ実装していない。
-- GitHub接続とVercel公開はまだ実行していない。
