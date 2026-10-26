@@ -25,6 +25,7 @@
 - GitHub Actionsの品質チェック成功を確認。
 - GitHubリポジトリをVercelへ接続し、`main`からの自動本番デプロイを設定。
 - Vercel本番サイトへ固定URLを設定し、ブラウザで表示を確認。
+- VercelがGitHubのcommit作成者を照合できるよう、リポジトリ専用のGit作者情報をGitHubアカウントへ統一。
 
 ### Not implemented
 
