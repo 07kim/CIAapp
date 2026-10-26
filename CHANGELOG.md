@@ -26,7 +26,8 @@
 - GitHubリポジトリをVercelへ接続し、`main`からの自動本番デプロイを設定。
 - Vercel本番サイトへ固定URLを設定し、ブラウザで表示を確認。
 - VercelがGitHubのcommit作成者を照合できるよう、リポジトリ専用のGit作者情報をGitHubアカウントへ統一。
-- Vercelプロジェクト名を`cia-internet-event-terminal`へ統一し、固定URLが今後の本番デプロイへ自動追従する構成へ修正。
+- GitHubリポジトリ名を`CIAapp`、Vercelプロジェクト名を`ciaapp`へ変更。
+- `ciaapp.vercel.app`をプロジェクトの本番ドメインとして登録し、今後の本番デプロイへ自動追従する構成へ修正。
 
 ### Not implemented
 

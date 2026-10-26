@@ -1,4 +1,4 @@
-# CIA Internet Co. Event Terminal
+# CIAapp
 
 謎解きイベントで使用する、架空の社内PCを模したWebアプリケーションです。PCホーム画面から監視カメラシステムと入退室ログ記録アプリを起動します。
 
@@ -6,8 +6,8 @@ Phase 2まで完了しています。PCホーム、2つのアプリ入口、共�
 
 ## 公開先
 
-- 本番サイト: https://cia-internet-event-terminal.vercel.app
-- GitHub: https://github.com/07kim/cia-internet-event-terminal（非公開）
+- 本番サイト: https://ciaapp.vercel.app
+- GitHub: https://github.com/07kim/CIAapp（非公開）
 
 `main`への反映でVercel本番環境が自動更新されます。Pull Requestと`main`へのpushではGitHub Actionsが型検査、Lint、単体テスト、本番ビルドを実行します。
 
