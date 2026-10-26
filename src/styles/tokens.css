@@ -1,0 +1,23 @@
+:root {
+  --color-background: #09090b;
+  --color-panel: #17171a;
+  --color-panel-soft: #202024;
+  --color-panel-raised: #252529;
+  --color-border: #4b2023;
+  --color-border-soft: #37373d;
+  --color-primary: #c51d24;
+  --color-primary-muted: #812127;
+  --color-primary-bright: #ef454c;
+  --color-danger: #ff3038;
+  --color-success: #62dc4e;
+  --color-text-strong: #f6f2f2;
+  --color-text-muted: #aaa4a4;
+  --color-text-subtle: #716c6d;
+  --font-display: "Arial Narrow", "Noto Sans JP", sans-serif;
+  --font-body: "Noto Sans JP", "Yu Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+}

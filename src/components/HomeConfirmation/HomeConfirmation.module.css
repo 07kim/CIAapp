@@ -1,0 +1,60 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  padding: var(--space-md);
+  background: rgb(0 0 0 / 78%);
+  backdrop-filter: blur(6px);
+}
+
+.dialog {
+  width: min(100%, 30rem);
+  padding: clamp(1.5rem, 5vw, 2.5rem);
+  border: 1px solid var(--color-primary);
+  background: var(--color-panel-raised);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 4%) inset,
+    0 2rem 7rem rgb(0 0 0 / 65%);
+}
+
+.label {
+  color: var(--color-primary-bright);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+}
+
+.dialog h2 {
+  margin: 0.75rem 0 2rem;
+  color: var(--color-text-strong);
+  font-size: clamp(1.2rem, 4vw, 1.65rem);
+}
+
+.actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+}
+
+.actions button {
+  min-width: 7rem;
+  padding: 0.8rem 1.1rem;
+  border: 1px solid var(--color-border-soft);
+  color: var(--color-text-strong);
+  cursor: pointer;
+}
+
+.actions button:focus-visible {
+  outline: 2px solid var(--color-text-strong);
+  outline-offset: 2px;
+}
+
+.secondary {
+  background: var(--color-panel-soft);
+}
+
+.primary {
+  background: var(--color-primary);
+}

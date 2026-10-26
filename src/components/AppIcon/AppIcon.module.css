@@ -1,0 +1,126 @@
+.app {
+  position: relative;
+  display: grid;
+  grid-template-columns: 5rem minmax(0, 1fr) auto;
+  gap: var(--space-md);
+  align-items: center;
+  min-height: 10rem;
+  padding: var(--space-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border-soft);
+  background:
+    linear-gradient(135deg, rgb(255 255 255 / 5%), transparent 58%),
+    var(--color-panel);
+  color: var(--color-text-strong);
+  text-align: left;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    translate 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.app::after {
+  position: absolute;
+  right: -4rem;
+  bottom: -6rem;
+  width: 13rem;
+  height: 13rem;
+  border: 1px solid rgb(197 29 36 / 20%);
+  border-radius: 50%;
+  content: '';
+}
+
+.app:hover,
+.app:focus-visible {
+  border-color: var(--color-primary);
+  box-shadow: 0 1rem 3rem rgb(0 0 0 / 35%);
+  outline: none;
+  translate: 0 -0.2rem;
+}
+
+.iconFrame {
+  display: grid;
+  width: 5rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--color-primary-muted);
+  background: rgb(197 29 36 / 10%);
+  color: var(--color-primary-bright);
+}
+
+.iconFrame svg {
+  width: 3rem;
+  fill: none;
+  stroke: currentcolor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 3;
+}
+
+.copy {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.copy strong {
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  letter-spacing: 0.05em;
+}
+
+.systemLabel,
+.description,
+.badge,
+.arrow {
+  font-family: var(--font-mono);
+}
+
+.systemLabel {
+  color: var(--color-primary-bright);
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+}
+
+.description {
+  max-width: 33rem;
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+  line-height: 1.6;
+}
+
+.badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid var(--color-primary-muted);
+  color: var(--color-primary-bright);
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+}
+
+.arrow {
+  align-self: end;
+  color: var(--color-text-subtle);
+  font-size: 1.2rem;
+}
+
+@media (max-width: 640px) {
+  .app {
+    grid-template-columns: 3.75rem minmax(0, 1fr);
+    min-height: 8.5rem;
+    padding: var(--space-md);
+  }
+
+  .iconFrame {
+    width: 3.75rem;
+  }
+
+  .iconFrame svg {
+    width: 2.25rem;
+  }
+
+  .arrow {
+    display: none;
+  }
+}

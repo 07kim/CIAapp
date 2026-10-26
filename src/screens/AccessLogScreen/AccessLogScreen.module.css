@@ -1,0 +1,93 @@
+.layout {
+  display: grid;
+  gap: 2rem;
+}
+
+.heading span,
+.module span,
+.module strong,
+.emptyState {
+  font-family: var(--font-mono);
+}
+
+.heading > span {
+  color: var(--color-primary-bright);
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
+}
+
+.heading h1 {
+  margin: 0.45rem 0;
+  color: var(--color-text-strong);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+}
+
+.heading p {
+  margin: 0;
+  color: var(--color-text-muted);
+}
+
+.moduleGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.module {
+  display: grid;
+  gap: 1rem;
+  padding: 1.2rem;
+  border: 1px solid var(--color-border-soft);
+  background: var(--color-panel);
+}
+
+.module span {
+  color: var(--color-text-subtle);
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+}
+
+.module strong {
+  color: var(--color-primary-bright);
+  font-size: 0.72rem;
+}
+
+.emptyState {
+  display: grid;
+  min-height: 22rem;
+  place-content: center;
+  justify-items: center;
+  border: 1px solid var(--color-border-soft);
+  background:
+    radial-gradient(circle, rgb(197 29 36 / 8%), transparent 45%),
+    var(--color-panel);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.emptyState strong {
+  margin-top: 1rem;
+  color: var(--color-text-strong);
+  letter-spacing: 0.16em;
+}
+
+.emptyState span {
+  margin-top: 0.5rem;
+  font-size: 0.7rem;
+}
+
+.pulse {
+  width: 4rem;
+  aspect-ratio: 1;
+  border: 1px solid var(--color-primary);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1rem rgb(197 29 36 / 8%),
+    0 0 0 2rem rgb(197 29 36 / 4%);
+}
+
+@media (max-width: 760px) {
+  .moduleGrid {
+    grid-template-columns: 1fr;
+  }
+}
