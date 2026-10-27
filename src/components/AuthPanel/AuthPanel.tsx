@@ -95,7 +95,11 @@ export function AuthPanel({
           <div aria-hidden="true" className={styles.securityMatrix}>
             <div className={styles.orbit}><i /></div>
             <div className={styles.verificationBox}>
-              {status === 'granted' ? '✓' : '×'}
+              {status === 'granted' ? (
+                <span className={styles.grantedMark}>✓</span>
+              ) : (
+                <span className={styles.deniedMark}><b>!</b></span>
+              )}
             </div>
             <div className={styles.signalGraph}>
               <i /><i /><i /><i /><i /><i /><i />

@@ -6,6 +6,8 @@ type AppIconProps = {
   icon: 'camera' | 'log'
   label: string
   onOpen: () => void
+  onSelect: () => void
+  selected: boolean
   systemLabel: string
 }
 
@@ -36,10 +38,25 @@ export function AppIcon({
   icon,
   label,
   onOpen,
+  onSelect,
+  selected,
   systemLabel,
 }: AppIconProps) {
   return (
-    <button className={styles.app} onClick={onOpen} type="button">
+    <button
+      aria-pressed={selected}
+      className={`${styles.app} ${selected ? styles.selected : ''}`}
+      onClick={onSelect}
+      onDoubleClick={onOpen}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault()
+          onOpen()
+        }
+      }}
+      title="ダブルクリックで起動"
+      type="button"
+    >
       <span className={styles.iconFrame}>
         {icon === 'camera' ? <CameraIcon /> : <LogIcon />}
         {badge ? <span className={styles.badge}>!</span> : null}

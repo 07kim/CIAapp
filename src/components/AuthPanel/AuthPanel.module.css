@@ -271,6 +271,35 @@
   animation: verification-mark 240ms ease-out 720ms forwards;
 }
 
+.grantedMark {
+  display: grid;
+  width: 2.6rem;
+  aspect-ratio: 1;
+  place-items: center;
+}
+
+.denied .verificationBox {
+  border-color: transparent;
+}
+
+.deniedMark {
+  display: grid;
+  width: 2.65rem;
+  aspect-ratio: 1;
+  background: currentcolor;
+  clip-path: polygon(50% 4%, 97% 91%, 3% 91%);
+  filter: drop-shadow(0 0 0.6rem rgb(239 69 76 / 35%));
+  place-items: center;
+}
+
+.deniedMark b {
+  color: #101015;
+  font-family: var(--font-mono);
+  font-size: 1.35rem;
+  line-height: 1;
+  translate: 0 0.25rem;
+}
+
 .signalGraph {
   position: absolute;
   right: -5rem;

@@ -1,4 +1,4 @@
-import { useEffect, useState, type MouseEvent } from 'react'
+import { useEffect, useRef, useState, type MouseEvent } from 'react'
 
 import { AppIcon } from '../../components/AppIcon/AppIcon'
 import styles from './DesktopScreen.module.css'
@@ -6,6 +6,15 @@ import styles from './DesktopScreen.module.css'
 type DesktopScreenProps = {
   onOpenAccessLog: () => void
   onOpenCamera: () => void
+}
+
+type DesktopApp = 'camera' | 'access-log'
+
+const APP_LAUNCH_DURATION_MS = 900
+
+const desktopApps: Record<DesktopApp, { label: string; systemLabel: string }> = {
+  camera: { label: '監視カメラ', systemLabel: 'SURVEILLANCE SYSTEM' },
+  'access-log': { label: '入退室ログ', systemLabel: 'ACCESS CONTROL LOG' },
 }
 
 function formatTime(date: Date) {
@@ -51,10 +60,19 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
   const [quickOpen, setQuickOpen] = useState(false)
   const [clockOpen, setClockOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedApp, setSelectedApp] = useState<DesktopApp | null>(null)
+  const [launchingApp, setLaunchingApp] = useState<DesktopApp | null>(null)
+  const launchTimerRef = useRef<number | null>(null)
 
   useEffect(() => {
     const timerId = window.setInterval(() => setNow(new Date()), 1_000)
     return () => window.clearInterval(timerId)
+  }, [])
+
+  useEffect(() => () => {
+    if (launchTimerRef.current !== null) {
+      window.clearTimeout(launchTimerRef.current)
+    }
   }, [])
 
   useEffect(() => {
@@ -80,7 +98,27 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
       setNetworkOpen(false)
       setQuickOpen(false)
       setClockOpen(false)
+      setSelectedApp(null)
     }
+  }
+
+  const launchApp = (app: DesktopApp) => {
+    if (launchingApp !== null) return
+
+    setSelectedApp(app)
+    setLaunchingApp(app)
+    setStartOpen(false)
+    setNetworkOpen(false)
+    setQuickOpen(false)
+    setClockOpen(false)
+
+    launchTimerRef.current = window.setTimeout(() => {
+      if (app === 'camera') {
+        onOpenCamera()
+      } else {
+        onOpenAccessLog()
+      }
+    }, APP_LAUNCH_DURATION_MS)
   }
 
   return (
@@ -103,14 +141,18 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
           description="録画映像とカメラ診断"
           icon="camera"
           label="監視カメラ"
-          onOpen={onOpenCamera}
+          onOpen={() => launchApp('camera')}
+          onSelect={() => setSelectedApp('camera')}
+          selected={selectedApp === 'camera'}
           systemLabel="SURVEILLANCE"
         />
         <AppIcon
           description="社員IDの入退室履歴"
           icon="log"
           label="入退室ログ"
-          onOpen={onOpenAccessLog}
+          onOpen={() => launchApp('access-log')}
+          onSelect={() => setSelectedApp('access-log')}
+          selected={selectedApp === 'access-log'}
           systemLabel="ACCESS LOG"
         />
       </div>
@@ -136,13 +178,13 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
           <strong>ピン留め済み</strong>
           <div className={styles.startApps}>
             {showCamera ? (
-              <button onClick={onOpenCamera} type="button">
+              <button onClick={() => launchApp('camera')} type="button">
                 <span className={styles.miniIcon}>◉</span>
                 監視カメラ
               </button>
             ) : null}
             {showAccessLog ? (
-              <button onClick={onOpenAccessLog} type="button">
+              <button onClick={() => launchApp('access-log')} type="button">
                 <span className={styles.miniIcon}>▤</span>
                 入退室ログ
               </button>
@@ -208,6 +250,28 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
             ))}
           </div>
         </section>
+      ) : null}
+
+      {launchingApp ? (
+        <div
+          aria-label={`${desktopApps[launchingApp].label}を起動中`}
+          aria-live="polite"
+          className={styles.launchOverlay}
+          role="status"
+        >
+          <div className={styles.launchWindow}>
+            <div aria-hidden="true" className={styles.launchGlyph}>
+              <span /><i /><i />
+            </div>
+            <div className={styles.launchCopy}>
+              <small>APPLICATION STARTUP</small>
+              <strong>{desktopApps[launchingApp].label}</strong>
+              <span>{desktopApps[launchingApp].systemLabel}</span>
+            </div>
+            <div aria-hidden="true" className={styles.launchProgress}><i /></div>
+            <p>社内システムを準備しています</p>
+          </div>
+        </div>
       ) : null}
 
       <footer className={styles.taskbar}>

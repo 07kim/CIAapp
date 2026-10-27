@@ -45,13 +45,19 @@ describe('App', () => {
     expect(screen.queryByRole('region', { name: '日時とカレンダー' })).not.toBeInTheDocument()
   })
 
-  it('opens the camera gate and returns home after confirmation', async () => {
+  it('selects a desktop shortcut once and opens it on double click', async () => {
     const user = userEvent.setup()
     render(<App />)
 
-    await user.click(screen.getByRole('button', { name: /監視カメラ/ }))
+    const cameraShortcut = screen.getByRole('button', { name: /監視カメラ/ })
+    await user.click(cameraShortcut)
+    expect(cameraShortcut).toHaveAttribute('aria-pressed', 'true')
+    expect(screen.queryByRole('heading', { name: '監視カメラ認証' })).not.toBeInTheDocument()
+
+    await user.dblClick(cameraShortcut)
+    expect(screen.getByRole('status', { name: '監視カメラを起動中' })).toBeVisible()
     expect(
-      screen.getByRole('heading', { name: '監視カメラ認証' }),
+      await screen.findByRole('heading', { name: '監視カメラ認証' }),
     ).toBeVisible()
 
     await user.click(screen.getByRole('button', { name: 'ホーム' }))
@@ -69,10 +75,10 @@ describe('App', () => {
     const user = userEvent.setup()
     render(<App />)
 
-    await user.click(screen.getByRole('button', { name: /入退室ログ/ }))
+    await user.dblClick(screen.getByRole('button', { name: /入退室ログ/ }))
 
     expect(
-      screen.getByRole('heading', { name: '入退室ログ記録' }),
+      await screen.findByRole('heading', { name: '入退室ログ記録' }),
     ).toBeVisible()
   })
 
@@ -80,7 +86,8 @@ describe('App', () => {
     vi.useFakeTimers()
     render(<App />)
 
-    fireEvent.click(screen.getByRole('button', { name: /監視カメラ/ }))
+    fireEvent.doubleClick(screen.getByRole('button', { name: /監視カメラ/ }))
+    act(() => vi.advanceTimersByTime(900))
     const input = screen.getByLabelText('SYSTEM PASSWORD')
 
     fireEvent.change(input, { target: { value: 'ちがいます' } })
@@ -104,7 +111,8 @@ describe('App', () => {
     vi.useFakeTimers()
     render(<App />)
 
-    fireEvent.click(screen.getByRole('button', { name: /監視カメラ/ }))
+    fireEvent.doubleClick(screen.getByRole('button', { name: /監視カメラ/ }))
+    act(() => vi.advanceTimersByTime(900))
     fireEvent.change(screen.getByLabelText('SYSTEM PASSWORD'), {
       target: { value: 'めんてなんす' },
     })
@@ -122,7 +130,8 @@ describe('App', () => {
     vi.useFakeTimers()
     render(<App />)
 
-    fireEvent.click(screen.getByRole('button', { name: /入退室ログ/ }))
+    fireEvent.doubleClick(screen.getByRole('button', { name: /入退室ログ/ }))
+    act(() => vi.advanceTimersByTime(900))
 
     act(() => vi.advanceTimersByTime(20_000))
     expect(screen.getByRole('alert')).toHaveTextContent(
