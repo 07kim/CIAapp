@@ -18,7 +18,7 @@ import { appReducer, initialAppState } from './app-reducer'
 import type { VideoStatus } from './app-state'
 import styles from './App.module.css'
 
-const AUTH_RESULT_DURATION_MS = 2_000
+const AUTH_RESULT_DURATION_MS = 2_800
 
 export function App() {
   const [state, dispatch] = useReducer(appReducer, initialAppState)
@@ -97,7 +97,7 @@ export function App() {
     : state.screen === 'camera-gate'
       ? { mode: 'authentication', label: 'CREDENTIAL GATE' }
       : state.screen === 'camera-browser'
-        ? { mode: 'surveillance', label: 'ARCHIVE MOUNT' }
+        ? { mode: 'authorized', label: 'ACCESS GRANTED / ARCHIVE ONLINE' }
         : { mode: 'access', label: 'ACCESS TRACE' }
 
   const screen = (() => {

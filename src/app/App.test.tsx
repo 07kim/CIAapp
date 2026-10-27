@@ -108,7 +108,7 @@ describe('App', () => {
     fireEvent.change(input, { target: { value: 'ちがいます' } })
     fireEvent.click(screen.getByRole('button', { name: '認証' }))
     expect(screen.getByText('ACCESS DENIED')).toBeInTheDocument()
-    act(() => vi.advanceTimersByTime(2_000))
+    act(() => vi.advanceTimersByTime(2_800))
 
     expect(screen.getByLabelText('SYSTEM PASSWORD')).toHaveValue('')
     fireEvent.change(screen.getByLabelText('SYSTEM PASSWORD'), {
@@ -116,9 +116,10 @@ describe('App', () => {
     })
     fireEvent.click(screen.getByRole('button', { name: '認証' }))
     expect(screen.getByText('ACCESS GRANTED')).toBeInTheDocument()
-    act(() => vi.advanceTimersByTime(2_000))
+    act(() => vi.advanceTimersByTime(2_800))
 
     expect(screen.getByText('ARCHIVE BROWSER')).toBeVisible()
+    expect(screen.getByText('ACCESS GRANTED / ARCHIVE ONLINE')).toBeInTheDocument()
     vi.useRealTimers()
   })
 
@@ -136,7 +137,7 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'ホーム' })).toBeDisabled()
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
 
-    act(() => vi.advanceTimersByTime(2_000))
+    act(() => vi.advanceTimersByTime(2_800))
     expect(screen.getByRole('button', { name: 'ホーム' })).toBeEnabled()
     vi.useRealTimers()
   })
@@ -148,7 +149,7 @@ describe('App', () => {
     fireEvent.doubleClick(screen.getByRole('button', { name: /入退室ログ/ }))
     act(() => vi.advanceTimersByTime(900))
 
-    act(() => vi.advanceTimersByTime(20_000))
+    act(() => vi.advanceTimersByTime(10_000))
     expect(screen.getByRole('alert')).toHaveTextContent(
       '残り10秒でホーム画面に戻ります',
     )

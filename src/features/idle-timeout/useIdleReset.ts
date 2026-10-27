@@ -16,8 +16,8 @@ export function useIdleReset({
   onReset,
   onWarning,
   paused,
-  resetAfterMs = 30_000,
-  warningAfterMs = 20_000,
+  resetAfterMs = 20_000,
+  warningAfterMs = 10_000,
 }: UseIdleResetOptions) {
   const warningTimer = useRef<number | null>(null)
   const resetTimer = useRef<number | null>(null)

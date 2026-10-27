@@ -195,9 +195,10 @@
 .credentialCell h1 {
   margin: 0.65rem 0 0;
   color: var(--color-text-strong);
-  font-size: clamp(1.65rem, 4vw, 2.6rem);
-  font-weight: 650;
-  letter-spacing: 0.01em;
+  font-size: clamp(2rem, 5vw, 3.55rem);
+  font-weight: 760;
+  letter-spacing: -0.055em;
+  line-height: 0.98;
 }
 
 .credentialCell > p {
@@ -315,16 +316,17 @@
 }
 
 .result {
-  position: absolute;
+  position: fixed;
   inset: 0;
-  z-index: 10;
+  z-index: 240;
   display: grid;
   gap: 1.35rem;
   padding: clamp(2rem, 6vw, 4rem);
   place-content: center;
   justify-items: center;
   overflow: hidden;
-  background: rgb(8 10 13 / 94%);
+  color: rgb(240 241 242 / 72%);
+  background: rgb(8 10 13 / 97%);
   animation: result-iris 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
@@ -343,6 +345,25 @@
   animation: orbit-spin 1.8s linear infinite;
 }
 
+.handoffBloom {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 4;
+  width: 5rem;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle, #e8fff0 0 4%, #72c887 5% 24%, #16351f 46%, #0b0d11 72%);
+  box-shadow: 0 0 4rem rgb(114 200 135 / 42%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.18);
+}
+
+.granted .handoffBloom {
+  animation: handoff-bloom 720ms cubic-bezier(0.7, 0, 0.2, 1) 2.08s forwards;
+}
+
 .securityMatrix {
   position: relative;
   z-index: 1;
@@ -358,7 +379,7 @@
 .orbit::after { inset: 1.4rem; border-style: solid; border-color: transparent currentcolor; animation: orbit-spin 520ms linear infinite reverse; }
 .orbit i { position: absolute; top: 50%; left: -0.22rem; width: 0.42rem; aspect-ratio: 1; border-radius: 50%; background: currentcolor; box-shadow: 0 0 0.7rem currentcolor; }
 
-.verificationBox { display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid currentcolor; font-size: 1.6rem; font-weight: 800; opacity: 0; scale: 0.7; animation: verification-mark 240ms ease-out 700ms forwards; }
+.verificationBox { display: grid; width: 2.5rem; aspect-ratio: 1; place-items: center; border: 1px solid currentcolor; font-size: 1.6rem; font-weight: 800; opacity: 0; scale: 0.7; animation: verification-mark 280ms ease-out 1.12s forwards; }
 .grantedMark { display: grid; width: 100%; aspect-ratio: 1; place-items: center; }
 .denied .verificationBox { border-color: transparent; }
 .deniedMark { display: grid; width: 2.5rem; aspect-ratio: 1; background: currentcolor; clip-path: polygon(50% 4%, 97% 91%, 3% 91%); place-items: center; }
@@ -376,14 +397,14 @@
 .diagnosticWindows span:nth-child(2) { top: 3rem; right: 0; animation-delay: 300ms; }
 .diagnosticWindows span:nth-child(3) { bottom: 0; left: 0.8rem; animation-delay: 480ms; }
 
-.checking { z-index: 1; color: var(--color-text-muted); font-size: 0.56rem; animation: checking-out 180ms linear 760ms forwards; }
-.resultMessage { position: absolute; inset: 1rem; z-index: 2; display: grid; gap: 0.9rem; align-content: center; justify-items: center; padding: 2rem; border: 1px solid rgb(255 255 255 / 6%); background: rgb(8 10 13 / 92%); opacity: 0; scale: 0.9; animation: result-message-in 300ms cubic-bezier(0.16, 1, 0.3, 1) 820ms forwards; }
+.checking { z-index: 1; color: var(--color-text-muted); font-size: 0.56rem; animation: checking-out 200ms linear 1.18s forwards; }
+.resultMessage { position: absolute; inset: 1rem; z-index: 2; display: grid; gap: 0.9rem; align-content: center; justify-items: center; padding: 2rem; border: 1px solid rgb(255 255 255 / 6%); background: rgb(8 10 13 / 92%); opacity: 0; scale: 0.9; animation: result-message-in 360ms cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards; }
 .resultMessage strong { font-size: clamp(1.35rem, 4vw, 2.3rem); letter-spacing: 0.1em; }
 .resultMessage span { color: var(--color-text-muted); font-family: var(--font-body); font-size: clamp(0.72rem, 1.5vw, 0.9rem); }
 .progress { z-index: 1; width: min(70vw, 18rem); height: 2px; overflow: hidden; background: rgb(255 255 255 / 9%); }
-.progress i { display: block; width: 100%; height: 100%; background: currentcolor; transform-origin: left; animation: verification-progress 850ms ease-out forwards; }
-.granted { color: var(--color-success); }
-.denied { color: var(--color-danger); }
+.progress i { display: block; width: 100%; height: 100%; background: currentcolor; transform-origin: left; animation: verification-progress 1.12s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
+.granted { animation: result-iris 240ms cubic-bezier(0.16, 1, 0.3, 1) both, granted-resolve 180ms ease 1.08s forwards; }
+.denied { animation: result-iris 240ms cubic-bezier(0.16, 1, 0.3, 1) both, denied-resolve 180ms ease 1.08s forwards, denied-release 380ms ease 2.4s forwards; }
 .granted strong { color: var(--color-success); }
 .denied strong { color: var(--color-danger); }
 
@@ -396,13 +417,21 @@
 @keyframes reticle-pulse { to { scale: 1.7; opacity: 0.45; } }
 @keyframes scanner-wave { to { transform: scaleY(5); opacity: 0.35; } }
 @keyframes credential-form-in { from { opacity: 0; transform: translate3d(1.2rem, 0, 0); } }
-@keyframes result-iris { from { opacity: 0; clip-path: circle(0 at 34% 50%); } to { clip-path: circle(120% at 34% 50%); } }
+@keyframes result-iris { from { opacity: 0; clip-path: circle(0 at 50% 50%); } to { clip-path: circle(120% at 50% 50%); } }
 @keyframes verification-progress { from { scale: 0 1; } }
 @keyframes orbit-spin { to { rotate: 1turn; } }
 @keyframes signal-jump { to { height: 100%; } }
 @keyframes verification-mark { to { opacity: 1; scale: 1; } }
 @keyframes checking-out { to { opacity: 0; } }
 @keyframes result-message-in { to { opacity: 1; scale: 1; } }
+@keyframes granted-resolve { to { color: var(--color-success); } }
+@keyframes denied-resolve { to { color: var(--color-danger); } }
+@keyframes denied-release { to { opacity: 0; clip-path: circle(0 at 50% 50%); } }
+@keyframes handoff-bloom {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.18); }
+  22% { opacity: 1; transform: translate(-50%, -50%) scale(0.72); }
+  100% { opacity: 1; transform: translate(-50%, -50%) scale(36); }
+}
 @keyframes diagnostic-in { from { opacity: 0; translate: 0 0.3rem; } to { opacity: 0.75; translate: 0; } }
 @keyframes panel-denied { 10%, 90% { translate: -0.08rem 0; } 20%, 80% { translate: 0.16rem 0; } 30%, 50%, 70% { translate: -0.3rem 0; } 40%, 60% { translate: 0.3rem 0; } }
 @keyframes panel-granted { 50% { border-color: var(--color-success); box-shadow: 0 0 3rem rgb(98 220 78 / 24%); } }
@@ -443,6 +472,7 @@
   .panelGranted,
   .result,
   .result::after,
+  .handoffBloom,
   .orbit,
   .orbit::after,
   .signalGraph i,

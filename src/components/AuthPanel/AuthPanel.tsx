@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { createPortal } from 'react-dom'
 
 import type { AuthenticationStatus } from '../../app/app-state'
 import styles from './AuthPanel.module.css'
@@ -108,12 +109,13 @@ export function AuthPanel({
         </button>
       ) : null}
 
-      {status !== 'idle' ? (
+      {status !== 'idle' ? createPortal((
         <div
           aria-live="assertive"
           className={`${styles.result} ${styles[status]}`}
           role="status"
         >
+          <span aria-hidden="true" className={styles.handoffBloom} />
           <div aria-hidden="true" className={styles.securityMatrix}>
             <div className={styles.orbit}><i /></div>
             <div className={styles.verificationBox}>
@@ -145,7 +147,7 @@ export function AuthPanel({
           </div>
           <div aria-hidden="true" className={styles.progress}><i /></div>
         </div>
-      ) : null}
+      ), document.body) : null}
     </section>
   )
 }

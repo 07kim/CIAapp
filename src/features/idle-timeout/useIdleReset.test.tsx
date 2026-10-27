@@ -7,7 +7,7 @@ describe('useIdleReset', () => {
   beforeEach(() => vi.useFakeTimers())
   afterEach(() => vi.useRealTimers())
 
-  it('warns after 20 seconds and resets after 30 seconds', () => {
+  it('warns after 10 seconds and resets after 20 seconds', () => {
     const onWarning = vi.fn()
     const onReset = vi.fn()
 
@@ -21,7 +21,7 @@ describe('useIdleReset', () => {
       }),
     )
 
-    act(() => vi.advanceTimersByTime(20_000))
+    act(() => vi.advanceTimersByTime(10_000))
     expect(onWarning).toHaveBeenCalledOnce()
     expect(onReset).not.toHaveBeenCalled()
 

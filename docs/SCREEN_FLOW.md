@@ -91,7 +91,7 @@ videoStatus: idle | playing | paused | ended
 ### 計測停止条件
 
 - 動画が`playing`の間。
-- 認証判定の約2秒間。
+- 認証判定の約2.8秒間。
 - PCホーム画面にいる間。
 
 ### イベント
@@ -107,8 +107,8 @@ videoStatus: idle | playing | paused | ended
 
 ```text
 0秒    計測開始
-20秒   残り10秒警告を表示
-30秒   PCホームへ移動し全ロックをリセット
+10秒   残り10秒警告を表示
+20秒   PCホームへ移動し全ロックをリセット
 ```
 
 ## 5. 確認画面
