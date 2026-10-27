@@ -1,9 +1,14 @@
-const CACHE_VERSION = 'ciaapp-shell-v1'
+const CACHE_VERSION = 'ciaapp-shell-v2'
 const CORE_ASSETS = [
   '/',
   '/index.html',
   '/manifest.webmanifest',
   '/assets/brand/cia-logo-source.png',
+  '/assets/surveillance/placeholders/archive-2000.png',
+  '/assets/surveillance/placeholders/archive-2015.png',
+  '/assets/surveillance/placeholders/archive-2030.png',
+  '/assets/surveillance/placeholders/archive-2045.png',
+  '/assets/surveillance/placeholders/archive-2355.png',
 ]
 
 async function cacheApplicationShell() {

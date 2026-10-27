@@ -19,6 +19,11 @@ const longArchive: ArchiveFile = {
   duration: 90,
   sceneLabel: 'CAM 01 · NIGHT RECORD',
   description: '長時間表示の確認用',
+  media: {
+    kind: 'placeholder-image',
+    src: '/assets/surveillance/placeholders/archive-2355.png',
+    alt: '映像5の仮素材',
+  },
 }
 
 describe('VideoPlayer', () => {
@@ -35,6 +40,16 @@ describe('VideoPlayer', () => {
     render(<VideoPlayer file={longArchive} onStatusChange={vi.fn()} />)
 
     expect(screen.getByText('01:30')).toBeVisible()
+  })
+
+  it('shows the configured temporary still image', () => {
+    render(<VideoPlayer file={longArchive} onStatusChange={vi.fn()} />)
+
+    expect(screen.getByRole('img', { name: '映像5の仮素材' })).toHaveAttribute(
+      'src',
+      '/assets/surveillance/placeholders/archive-2355.png',
+    )
+    expect(screen.getByText('TEMPORARY STILL / LOCAL CACHE')).toBeVisible()
   })
 
   it('requests fullscreen playback from its control', () => {

@@ -60,14 +60,20 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
   return (
     <div className={styles.player} ref={playerRef}>
       <div className={`${styles.viewport} ${status === 'playing' ? styles.playing : ''}`}>
+        <div className={styles.mediaFrame}>
+          <img
+            alt={file.media.alt}
+            className={styles.mediaImage}
+            draggable="false"
+            src={file.media.src}
+          />
+        </div>
+        <div className={styles.mediaShade} aria-hidden="true" />
         <div className={styles.noise} aria-hidden="true" />
         <div className={styles.frameGrid} aria-hidden="true" />
         <span className={styles.rec}>● REC</span>
         <span className={styles.channel}>{file.sceneLabel}</span>
-        <div className={styles.placeholder}>
-          <strong>ARCHIVE MEDIA SLOT</strong>
-          <span>実映像を受領後、この表示と差し替えます</span>
-        </div>
+        <span className={styles.mediaStatus}>TEMPORARY STILL / LOCAL CACHE</span>
         <time className={styles.timestamp}>
           {formatRecordingTimestamp(file.recordedAt, position)}
         </time>

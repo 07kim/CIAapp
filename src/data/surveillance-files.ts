@@ -10,6 +10,11 @@ export type ArchiveFile = {
   duration: number
   sceneLabel: string
   description: string
+  media: {
+    kind: 'placeholder-image'
+    src: string
+    alt: string
+  }
 }
 
 export type SystemFile = {
@@ -36,6 +41,11 @@ export const archiveFiles: ArchiveFile[] = [
     duration: 38,
     sceneLabel: 'CAM 01 · EXECUTIVE OFFICE',
     description: '暗号化された監視映像。認証後に再生できます。',
+    media: {
+      kind: 'placeholder-image',
+      src: '/assets/surveillance/placeholders/archive-2000.png',
+      alt: '映像1の仮素材。社長机の置き時計を90度傾けた場面の説明。',
+    },
   },
   {
     id: 'archive-2015',
@@ -49,6 +59,11 @@ export const archiveFiles: ArchiveFile[] = [
     duration: 42,
     sceneLabel: 'CAM 01 · EXECUTIVE OFFICE',
     description: '暗号化された監視映像。認証後に再生できます。',
+    media: {
+      kind: 'placeholder-image',
+      src: '/assets/surveillance/placeholders/archive-2015.png',
+      alt: '映像2の仮素材。謎の人物が金庫のUSBメモリを持ち出す場面の説明。',
+    },
   },
   {
     id: 'archive-2030',
@@ -61,6 +76,11 @@ export const archiveFiles: ArchiveFile[] = [
     duration: 35,
     sceneLabel: 'CAM 01 · CLEANING RECORD',
     description: '清掃担当者が社長室へ入室した時間帯の記録。',
+    media: {
+      kind: 'placeholder-image',
+      src: '/assets/surveillance/placeholders/archive-2030.png',
+      alt: '映像3の仮素材。一ノ瀬が社長室に入室し清掃する場面の説明。',
+    },
   },
   {
     id: 'archive-2045',
@@ -73,6 +93,11 @@ export const archiveFiles: ArchiveFile[] = [
     duration: 31,
     sceneLabel: 'CAM 01 · CLEANING RECORD',
     description: '清掃担当者が社長室を退室した時間帯の記録。',
+    media: {
+      kind: 'placeholder-image',
+      src: '/assets/surveillance/placeholders/archive-2045.png',
+      alt: '映像4の仮素材。一ノ瀬が社長室を退室する場面の説明。',
+    },
   },
   {
     id: 'archive-2355',
@@ -85,6 +110,11 @@ export const archiveFiles: ArchiveFile[] = [
     duration: 40,
     sceneLabel: 'CAM 01 · NIGHT RECORD',
     description: '深夜帯の暗い社長室を記録した映像。',
+    media: {
+      kind: 'placeholder-image',
+      src: '/assets/surveillance/placeholders/archive-2355.png',
+      alt: '映像5の仮素材。全員退勤後の消灯された社長室の説明。',
+    },
   },
 ]
 

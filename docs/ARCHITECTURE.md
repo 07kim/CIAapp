@@ -165,6 +165,13 @@ interface AccessLogRepository {
 - 不正解から`idle`へ戻る状態変化を検知して入力値を消去し、同じ画面で再試行できるようにする。
 - 認証モーションはCSSで実装し、`prefers-reduced-motion`時は静的な結果表示へ切り替える。
 
+### 仮監視映像素材
+
+- 仮静止画は`public/assets/surveillance/placeholders/`にローカル資産として保持し、外部Driveへの実行時接続に依存しない。
+- アーカイブごとの素材パスと代替テキストは`src/data/surveillance-files.ts`に集約する。
+- 実動画受領後は、画面遷移やロック状態を変更せず、このメディア定義と`VideoPlayer`の再生ソースを交換する。
+- 5枚の仮静止画はService Workerのアプリシェルに含め、初回準備後のオフライン表示を保持する。
+
 ### 常時モーションと画面遷移
 
 - `DynamicBackdrop`をアプリの画面分岐より上位へ一度だけ配置し、画面遷移でCanvasを再生成しない。
