@@ -7,7 +7,7 @@
   background: transparent;
   color: #fff;
   text-align: center;
-  cursor: default;
+  cursor: pointer;
   place-items: center;
   transition: background 120ms ease, border-color 120ms ease;
 }
@@ -21,6 +21,7 @@
 
 .app:active {
   background: rgb(197 29 36 / 28%);
+  transform: scale(0.96);
 }
 
 .iconFrame {

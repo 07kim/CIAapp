@@ -1,5 +1,5 @@
 import { act } from 'react'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { vi } from 'vitest'
 
@@ -11,6 +11,27 @@ describe('App', () => {
 
     expect(screen.getByRole('button', { name: /監視カメラ/ })).toBeVisible()
     expect(screen.getByRole('button', { name: /入退室ログ/ })).toBeVisible()
+  })
+
+  it('makes the desktop taskbar controls interactive', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.click(screen.getByRole('button', { name: 'スタート' }))
+    expect(screen.getByRole('region', { name: 'スタートメニュー' })).toBeVisible()
+
+    await user.type(screen.getByRole('searchbox', { name: 'アプリを検索' }), '入退室')
+    const startMenu = screen.getByRole('region', { name: 'スタートメニュー' })
+    expect(within(startMenu).getByRole('button', { name: /入退室ログ/ })).toBeVisible()
+    expect(within(startMenu).queryByRole('button', { name: /監視カメラ/ })).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'スタートメニューを閉じる' }))
+    expect(screen.queryByRole('region', { name: 'スタートメニュー' })).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'CIAネットワーク情報' }))
+    expect(screen.getByRole('region', { name: 'CIAネットワーク情報' })).toBeVisible()
+    await user.click(screen.getByRole('button', { name: 'ネットワーク情報を閉じる' }))
+    expect(screen.queryByRole('region', { name: 'CIAネットワーク情報' })).not.toBeInTheDocument()
   })
 
   it('opens the camera gate and returns home after confirmation', async () => {

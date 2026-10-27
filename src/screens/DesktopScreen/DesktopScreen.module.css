@@ -153,6 +153,11 @@
 .startButton:hover { background: rgb(255 255 255 / 9%); }
 .startButton i { width: 0.45rem; height: 0.45rem; background: #e94951; }
 
+.activeTaskButton {
+  background: rgb(255 255 255 / 12%) !important;
+  box-shadow: inset 0 -2px #ef454c;
+}
+
 .search {
   width: clamp(10rem, 19vw, 15rem);
   padding: 0.58rem 0.9rem;
@@ -161,6 +166,14 @@
   background: rgb(255 255 255 / 7%);
   color: rgb(255 255 255 / 55%);
   font-size: 0.68rem;
+  text-align: left;
+  cursor: pointer;
+}
+
+.search:hover,
+.search:focus-visible {
+  border-color: rgb(255 255 255 / 20%);
+  background: rgb(255 255 255 / 11%);
 }
 
 .pinnedApp {
@@ -172,8 +185,146 @@
   box-shadow: inset 0 1px rgb(255 255 255 / 18%);
   font-family: var(--font-mono);
   font-size: 0.55rem;
+  color: #fff;
+  border: 0;
+  cursor: pointer;
   place-items: center;
 }
+
+.startMenu,
+.networkPanel {
+  position: absolute;
+  z-index: 4;
+  bottom: 4rem;
+  border: 1px solid rgb(255 255 255 / 13%);
+  border-radius: 0.8rem;
+  background: rgb(24 23 30 / 90%);
+  box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 48%);
+  backdrop-filter: blur(28px) saturate(125%);
+}
+
+.startMenu {
+  left: 0.8rem;
+  width: min(26rem, calc(100vw - 1.6rem));
+  padding: 1.35rem;
+}
+
+.startMenu label,
+.startMenu input {
+  width: 100%;
+}
+
+.startMenu input {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid rgb(255 255 255 / 13%);
+  border-bottom-color: #ef454c;
+  border-radius: 0.35rem;
+  background: rgb(255 255 255 / 8%);
+  color: #fff;
+}
+
+.startMenu > strong {
+  display: block;
+  margin: 1.2rem 0 0.65rem;
+  font-size: 0.72rem;
+}
+
+.startApps {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.55rem;
+  min-height: 5.6rem;
+}
+
+.startApps button {
+  display: grid;
+  gap: 0.45rem;
+  padding: 0.8rem;
+  border: 1px solid transparent;
+  border-radius: 0.45rem;
+  background: transparent;
+  color: #fff;
+  font-size: 0.7rem;
+  cursor: pointer;
+  place-items: center;
+}
+
+.startApps button:hover,
+.startApps button:focus-visible {
+  border-color: rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 9%);
+}
+
+.startApps p {
+  grid-column: 1 / -1;
+  color: rgb(255 255 255 / 52%);
+  font-size: 0.72rem;
+  text-align: center;
+}
+
+.miniIcon {
+  display: grid;
+  width: 2.6rem;
+  aspect-ratio: 1;
+  border-radius: 0.55rem;
+  background: linear-gradient(145deg, #b32830, #481216);
+  color: #fff;
+  font-size: 1.15rem;
+  place-items: center;
+}
+
+.startMenu footer,
+.networkPanel header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.startMenu footer {
+  margin: 1rem -1.35rem -1.35rem;
+  padding: 0.75rem 1.35rem;
+  border-top: 1px solid rgb(255 255 255 / 9%);
+  background: rgb(0 0 0 / 12%);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+}
+
+.startMenu footer button,
+.networkPanel header button {
+  width: 2rem;
+  height: 2rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: rgb(255 255 255 / 66%);
+  cursor: pointer;
+}
+
+.startMenu footer button:hover,
+.networkPanel header button:hover {
+  background: rgb(255 255 255 / 10%);
+  color: #fff;
+}
+
+.networkPanel {
+  left: 19.2rem;
+  width: 17rem;
+  padding: 1rem;
+}
+
+.networkPanel header {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+  color: #ef454c;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+}
+
+.networkPanel dl { margin: 0.75rem 0 0; }
+.networkPanel dl div { display: flex; justify-content: space-between; padding: 0.55rem 0; }
+.networkPanel dt { color: rgb(255 255 255 / 48%); font-size: 0.62rem; }
+.networkPanel dd { margin: 0; color: #76de69; font-family: var(--font-mono); font-size: 0.58rem; }
 
 .taskbarRight { color: rgb(255 255 255 / 78%); }
 .tray { font-size: 0.65rem; }
@@ -187,4 +338,5 @@
   .shortcuts { grid-template-columns: repeat(2, 6.8rem); }
   .search { display: none; }
   .tray { display: none; }
+  .networkPanel { right: 0.8rem; left: 0.8rem; width: auto; }
 }
