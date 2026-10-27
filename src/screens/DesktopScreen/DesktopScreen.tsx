@@ -126,6 +126,17 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
     >
       <h1 className={styles.visuallyHidden} id="desktop-title">CIA社内デスクトップ</h1>
 
+      <div aria-hidden="true" className={styles.ambientSystem}>
+        <div className={styles.ambientSweep} />
+        <div className={styles.ambientRail}><i /><i /><i /><i /><i /><i /><i /></div>
+        <div className={styles.ambientTicker}>
+          <span>SECURE NODE 07</span>
+          <span>LOCAL ARCHIVE SYNCHRONIZED</span>
+          <span>PACKET TRACE ACTIVE</span>
+          <span>ENCRYPTED CHANNEL STABLE</span>
+        </div>
+      </div>
+
       <div aria-hidden="true" className={styles.wallpaperBrand}>
         <span>CIA</span>
         <strong>INTERNAL NETWORK</strong>
@@ -253,6 +264,7 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
           role="status"
         >
           <div className={styles.launchWindow}>
+            <span aria-hidden="true" className={styles.launchIndex}>07</span>
             <div aria-hidden="true" className={styles.launchGlyph}>
               <span /><i /><i />
             </div>
@@ -262,6 +274,9 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
               <span>{desktopApps[launchingApp].systemLabel}</span>
             </div>
             <div aria-hidden="true" className={styles.launchProgress}><i /></div>
+            <div aria-hidden="true" className={styles.launchTelemetry}>
+              <i /><i /><i /><i /><i /><i /><i /><i /><i />
+            </div>
             <p>社内システムを準備しています</p>
           </div>
         </div>

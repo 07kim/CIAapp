@@ -23,6 +23,38 @@
   white-space: nowrap;
 }
 
+.systemAmbient {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.scanBeam {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 48%;
+  width: 13rem;
+  border-inline: 1px solid rgb(224 74 83 / 7%);
+  background: linear-gradient(90deg, transparent, rgb(189 48 57 / 5%), transparent);
+  transform: skewX(-15deg) translate3d(-62vw, 0, 0);
+  animation: system-scan 9s linear infinite;
+}
+
+.dataRibbon {
+  position: absolute;
+  right: -18rem;
+  bottom: 0.22rem;
+  color: rgb(255 255 255 / 8%);
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+  animation: system-ribbon 18s linear infinite;
+}
+
 .browser,
 .workspace,
 .diagnostics {
@@ -32,7 +64,11 @@
   border-radius: 0.85rem;
   background: rgb(18 20 25 / 92%);
   box-shadow: 0 1rem 3rem rgb(0 0 0 / 16%);
+  animation: panel-arrive 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
+
+.workspace { animation-delay: 70ms; }
+.diagnostics { animation-delay: 140ms; }
 
 .browser > header,
 .diagnostics > header {
@@ -96,7 +132,8 @@
 
 .browser button:hover,
 .browser button:focus-visible { border-color: rgb(255 255 255 / 9%); outline: 0; background: rgb(255 255 255 / 4%); }
-.browser .selected { border-color: rgb(224 74 83 / 28%); background: linear-gradient(90deg, rgb(189 48 57 / 12%), rgb(255 255 255 / 2%)); box-shadow: inset 2px 0 #d94a52; }
+.browser .selected { position: relative; overflow: hidden; border-color: rgb(224 74 83 / 28%); background: linear-gradient(90deg, rgb(189 48 57 / 12%), rgb(255 255 255 / 2%)); box-shadow: inset 2px 0 #d94a52; }
+.browser .selected::after { position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 7%) 50%, transparent 70%); content: ''; transform: translate3d(-110%, 0, 0); animation: selected-scan 2.8s ease-in-out infinite; pointer-events: none; }
 .browser .selected .fileIcon { border-color: rgb(224 74 83 / 36%); background: #bd3039; color: #fff; transform: skewX(-5deg); }
 .browser button > span:nth-child(2) { display: grid; min-width: 0; }
 .browser button strong { overflow: hidden; color: var(--color-text-strong); font-size: 0.67rem; font-weight: 550; text-overflow: ellipsis; }
@@ -222,6 +259,33 @@
 .fileInfo small { margin: 0; color: var(--color-text-subtle); font-size: 0.5rem; line-height: 1.45; }
 .fileInfo strong { overflow: hidden; color: var(--color-text-strong); font-size: 0.64rem; text-overflow: ellipsis; }
 
+.liveWave {
+  display: flex;
+  gap: 0.18rem;
+  align-items: center;
+  height: 3.25rem;
+  margin: 0.9rem 1rem;
+  padding: 0.55rem 0.75rem;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 6%);
+  border-radius: 0.6rem;
+  background: linear-gradient(90deg, rgb(189 48 57 / 6%), transparent);
+}
+
+.liveWave i {
+  flex: 1;
+  height: 12%;
+  min-width: 2px;
+  background: #d94a52;
+  box-shadow: 0 0 0.45rem rgb(217 74 82 / 24%);
+  transform-origin: center;
+  animation: diagnostic-wave 1.15s ease-in-out infinite alternate;
+}
+
+.liveWave i:nth-child(2n) { animation-delay: -0.28s; }
+.liveWave i:nth-child(3n) { animation-delay: -0.58s; }
+.liveWave i:nth-child(4n) { animation-delay: -0.86s; }
+
 .authOverlay {
   position: fixed;
   inset: 0;
@@ -242,6 +306,16 @@
   to { translate: 8% 0; }
 }
 
+@keyframes system-scan { to { transform: skewX(-15deg) translate3d(72vw, 0, 0); } }
+@keyframes system-ribbon { to { transform: translate3d(-46rem, 0, 0); } }
+@keyframes panel-arrive {
+  from { opacity: 0; transform: translate3d(0, 1.2rem, 0); clip-path: inset(0 0 100% 0); }
+}
+@keyframes selected-scan {
+  50%, 100% { transform: translate3d(110%, 0, 0); }
+}
+@keyframes diagnostic-wave { to { transform: scaleY(7); opacity: 0.35; } }
+
 @media (max-width: 1100px) {
   .system { grid-template-columns: 16rem 1fr; }
   .diagnostics { display: none; }
@@ -261,6 +335,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .systemAmbient *,
+  .browser,
+  .workspace,
+  .diagnostics,
+  .browser .selected::after,
+  .liveWave i,
   .workspace > *,
   .standby::after { animation: none; }
 }

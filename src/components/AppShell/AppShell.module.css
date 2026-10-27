@@ -23,6 +23,40 @@
   mask-image: linear-gradient(to bottom, black, transparent 80%);
 }
 
+.shellMotion {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.shellMotion::before {
+  position: absolute;
+  inset: -35% -10%;
+  background: linear-gradient(112deg, transparent 43%, rgb(216 55 66 / 5%) 49%, transparent 55%);
+  content: '';
+  animation: shell-drift 11s linear infinite;
+}
+
+.shellMotion span {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 18%;
+  width: 1px;
+  background: linear-gradient(transparent, rgb(224 74 83 / 20%), transparent);
+  transform: skewX(-18deg);
+  animation: shell-rail 7s ease-in-out infinite alternate;
+}
+
+.shellMotion span:last-child {
+  right: 14%;
+  left: auto;
+  animation-delay: -3.5s;
+  animation-direction: alternate-reverse;
+}
+
 .header,
 .content,
 .footer {
@@ -157,6 +191,7 @@
   width: min(100%, 92rem);
   margin: 0 auto;
   padding: clamp(1.5rem, 5vw, 5rem);
+  animation: shell-content-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 .compact .content {
@@ -191,6 +226,22 @@
   letter-spacing: 0.1em;
 }
 
+@keyframes shell-content-in {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+    transform: translateY(0.75rem);
+  }
+}
+
+@keyframes shell-drift {
+  to { transform: translate3d(18%, 0, 0); }
+}
+
+@keyframes shell-rail {
+  to { transform: translate3d(5rem, 0, 0) skewX(-18deg); opacity: 0.35; }
+}
+
 @media (max-width: 900px) {
   .header {
     grid-template-columns: 1fr auto;
@@ -221,5 +272,13 @@
 
   .footer span:last-child {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .content,
+  .shellMotion::before,
+  .shellMotion span {
+    animation: none;
   }
 }

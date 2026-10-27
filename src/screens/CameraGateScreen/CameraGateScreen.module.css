@@ -4,6 +4,7 @@
   min-height: calc(100vh - 14rem);
   place-items: center;
   isolation: isolate;
+  overflow: hidden;
 }
 
 .backdrop {
@@ -23,8 +24,93 @@
   text-align: right;
 }
 
+.signalField {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.signalField::before,
+.signalField::after {
+  position: absolute;
+  inset: 14% 8%;
+  border: 1px solid rgb(255 255 255 / 4%);
+  content: '';
+  transform: skewX(-11deg);
+  animation: gate-frame 5s ease-in-out infinite alternate;
+}
+
+.signalField::after {
+  inset: 20% 13%;
+  border-color: rgb(216 55 66 / 7%);
+  animation-direction: alternate-reverse;
+}
+
+.signalSweep {
+  position: absolute;
+  top: -15%;
+  bottom: -15%;
+  left: 50%;
+  width: 18%;
+  background: linear-gradient(90deg, transparent, rgb(216 55 66 / 7%), transparent);
+  transform: skewX(-16deg) translate3d(-52vw, 0, 0);
+  animation: gate-sweep 6.5s linear infinite;
+}
+
+.signalRail {
+  position: absolute;
+  right: 4%;
+  bottom: 12%;
+  display: flex;
+  gap: 0.3rem;
+  align-items: end;
+  width: 12rem;
+  height: 3.5rem;
+  border-bottom: 1px solid rgb(255 255 255 / 8%);
+}
+
+.signalRail i {
+  flex: 1;
+  height: 20%;
+  background: rgb(216 55 66 / 42%);
+  transform-origin: bottom;
+  animation: gate-bars 900ms ease-in-out infinite alternate;
+}
+
+.signalRail i:nth-child(2n) { animation-delay: -300ms; }
+.signalRail i:nth-child(3n) { animation-delay: -600ms; }
+
+.signalField > span {
+  position: absolute;
+  bottom: 4%;
+  left: 6%;
+  color: rgb(255 255 255 / 12%);
+  font-family: var(--font-mono);
+  font-size: 0.48rem;
+  letter-spacing: 0.16em;
+  white-space: nowrap;
+  animation: gate-copy 4s ease-in-out infinite alternate;
+}
+
+@keyframes gate-frame { to { transform: translate3d(1.5rem, 0, 0) skewX(-11deg); opacity: 0.45; } }
+@keyframes gate-sweep { to { transform: skewX(-16deg) translate3d(65vw, 0, 0); } }
+@keyframes gate-bars { to { transform: scaleY(4); opacity: 0.2; } }
+@keyframes gate-copy { to { opacity: 0.35; transform: translate3d(2rem, 0, 0); } }
+
 @media (max-width: 600px) {
   .gate {
     min-height: calc(100vh - 11rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .signalField::before,
+  .signalField::after,
+  .signalSweep,
+  .signalRail i,
+  .signalField > span {
+    animation: none;
   }
 }

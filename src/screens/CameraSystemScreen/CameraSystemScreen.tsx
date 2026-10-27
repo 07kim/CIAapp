@@ -38,6 +38,10 @@ export function CameraSystemScreen({
 
   return (
     <section className={styles.system} aria-label="監視映像アーカイブ">
+      <div aria-hidden="true" className={styles.systemAmbient}>
+        <span className={styles.scanBeam} />
+        <span className={styles.dataRibbon}>CAM-01 · ARCHIVE LINK · PACKET 0X3A · LOCAL NODE · SECURE CHANNEL · </span>
+      </div>
       <aside className={styles.browser}>
         <header>
           <span>ARCHIVE BROWSER</span>
@@ -131,6 +135,9 @@ export function CameraSystemScreen({
           <span>STORAGE LOAD</span>
           <i><b /></i>
           <small>61.4%</small>
+        </div>
+        <div aria-hidden="true" className={styles.liveWave}>
+          <i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
         </div>
         <div className={styles.eventLog}>
           <span>LIVE SYSTEM LOG</span>

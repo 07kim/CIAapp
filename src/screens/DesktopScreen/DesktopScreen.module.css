@@ -22,6 +22,68 @@
   pointer-events: none;
 }
 
+.ambientSystem {
+  position: absolute;
+  inset: 0 0 3.4rem;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambientSweep {
+  position: absolute;
+  top: -18%;
+  bottom: -18%;
+  left: 48%;
+  width: 16vw;
+  min-width: 9rem;
+  border-inline: 1px solid rgb(217 74 82 / 8%);
+  background: linear-gradient(90deg, transparent, rgb(189 48 57 / 5%), transparent);
+  transform: skewX(-18deg) translate3d(-48vw, 0, 0);
+  animation: desktop-sweep 13s linear infinite;
+}
+
+.ambientRail {
+  position: absolute;
+  right: 5vw;
+  bottom: 18vh;
+  display: flex;
+  gap: 0.3rem;
+  align-items: end;
+  width: min(19rem, 32vw);
+  height: 4.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid rgb(255 255 255 / 8%);
+  transform: skewX(-10deg);
+}
+
+.ambientRail i {
+  flex: 1;
+  height: 30%;
+  background: linear-gradient(to top, rgb(189 48 57 / 62%), rgb(217 74 82 / 8%));
+  transform-origin: bottom;
+  animation: desktop-signal 1.3s ease-in-out infinite alternate;
+}
+
+.ambientRail i:nth-child(2n) { animation-delay: -0.45s; }
+.ambientRail i:nth-child(3n) { animation-delay: -0.9s; }
+.ambientRail i:nth-child(4n) { animation-duration: 1.8s; }
+
+.ambientTicker {
+  position: absolute;
+  right: 0;
+  bottom: 1.25rem;
+  display: flex;
+  gap: 4rem;
+  width: 64vw;
+  color: rgb(255 255 255 / 16%);
+  font-family: var(--font-mono);
+  font-size: 0.46rem;
+  letter-spacing: 0.18em;
+  white-space: nowrap;
+  animation: desktop-ticker 18s linear infinite;
+}
+
 .visuallyHidden {
   position: absolute;
   width: 1px;
@@ -443,9 +505,32 @@
   z-index: 20;
   display: grid;
   inset: 0;
-  background: rgb(7 8 10 / 56%);
-  backdrop-filter: blur(8px);
+  background: rgb(7 8 10 / 72%);
+  backdrop-filter: blur(5px);
   place-items: center;
+  animation: launch-overlay-in 180ms ease-out both;
+}
+
+.launchOverlay::before,
+.launchOverlay::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+}
+
+.launchOverlay::before {
+  background: #b82e37;
+  clip-path: polygon(0 0, 43% 0, 30% 100%, 0 100%);
+  transform: translate3d(-105%, 0, 0);
+  animation: launch-blade-left 760ms cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+.launchOverlay::after {
+  background: rgb(19 21 26 / 96%);
+  clip-path: polygon(76% 0, 100% 0, 100% 100%, 61% 100%);
+  transform: translate3d(105%, 0, 0);
+  animation: launch-blade-right 760ms cubic-bezier(0.65, 0, 0.35, 1) both;
 }
 
 .launchWindow {
@@ -453,13 +538,27 @@
   display: grid;
   grid-template-columns: 3rem 1fr;
   gap: 1rem 1.1rem;
-  width: min(25rem, calc(100vw - 2rem));
-  padding: 1.4rem 1.5rem 1.15rem;
+  z-index: 1;
+  width: min(39rem, calc(100vw - 2rem));
+  padding: 2.2rem 2.4rem 1.7rem;
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 11%);
-  border-radius: 0.85rem;
+  border-radius: 0.15rem;
   background: linear-gradient(145deg, rgb(31 34 40 / 97%), rgb(16 18 22 / 98%));
   box-shadow: var(--shadow-window);
+  clip-path: polygon(0 0, 94% 0, 100% 18%, 100% 100%, 6% 100%, 0 82%);
+  animation: launch-window-in 500ms cubic-bezier(0.16, 1, 0.3, 1) 120ms both;
+}
+
+.launchIndex {
+  position: absolute;
+  top: -1rem;
+  right: 1rem;
+  color: rgb(255 255 255 / 4%);
+  font-family: var(--font-display);
+  font-size: 9rem;
+  font-weight: 800;
+  line-height: 1;
 }
 
 .launchWindow::after {
@@ -526,9 +625,45 @@
 .launchProgress i { display: block; width: 100%; height: 100%; background: #d94a52; transform-origin: left; animation: launch-progress 820ms ease-out forwards; }
 .launchWindow p { grid-column: 1 / -1; margin: -0.25rem 0 0; color: rgb(255 255 255 / 46%); font-size: 0.52rem; text-align: right; }
 
+.launchTelemetry {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 0.24rem;
+  align-items: end;
+  height: 2.5rem;
+  opacity: 0.72;
+}
+
+.launchTelemetry i {
+  flex: 1;
+  height: 28%;
+  background: linear-gradient(to top, #d94a52, rgb(217 74 82 / 15%));
+  transform-origin: bottom;
+  animation: launch-telemetry 420ms ease-in-out infinite alternate;
+}
+
+.launchTelemetry i:nth-child(2n) { animation-delay: -180ms; }
+.launchTelemetry i:nth-child(3n) { animation-delay: -320ms; }
+
 @keyframes launch-scan-x { to { translate: 0.45rem 0; } }
 @keyframes launch-progress { from { scale: 0 1; } to { scale: 1 1; } }
 @keyframes launch-scan { to { translate: 100% 0; } }
+@keyframes desktop-sweep { to { transform: skewX(-18deg) translate3d(68vw, 0, 0); } }
+@keyframes desktop-signal { to { transform: scaleY(3.1); opacity: 0.25; } }
+@keyframes desktop-ticker { to { transform: translate3d(-34rem, 0, 0); } }
+@keyframes launch-overlay-in { from { opacity: 0; } }
+@keyframes launch-blade-left {
+  45%, 70% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-105%, 0, 0); }
+}
+@keyframes launch-blade-right {
+  45%, 70% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(105%, 0, 0); }
+}
+@keyframes launch-window-in {
+  from { opacity: 0; transform: translate3d(0, 1.5rem, 0) scale(0.96); }
+}
+@keyframes launch-telemetry { to { transform: scaleY(3.2); opacity: 0.3; } }
 
 @media (max-width: 640px) {
   .wallpaperBrand { left: 64%; width: 70vw; }
@@ -540,9 +675,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .ambientSweep,
+  .ambientRail i,
+  .ambientTicker,
+  .launchOverlay,
+  .launchOverlay::before,
+  .launchOverlay::after,
+  .launchWindow,
   .launchGlyph i,
   .launchProgress i,
-  .launchWindow::after {
+  .launchWindow::after,
+  .launchTelemetry i {
     animation: none;
   }
 }

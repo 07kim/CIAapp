@@ -76,6 +76,9 @@ export function AppShell({
 
   return (
     <div className={`${styles.shell} ${compact ? styles.compact : ''} ${desktop ? styles.desktop : ''}`}>
+      <div aria-hidden="true" className={styles.shellMotion}>
+        <span /><span />
+      </div>
       <header className={styles.header}>
         <div className={styles.brand} aria-label="CIA Internet Co.">
           <span aria-hidden="true" className={styles.brandMark}>

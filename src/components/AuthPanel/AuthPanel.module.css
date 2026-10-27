@@ -27,11 +27,13 @@
 .panel::before {
   top: -1px;
   left: 1.5rem;
+  animation: auth-edge 4.5s ease-in-out infinite alternate;
 }
 
 .panel::after {
   right: 1.5rem;
   bottom: -1px;
+  animation: auth-edge 4.5s ease-in-out -2.25s infinite alternate-reverse;
 }
 
 .compact {
@@ -58,7 +60,10 @@
   box-shadow:
     0 0 0 0.45rem rgb(255 255 255 / 2%),
     inset 0 0 1.2rem rgb(189 48 57 / 8%);
+  animation: reticle-float 3.2s ease-in-out infinite alternate;
 }
+
+.reticle::after { animation: reticle-scan-x 2.2s ease-in-out infinite alternate; }
 
 .reticle::before,
 .reticle::after,
@@ -85,6 +90,7 @@
   height: 0.42rem;
   border-radius: 0.12rem;
   box-shadow: 0 0 0.65rem rgb(224 74 83 / 55%);
+  animation: reticle-pulse 1.35s ease-in-out infinite alternate;
 }
 
 .eyebrow,
@@ -463,6 +469,22 @@
   }
 }
 
+@keyframes auth-edge {
+  to { transform: translate3d(3.5rem, 0, 0); opacity: 0.35; }
+}
+
+@keyframes reticle-float {
+  to { transform: translate3d(0, -0.2rem, 0); border-color: rgb(224 74 83 / 28%); }
+}
+
+@keyframes reticle-scan-x {
+  to { transform: translate3d(0.45rem, 0, 0); }
+}
+
+@keyframes reticle-pulse {
+  to { transform: translate(-50%, -50%) scale(1.6); opacity: 0.45; }
+}
+
 @keyframes verification-progress {
   from {
     scale: 0 1;
@@ -575,6 +597,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .panel::before,
+  .panel::after,
+  .reticle,
+  .reticle::after,
+  .reticle span,
   .panelDenied,
   .panelGranted,
   .orbit,

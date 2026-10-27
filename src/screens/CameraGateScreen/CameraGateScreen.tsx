@@ -16,6 +16,11 @@ export function CameraGateScreen({ status, onAuthenticate }: CameraGateScreenPro
         <span>ARCHIVE NODE</span>
         <span>AUTH REQUIRED</span>
       </div>
+      <div aria-hidden="true" className={styles.signalField}>
+        <div className={styles.signalSweep} />
+        <div className={styles.signalRail}><i /><i /><i /><i /><i /><i /><i /><i /></div>
+        <span>NODE 01 / BIOMETRIC FALLBACK / CREDENTIAL TRACE / ACTIVE</span>
+      </div>
       <AuthPanel
         eyebrow="RESTRICTED SURVEILLANCE NETWORK"
         hint="監視アーカイブへ接続するためのシステムパスワードを入力してください。"
