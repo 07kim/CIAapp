@@ -99,6 +99,7 @@
   z-index: 2;
   display: grid;
   gap: 0.25rem;
+  animation: desktop-item-in 520ms cubic-bezier(0.16, 1, 0.3, 1) 430ms both;
 }
 
 .wallpaperBrand {
@@ -111,6 +112,7 @@
   color: rgb(255 255 255 / 82%);
   text-align: left;
   translate: -50% -50%;
+  animation: brand-resolve 900ms cubic-bezier(0.16, 1, 0.3, 1) 420ms both;
 }
 
 .wallpaperBrand::before {
@@ -157,6 +159,7 @@
   box-shadow: 0 1rem 3rem rgb(0 0 0 / 16%);
   backdrop-filter: blur(24px);
   font-family: var(--font-mono);
+  animation: desktop-item-in 520ms cubic-bezier(0.16, 1, 0.3, 1) 560ms both;
 }
 
 .desktopWidget div { font-size: 0.6rem; letter-spacing: 0.1em; }
@@ -188,6 +191,7 @@
   background: rgb(15 17 21 / 82%);
   box-shadow: 0 -0.6rem 2.5rem rgb(0 0 0 / 14%);
   backdrop-filter: blur(28px) saturate(115%);
+  animation: taskbar-in 520ms cubic-bezier(0.16, 1, 0.3, 1) 460ms both;
 }
 
 .taskbarLeft,
@@ -250,6 +254,26 @@
   place-items: center;
 }
 
+.taskGlyph {
+  position: relative;
+  display: block;
+  width: 1.05rem;
+  aspect-ratio: 1;
+  border: 1px solid #d94a52;
+  transform: rotate(45deg);
+}
+
+.taskGlyph i {
+  position: absolute;
+  width: 0.23rem;
+  aspect-ratio: 1;
+  background: #d94a52;
+}
+
+.taskGlyph i:nth-child(1) { top: 0.12rem; left: 0.12rem; }
+.taskGlyph i:nth-child(2) { right: 0.12rem; bottom: 0.12rem; }
+.taskGlyph i:nth-child(3) { right: 0.12rem; bottom: 0.12rem; transform: translate(-0.38rem, -0.38rem); }
+
 .startMenu,
 .networkPanel,
 .quickPanel,
@@ -258,10 +282,12 @@
   z-index: 4;
   bottom: 4rem;
   border: 1px solid rgb(255 255 255 / 10%);
-  border-radius: 0.9rem;
+  border-radius: 0.15rem;
   background: rgb(21 23 28 / 92%);
   box-shadow: var(--shadow-window);
   backdrop-filter: blur(32px) saturate(112%);
+  animation: panel-pop 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  clip-path: polygon(0 0, calc(100% - 0.7rem) 0, 100% 0.7rem, 100% 100%, 0 100%);
 }
 
 .startMenu {
@@ -455,6 +481,29 @@
 .quickGrid span { color: #d94a52; font-size: 1rem; }
 .quickGrid strong { font-size: 0.58rem; }
 .quickGrid small { color: #72c887; font-family: var(--font-mono); font-size: 0.48rem; }
+
+.networkGlyph,
+.storageGlyph,
+.securityGlyph {
+  position: relative;
+  display: flex !important;
+  align-items: end;
+  justify-content: center;
+  width: 2rem;
+  height: 1.25rem;
+  margin: 0 auto 0.2rem;
+}
+
+.networkGlyph i { width: 0.22rem; margin: 0 0.09rem; background: currentcolor; }
+.networkGlyph i:nth-child(1) { height: 35%; }
+.networkGlyph i:nth-child(2) { height: 65%; }
+.networkGlyph i:nth-child(3) { height: 100%; }
+
+.storageGlyph { border: 1px solid currentcolor; clip-path: polygon(0 0, 82% 0, 100% 30%, 100% 100%, 0 100%); }
+.storageGlyph i { position: absolute; right: 0.25rem; bottom: 0.22rem; left: 0.25rem; height: 1px; background: currentcolor; box-shadow: 0 -0.28rem currentcolor; }
+
+.securityGlyph { width: 1.2rem; border: 1px solid currentcolor; clip-path: polygon(50% 0, 100% 20%, 90% 75%, 50% 100%, 10% 75%, 0 20%); }
+.securityGlyph i { width: 0.3rem; height: 0.55rem; border-right: 1px solid currentcolor; border-bottom: 1px solid currentcolor; transform: rotate(45deg) translate(-0.05rem, 0.1rem); }
 
 .clockPanel header > div {
   display: grid;
@@ -663,6 +712,10 @@
   from { opacity: 0; transform: translate3d(0, 1.5rem, 0) scale(0.96); }
 }
 @keyframes launch-telemetry { to { transform: scaleY(3.2); opacity: 0.3; } }
+@keyframes desktop-item-in { from { opacity: 0; transform: translate3d(0, 1rem, 0); } }
+@keyframes brand-resolve { from { opacity: 0; translate: -47% -50%; filter: blur(8px); } }
+@keyframes taskbar-in { from { opacity: 0; transform: translate3d(0, 100%, 0); } }
+@keyframes panel-pop { from { opacity: 0; transform: translate3d(0, 0.8rem, 0) scale(0.98); } }
 
 @media (max-width: 640px) {
   .wallpaperBrand { left: 64%; width: 70vw; }
@@ -677,6 +730,14 @@
   .ambientSweep,
   .ambientRail i,
   .ambientTicker,
+  .shortcuts,
+  .wallpaperBrand,
+  .desktopWidget,
+  .taskbar,
+  .startMenu,
+  .networkPanel,
+  .quickPanel,
+  .clockPanel,
   .launchOverlay,
   .launchOverlay::before,
   .launchOverlay::after,

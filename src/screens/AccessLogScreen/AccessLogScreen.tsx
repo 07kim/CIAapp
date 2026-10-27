@@ -42,9 +42,9 @@ export function AccessLogScreen({ repository = accessLogRepository }: AccessLogS
       </div>
 
       <div className={styles.summary}>
-        <article><span>対象日</span><strong>2026 / 11 / 20</strong></article>
-        <article><span>対象区画</span><strong>役員フロア</strong></article>
-        <article><span>データ整合性</span><strong>VERIFIED</strong></article>
+        <article><i aria-hidden="true" className={styles.calendarIcon} /><span>対象日</span><strong>2026 / 11 / 20</strong></article>
+        <article><i aria-hidden="true" className={styles.zoneIcon} /><span>対象区画</span><strong>役員フロア</strong></article>
+        <article><i aria-hidden="true" className={styles.verifyIcon} /><span>データ整合性</span><strong>VERIFIED</strong></article>
       </div>
 
       <div className={styles.tableFrame}>

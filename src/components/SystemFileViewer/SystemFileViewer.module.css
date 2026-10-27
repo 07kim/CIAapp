@@ -1,9 +1,11 @@
 .viewer {
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 7%);
-  border-radius: 0.7rem;
+  border-radius: 0.1rem;
   background: rgb(11 12 15 / 78%);
   backdrop-filter: blur(16px);
+  animation: viewer-unfold 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  clip-path: polygon(0 0, calc(100% - 0.7rem) 0, 100% 0.7rem, 100% 100%, 0 100%);
 }
 
 .viewer header {
@@ -39,14 +41,18 @@
   pointer-events: none;
 }
 
-.terminal p { display: grid; grid-template-columns: 2rem 1fr; gap: 0.9rem; margin: 0 0 0.9rem; }
+.terminal p { display: grid; grid-template-columns: 2rem 1fr; gap: 0.9rem; margin: 0 0 0.9rem; animation: terminal-line-in 380ms ease-out calc(180ms + var(--line-index) * 85ms) both; }
 .terminal p span { color: var(--color-text-subtle); }
 .terminal i { display: block; width: 0.48rem; height: 0.9rem; border-radius: 1px; background: var(--color-success); animation: blink 900ms steps(1) infinite; }
 
 @keyframes blink { 50% { opacity: 0; } }
 @keyframes terminal-scan { to { transform: translate3d(0, 100%, 0); } }
+@keyframes viewer-unfold { from { opacity: 0; clip-path: inset(0 100% 0 0); } }
+@keyframes terminal-line-in { from { opacity: 0; transform: translate3d(1rem, 0, 0); } }
 
 @media (prefers-reduced-motion: reduce) {
   .terminal::after,
-  .terminal i { animation: none; }
+  .terminal i,
+  .terminal p,
+  .viewer { animation: none; }
 }

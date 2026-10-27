@@ -104,6 +104,7 @@ export function AppShell({
           <time dateTime={now.toISOString()}>{formatClock(now)}</time>
           {onRequestHome ? (
             <button disabled={homeDisabled} onClick={onRequestHome} type="button">
+              <span aria-hidden="true" className={styles.homeGlyph}><i /></span>
               ホーム
             </button>
           ) : null}

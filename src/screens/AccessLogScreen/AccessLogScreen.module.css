@@ -32,6 +32,7 @@
   background: linear-gradient(115deg, rgb(18 20 25 / 86%), rgb(18 20 25 / 58%));
   backdrop-filter: blur(20px) saturate(120%);
   clip-path: polygon(0 0, 96% 0, 100% 28%, 100% 100%, 0 100%);
+  animation: heading-arrive 620ms cubic-bezier(0.16, 1, 0.3, 1) 380ms both;
 }
 
 .heading::after {
@@ -65,13 +66,30 @@
 .activityWave i:nth-child(3n) { animation-delay: -0.65s; }
 
 .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.7rem; }
-.summary article { position: relative; display: grid; gap: 0.5rem; padding: 1rem 1.15rem; overflow: hidden; border: 1px solid rgb(255 255 255 / 8%); background: rgb(18 20 25 / 68%); backdrop-filter: blur(16px); }
+.summary article { position: relative; display: grid; grid-template-columns: auto 1fr; gap: 0.3rem 0.8rem; align-items: center; padding: 1rem 1.15rem; overflow: hidden; border: 1px solid rgb(255 255 255 / 8%); background: rgb(18 20 25 / 68%); backdrop-filter: blur(16px); animation: summary-arrive 420ms ease-out 640ms both; }
+.summary article:nth-child(2) { animation-delay: 710ms; }
+.summary article:nth-child(3) { animation-delay: 780ms; }
 .summary article::after { position: absolute; right: -1.2rem; bottom: -2.2rem; width: 5rem; aspect-ratio: 1; border: 1px solid rgb(217 74 82 / 13%); content: ''; rotate: 45deg; animation: summary-orbit 6s linear infinite; }
 .summary span,
 .notice > span { color: var(--color-primary-bright); font-size: 0.52rem; letter-spacing: 0.14em; }
-.summary strong { color: var(--color-text-strong); font-size: 0.78rem; }
+.summary strong { grid-column: 2; color: var(--color-text-strong); font-size: 0.78rem; }
 
-.tableFrame { overflow: hidden; border: 1px solid rgb(255 255 255 / 9%); background: rgb(10 11 15 / 72%); backdrop-filter: blur(18px) saturate(116%); }
+.summary article > i {
+  position: relative;
+  grid-row: 1 / 3;
+  width: 1.7rem;
+  aspect-ratio: 1;
+  border: 1px solid rgb(217 74 82 / 55%);
+  color: #d94a52;
+  clip-path: polygon(0 0, 78% 0, 100% 22%, 100% 100%, 0 100%);
+}
+
+.calendarIcon::before { position: absolute; inset: 0.42rem 0.3rem 0.3rem; border: 1px solid currentcolor; border-top-width: 0.25rem; content: ''; }
+.zoneIcon::before { position: absolute; inset: 0.36rem; border: 1px solid currentcolor; border-radius: 50%; content: ''; }
+.zoneIcon::after { position: absolute; top: 50%; left: 50%; width: 0.32rem; aspect-ratio: 1; border-radius: 50%; background: currentcolor; content: ''; transform: translate(-50%, -50%); }
+.verifyIcon::before { position: absolute; top: 0.42rem; left: 0.55rem; width: 0.38rem; height: 0.7rem; border-right: 2px solid currentcolor; border-bottom: 2px solid currentcolor; content: ''; transform: rotate(45deg); }
+
+.tableFrame { overflow: hidden; border: 1px solid rgb(255 255 255 / 9%); background: rgb(10 11 15 / 72%); backdrop-filter: blur(18px) saturate(116%); animation: table-unfold 520ms cubic-bezier(0.16, 1, 0.3, 1) 720ms both; }
 .tableHeader,
 .row { display: grid; grid-template-columns: 5rem minmax(12rem, 1.25fr) 5rem minmax(12rem, 1fr) 5rem; gap: 1rem; align-items: center; }
 .tableHeader { padding: 0.85rem 1rem; border-bottom: 1px solid rgb(224 74 83 / 28%); background: linear-gradient(100deg, rgb(151 35 45 / 72%), rgb(83 25 33 / 34%) 56%, transparent); color: white; font-size: 0.54rem; letter-spacing: 0.14em; }
@@ -98,6 +116,9 @@
 @keyframes summary-orbit { to { rotate: 405deg; } }
 @keyframes row-arrive { from { opacity: 0; } to { opacity: 1; transform: translate3d(0, 0, 0); } }
 @keyframes notice-pulse { to { opacity: 0.25; } }
+@keyframes heading-arrive { from { opacity: 0; transform: translate3d(0, 1rem, 0); clip-path: polygon(0 100%, 96% 100%, 100% 100%, 100% 100%, 0 100%); } }
+@keyframes summary-arrive { from { opacity: 0; transform: translate3d(0, 0.8rem, 0); } }
+@keyframes table-unfold { from { opacity: 0; clip-path: inset(0 0 100% 0); } }
 
 @media (max-width: 760px) {
   .heading { grid-template-columns: 1fr; clip-path: none; }
@@ -109,9 +130,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ambientIndex,
+  .heading,
   .heading::after,
   .activityWave i,
   .summary article::after,
+  .summary article,
+  .tableFrame,
   .row,
   .notice::after { opacity: 1; transform: none; animation: none; }
 }

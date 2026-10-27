@@ -12,10 +12,11 @@ type AppIconProps = {
 function CameraIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 64 64">
-      <path d="M9 18h31a6 6 0 0 1 6 6v19a6 6 0 0 1-6 6H9a6 6 0 0 1-6-6V24a6 6 0 0 1 6-6Z" />
-      <path d="m46 27 15-8v29l-15-8Z" />
-      <circle cx="24" cy="33.5" r="9" />
-      <circle cx="24" cy="33.5" r="3" />
+      <path d="M8 14h48v36H8z" />
+      <path d="M8 24h7M49 24h7M8 40h7M49 40h7" />
+      <circle cx="32" cy="32" r="11" />
+      <circle cx="32" cy="32" r="3" />
+      <path d="M32 17v6M32 41v6M17 32h6M41 32h6" />
     </svg>
   )
 }
@@ -23,9 +24,12 @@ function CameraIcon() {
 function LogIcon() {
   return (
     <svg aria-hidden="true" viewBox="0 0 64 64">
-      <path d="M13 5h38a6 6 0 0 1 6 6v42a6 6 0 0 1-6 6H13a6 6 0 0 1-6-6V11a6 6 0 0 1 6-6Z" />
-      <path d="M18 20h28M18 32h28M18 44h18" />
-      <circle cx="46" cy="44" r="3" />
+      <path d="M10 9h44v46H10zM18 18h28" />
+      <path d="M20 43V30h12v-7h12v20" />
+      <circle cx="20" cy="46" r="3" />
+      <circle cx="32" cy="46" r="3" />
+      <circle cx="44" cy="46" r="3" />
+      <path d="M20 33h12M32 28h12" />
     </svg>
   )
 }
@@ -52,6 +56,7 @@ export function AppIcon({
       type="button"
     >
       <span className={styles.iconFrame}>
+        <span aria-hidden="true" className={styles.iconIndex}>{icon === 'camera' ? '01' : '03'}</span>
         {icon === 'camera' ? <CameraIcon /> : <LogIcon />}
         {badge ? <span className={styles.badge}>!</span> : null}
       </span>

@@ -61,11 +61,12 @@
   min-width: 0;
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 8%);
-  border-radius: 0.85rem;
+  border-radius: 0.12rem;
   background: rgb(18 20 25 / 76%);
   backdrop-filter: blur(18px) saturate(118%);
   box-shadow: 0 1rem 3rem rgb(0 0 0 / 16%);
   animation: panel-arrive 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  clip-path: polygon(0 0, calc(100% - 0.75rem) 0, 100% 0.75rem, 100% 100%, 0 100%);
 }
 
 .workspace { animation-delay: 70ms; }
@@ -78,7 +79,7 @@
   gap: 0.3rem;
   padding: 1.15rem 1.2rem;
   border-bottom: 1px solid rgb(255 255 255 / 7%);
-  background: rgb(255 255 255 / 1.5%);
+  background: linear-gradient(100deg, rgb(189 48 57 / 22%), rgb(255 255 255 / 1.5%) 44%, transparent);
   overflow: hidden;
 }
 
@@ -129,6 +130,7 @@
   cursor: pointer;
   text-align: left;
   transition: background 140ms ease, border-color 140ms ease;
+  animation: file-arrive 420ms cubic-bezier(0.16, 1, 0.3, 1) calc(440ms + var(--file-index) * 55ms) both;
 }
 
 .browser button:hover,
@@ -142,6 +144,7 @@
 .browser button i { color: #d94a52; font-size: 0.46rem; font-style: normal; letter-spacing: 0.06em; }
 
 .fileIcon {
+  position: relative;
   display: grid;
   width: 2.15rem;
   aspect-ratio: 1;
@@ -150,8 +153,75 @@
   border-radius: 0.45rem;
   background: rgb(255 255 255 / 2%);
   color: #d94a52;
-  font-size: 0.5rem;
+  font-size: 0.42rem;
+  overflow: hidden;
 }
+
+.fileIcon::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 38%, rgb(255 255 255 / 8%) 50%, transparent 62%);
+  content: '';
+  transform: translate3d(-100%, 0, 0);
+  transition: transform 280ms ease;
+}
+
+.browser button:hover .fileIcon::after,
+.browser button:focus-visible .fileIcon::after,
+.browser .selected .fileIcon::after { transform: translate3d(100%, 0, 0); }
+
+.fileIcon i {
+  position: relative;
+  display: block;
+  width: 1rem;
+  aspect-ratio: 1;
+}
+
+.fileIcon b {
+  position: absolute;
+  right: 0.16rem;
+  bottom: 0.1rem;
+  color: currentcolor;
+  font-size: 0.32rem;
+  font-weight: 500;
+}
+
+.videoIcon i {
+  border: 1px solid currentcolor;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 0.18rem transparent;
+}
+
+.videoIcon i::before,
+.videoIcon i::after {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentcolor;
+  content: '';
+  transform: translate(-50%, -50%);
+}
+
+.videoIcon i::before { width: 1.35rem; height: 1px; }
+.videoIcon i::after { width: 1px; height: 1.35rem; }
+
+.systemIcon i {
+  border: 1px solid currentcolor;
+  clip-path: polygon(0 0, 75% 0, 100% 25%, 100% 100%, 0 100%);
+}
+
+.systemIcon i::before,
+.systemIcon i::after {
+  position: absolute;
+  top: 0.28rem;
+  bottom: 0.28rem;
+  width: 1px;
+  background: currentcolor;
+  content: '';
+}
+
+.systemIcon i::before { left: 0.3rem; }
+.systemIcon i::after { right: 0.3rem; opacity: 0.35; }
 
 .workspace { padding: 1.25rem; background: rgb(10 11 14 / 70%); }
 .workspace > * { animation: workspace-in 280ms cubic-bezier(0.2, 0.8, 0.2, 1); }
@@ -254,10 +324,14 @@
 .eventLog > span,
 .fileInfo span { color: #d94a52; font-size: 0.5rem; letter-spacing: 0.11em; }
 .meter i { height: 0.22rem; overflow: hidden; border-radius: 1rem; background: #08090b; }
-.meter b { display: block; width: 61.4%; height: 100%; background: #d94a52; }
+.meter b { display: block; width: 61.4%; height: 100%; background: #d94a52; transform-origin: left; animation: storage-breathe 2.8s ease-in-out infinite alternate; }
 .meter small,
 .eventLog p,
 .fileInfo small { margin: 0; color: var(--color-text-subtle); font-size: 0.5rem; line-height: 1.45; }
+.eventLog p { animation: log-pulse 4s ease-in-out infinite; }
+.eventLog p:nth-child(3) { animation-delay: -1s; }
+.eventLog p:nth-child(4) { animation-delay: -2s; }
+.eventLog p:nth-child(5) { animation-delay: -3s; }
 .fileInfo strong { overflow: hidden; color: var(--color-text-strong); font-size: 0.64rem; text-overflow: ellipsis; }
 
 .liveWave {
@@ -316,6 +390,12 @@
   50%, 100% { transform: translate3d(110%, 0, 0); }
 }
 @keyframes diagnostic-wave { to { transform: scaleY(7); opacity: 0.35; } }
+@keyframes file-arrive { from { opacity: 0; transform: translate3d(-1rem, 0, 0); } }
+@keyframes storage-breathe { from { transform: scaleX(0.78); opacity: 0.65; } }
+@keyframes log-pulse {
+  0%, 18% { color: rgb(217 74 82 / 88%); transform: translate3d(0.15rem, 0, 0); }
+  36%, 100% { color: var(--color-text-subtle); transform: none; }
+}
 
 @media (max-width: 1100px) {
   .system { grid-template-columns: 16rem 1fr; }
@@ -341,6 +421,9 @@
   .workspace,
   .diagnostics,
   .browser .selected::after,
+  .browser button,
+  .meter b,
+  .eventLog p,
   .liveWave i,
   .workspace > *,
   .standby::after { animation: none; }

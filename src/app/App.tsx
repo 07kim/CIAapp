@@ -16,6 +16,7 @@ import { CameraSystemScreen } from '../screens/CameraSystemScreen/CameraSystemSc
 import { DesktopScreen } from '../screens/DesktopScreen/DesktopScreen'
 import { appReducer, initialAppState } from './app-reducer'
 import type { VideoStatus } from './app-state'
+import styles from './App.module.css'
 
 const AUTH_RESULT_DURATION_MS = 2_000
 
@@ -91,6 +92,14 @@ export function App() {
         ? 'surveillance'
         : 'access'
 
+  const screenChapter = state.screen === 'desktop'
+    ? '00'
+    : state.screen === 'camera-gate'
+      ? '01'
+      : state.screen === 'camera-browser'
+        ? '02'
+        : '03'
+
   const screen = (() => {
     switch (state.screen) {
       case 'desktop':
@@ -156,7 +165,17 @@ export function App() {
   return (
     <>
       <DynamicBackdrop variant={backdropVariant} />
-      {screen}
+      <div className={styles.screenStage} key={state.screen}>
+        <div aria-hidden="true" className={styles.transitionCurtain}>
+          <span className={styles.transitionChapter}>{screenChapter}</span>
+          <span className={styles.transitionLine} />
+          <span className={styles.transitionLabel}>CIA / SECURE INTERFACE</span>
+          <span className={styles.transitionFragments}>
+            <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
+          </span>
+        </div>
+        {screen}
+      </div>
       {state.isIdleWarningOpen ? <IdleWarning /> : null}
       {state.isHomeConfirmationOpen ? (
         <HomeConfirmation

@@ -1,3 +1,5 @@
+import type { CSSProperties } from 'react'
+
 import type { AuthenticationStatus, VideoStatus } from '../../app/app-state'
 import { AuthPanel } from '../../components/AuthPanel/AuthPanel'
 import { SystemFileViewer } from '../../components/SystemFileViewer/SystemFileViewer'
@@ -57,9 +59,13 @@ export function CameraSystemScreen({
                 className={selectedFileId === file.id ? styles.selected : ''}
                 key={file.id}
                 onClick={() => onSelectArchive(file)}
+                style={{ '--file-index': index } as CSSProperties}
                 type="button"
               >
-                <span className={styles.fileIcon}>0{index + 1}</span>
+                <span className={`${styles.fileIcon} ${styles.videoIcon}`}>
+                  <i aria-hidden="true" />
+                  <b>0{index + 1}</b>
+                </span>
                 <span>
                   <strong>{file.filename}</strong>
                   <small>{file.time} / CAM-01</small>
@@ -72,14 +78,18 @@ export function CameraSystemScreen({
 
         <section>
           <h2>システム / SYSTEM</h2>
-          {systemFiles.map((file) => (
+          {systemFiles.map((file, index) => (
             <button
               className={selectedFileId === file.id ? styles.selected : ''}
               key={file.id}
               onClick={() => onSelectSystemFile(file.id)}
+              style={{ '--file-index': archiveFiles.length + index } as CSSProperties}
               type="button"
             >
-              <span className={styles.fileIcon}>SYS</span>
+              <span className={`${styles.fileIcon} ${styles.systemIcon}`}>
+                <i aria-hidden="true" />
+                <b>SYS</b>
+              </span>
               <span>
                 <strong>{file.filename}</strong>
                 <small>{file.category}</small>

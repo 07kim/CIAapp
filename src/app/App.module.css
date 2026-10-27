@@ -1,0 +1,148 @@
+.screenStage {
+  position: relative;
+  min-height: 100vh;
+  isolation: isolate;
+  animation: stage-resolve 780ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.transitionCurtain {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  overflow: hidden;
+  color: #fff;
+  pointer-events: none;
+  animation: curtain-release 920ms cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+.transitionCurtain::before,
+.transitionCurtain::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+}
+
+.transitionCurtain::before {
+  background: #b72c36;
+  clip-path: polygon(0 0, 58% 0, 43% 100%, 0 100%);
+  animation: blade-left 920ms cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+.transitionCurtain::after {
+  z-index: -1;
+  background: #0d0f13;
+  clip-path: polygon(53% 0, 100% 0, 100% 100%, 38% 100%);
+  animation: blade-right 920ms cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+.transitionChapter {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: clamp(8rem, 26vw, 22rem);
+  font-weight: 800;
+  letter-spacing: -0.08em;
+  line-height: 0.7;
+  opacity: 0.1;
+  transform: translate(-50%, -50%);
+  animation: chapter-out 680ms ease-in both;
+}
+
+.transitionLine {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 3;
+  width: min(56vw, 40rem);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #fff 18% 82%, transparent);
+  transform: translate(-50%, -50%) scaleX(0);
+  animation: line-scan 620ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.transitionLabel {
+  position: absolute;
+  top: calc(50% + 1rem);
+  left: 50%;
+  z-index: 3;
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.24em;
+  transform: translateX(-50%);
+  animation: label-out 620ms ease both;
+}
+
+.transitionFragments {
+  position: absolute;
+  inset: 18% 18%;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.transitionFragments i {
+  position: absolute;
+  width: clamp(0.35rem, 1vw, 0.8rem);
+  aspect-ratio: 1;
+  background: #fff;
+  opacity: 0;
+  animation: fragment-burst 520ms steps(4, end) 180ms both;
+}
+
+.transitionFragments i:nth-child(1) { top: 12%; left: 18%; }
+.transitionFragments i:nth-child(2) { top: 64%; left: 24%; animation-delay: 230ms; }
+.transitionFragments i:nth-child(3) { top: 32%; left: 37%; width: 1.25rem; animation-delay: 110ms; }
+.transitionFragments i:nth-child(4) { top: 76%; left: 45%; animation-delay: 310ms; }
+.transitionFragments i:nth-child(5) { top: 18%; left: 54%; animation-delay: 260ms; }
+.transitionFragments i:nth-child(6) { top: 55%; left: 62%; width: 1.1rem; animation-delay: 160ms; }
+.transitionFragments i:nth-child(7) { top: 26%; left: 77%; animation-delay: 340ms; }
+.transitionFragments i:nth-child(8) { top: 72%; left: 82%; animation-delay: 210ms; }
+.transitionFragments i:nth-child(9) { top: 42%; left: 10%; width: 0.45rem; animation-delay: 290ms; }
+.transitionFragments i:nth-child(10) { top: 44%; left: 90%; animation-delay: 130ms; }
+
+@keyframes stage-resolve {
+  from { filter: contrast(1.35) brightness(0.65); }
+}
+
+@keyframes curtain-release {
+  0%, 58% { visibility: visible; }
+  100% { visibility: hidden; }
+}
+
+@keyframes blade-left {
+  0%, 40% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-115%, 0, 0); }
+}
+
+@keyframes blade-right {
+  0%, 40% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(115%, 0, 0); }
+}
+
+@keyframes chapter-out {
+  0%, 40% { opacity: 0.1; transform: translate(-50%, -50%) scale(1); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); }
+}
+
+@keyframes line-scan {
+  25% { transform: translate(-50%, -50%) scaleX(1); }
+  70%, 100% { opacity: 0; transform: translate(-50%, -50%) scaleX(1); }
+}
+
+@keyframes label-out {
+  0%, 40% { opacity: 0.8; }
+  100% { opacity: 0; translate: 0 0.7rem; }
+}
+
+@keyframes fragment-burst {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) scale(0); }
+  28% { opacity: 0.9; transform: translate3d(-0.8rem, 0.35rem, 0) scale(1); }
+  68% { opacity: 0.55; transform: translate3d(1.2rem, -0.45rem, 0) scale(0.65); }
+  100% { opacity: 0; transform: translate3d(2rem, -0.8rem, 0) scale(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .screenStage { animation: none; }
+  .transitionCurtain { display: none; }
+}

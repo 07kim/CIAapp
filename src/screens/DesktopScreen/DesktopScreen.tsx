@@ -226,9 +226,9 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
             <button aria-label="クイック状態を閉じる" onClick={() => setQuickOpen(false)} type="button">×</button>
           </header>
           <div className={styles.quickGrid}>
-            <div><span>▮▮</span><strong>ネットワーク</strong><small>接続中</small></div>
-            <div><span>▰</span><strong>ローカル保存</strong><small>準備完了</small></div>
-            <div><span>◆</span><strong>セキュリティ</strong><small>有効</small></div>
+            <div><span className={styles.networkGlyph}><i /><i /><i /></span><strong>ネットワーク</strong><small>接続中</small></div>
+            <div><span className={styles.storageGlyph}><i /></span><strong>ローカル保存</strong><small>準備完了</small></div>
+            <div><span className={styles.securityGlyph}><i /></span><strong>セキュリティ</strong><small>有効</small></div>
           </div>
         </section>
       ) : null}
@@ -320,7 +320,7 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
               setClockOpen(false)
             }}
             type="button"
-          >CIA</button>
+          ><span aria-hidden="true" className={styles.taskGlyph}><i /><i /><i /></span></button>
         </div>
         <div className={styles.taskbarRight}>
           <button

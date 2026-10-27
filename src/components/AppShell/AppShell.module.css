@@ -71,15 +71,31 @@
   min-height: 4.75rem;
   padding: 0.75rem clamp(1rem, 3vw, 3rem);
   border-bottom: 1px solid rgb(255 255 255 / 8%);
-  background: rgb(14 16 20 / 72%);
+  background:
+    linear-gradient(100deg, rgb(189 48 57 / 8%), transparent 25%),
+    rgb(14 16 20 / 72%);
   box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 18%);
   backdrop-filter: blur(24px);
+  animation: shell-header-in 620ms cubic-bezier(0.16, 1, 0.3, 1) 360ms both;
+}
+
+.header::after {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #d94a52 38% 62%, transparent);
+  content: '';
+  transform: scaleX(0);
+  animation: shell-rule-in 900ms cubic-bezier(0.22, 1, 0.36, 1) 540ms forwards;
 }
 
 .brand {
   display: flex;
   gap: 0.8rem;
   align-items: center;
+  animation: shell-item-in 520ms ease-out 480ms both;
 }
 
 .brandMark {
@@ -123,6 +139,7 @@
   display: grid;
   gap: 0.2rem;
   text-align: center;
+  animation: shell-item-in 520ms ease-out 560ms both;
 }
 
 .screenTitle strong {
@@ -140,6 +157,7 @@
   color: var(--color-text-muted);
   font-family: var(--font-mono);
   font-size: 0.72rem;
+  animation: shell-item-in 520ms ease-out 640ms both;
 }
 
 .online {
@@ -156,6 +174,7 @@
   background: currentcolor;
   box-shadow: 0 0 0.5rem rgb(114 200 135 / 55%);
   content: '';
+  animation: online-pulse 1.8s ease-in-out infinite alternate;
 }
 
 .offline {
@@ -163,12 +182,48 @@
 }
 
 .controls button {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
   padding: 0.6rem 0.9rem;
   border: 1px solid rgb(255 255 255 / 11%);
   border-radius: 0.45rem;
   background: rgb(255 255 255 / 4%);
   color: var(--color-text-strong);
   cursor: pointer;
+  clip-path: polygon(0 0, calc(100% - 0.45rem) 0, 100% 0.45rem, 100% 100%, 0 100%);
+}
+
+.homeGlyph {
+  position: relative;
+  display: inline-block;
+  width: 0.75rem;
+  height: 0.65rem;
+  border: 1px solid currentcolor;
+  border-top: 0;
+  opacity: 0.75;
+}
+
+.homeGlyph::before {
+  position: absolute;
+  top: -0.3rem;
+  left: 50%;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-top: 1px solid currentcolor;
+  border-left: 1px solid currentcolor;
+  content: '';
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.homeGlyph i {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0.18rem;
+  height: 0.32rem;
+  border-inline: 1px solid currentcolor;
+  transform: translateX(-50%);
 }
 
 .controls button:hover,
@@ -235,6 +290,25 @@
   letter-spacing: 0.1em;
   background: rgb(10 11 15 / 58%);
   backdrop-filter: blur(14px);
+  animation: shell-footer-in 520ms ease-out 650ms both;
+}
+
+@keyframes shell-header-in {
+  from { opacity: 0; transform: translate3d(0, -100%, 0); }
+}
+
+@keyframes shell-footer-in {
+  from { opacity: 0; transform: translate3d(0, 100%, 0); }
+}
+
+@keyframes shell-item-in {
+  from { opacity: 0; transform: translate3d(0, 0.7rem, 0); }
+}
+
+@keyframes shell-rule-in { to { transform: scaleX(1); } }
+
+@keyframes online-pulse {
+  to { opacity: 0.35; box-shadow: 0 0 1rem rgb(114 200 135 / 85%); }
 }
 
 @keyframes shell-content-in {
@@ -288,6 +362,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .content,
+  .header,
+  .header::after,
+  .brand,
+  .screenTitle,
+  .controls,
+  .online::before,
+  .footer,
   .shellMotion::before,
   .shellMotion span {
     animation: none;

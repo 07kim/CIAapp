@@ -17,6 +17,7 @@
   border-color: rgb(255 255 255 / 12%);
   background: rgb(255 255 255 / 6%);
   outline: none;
+  transform: translate3d(0.18rem, -0.12rem, 0);
 }
 
 .app:active {
@@ -30,20 +31,63 @@
   width: 3.5rem;
   aspect-ratio: 1;
   border: 1px solid rgb(255 255 255 / 11%);
-  border-radius: 0.75rem;
-  background: linear-gradient(145deg, rgb(37 40 47 / 96%), rgb(18 20 25 / 98%));
+  border-radius: 0.15rem;
+  background:
+    linear-gradient(135deg, rgb(217 74 82 / 12%), transparent 42%),
+    linear-gradient(145deg, rgb(37 40 47 / 96%), rgb(18 20 25 / 98%));
   box-shadow: 0 0.8rem 1.8rem rgb(0 0 0 / 32%), inset 0 1px rgb(255 255 255 / 7%);
   color: #d84a52;
   place-items: center;
+  transition: box-shadow 220ms ease, transform 220ms ease;
+  clip-path: polygon(0 0, 78% 0, 100% 22%, 100% 100%, 22% 100%, 0 78%);
+}
+
+.iconFrame::before,
+.iconFrame::after {
+  position: absolute;
+  content: '';
+  pointer-events: none;
+}
+
+.iconFrame::before {
+  inset: 0.32rem;
+  border: 1px solid rgb(255 255 255 / 6%);
+  clip-path: inherit;
+}
+
+.iconFrame::after {
+  right: 0;
+  bottom: 0.55rem;
+  width: 1.25rem;
+  height: 1px;
+  background: #d84a52;
+  transform-origin: right;
+  animation: icon-signal 2.2s ease-in-out infinite alternate;
+}
+
+.iconIndex {
+  position: absolute;
+  top: 0.28rem;
+  left: 0.35rem;
+  color: rgb(255 255 255 / 24%);
+  font-family: var(--font-mono);
+  font-size: 0.36rem;
+  letter-spacing: 0.05em;
+}
+
+.app:hover .iconFrame,
+.app:focus-visible .iconFrame {
+  box-shadow: 0 1rem 2.2rem rgb(0 0 0 / 38%), 0 0 1.4rem rgb(216 74 82 / 18%), inset 0 1px rgb(255 255 255 / 9%);
+  transform: rotate(-2deg) scale(1.035);
 }
 
 .iconFrame svg {
-  width: 2rem;
+  width: 2.05rem;
   fill: none;
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 2.25;
+  stroke-width: 1.55;
 }
 
 .copy {
@@ -90,4 +134,15 @@
   font-size: 0.6rem;
   font-weight: 700;
   place-items: center;
+  animation: badge-pulse 1.8s ease-in-out infinite alternate;
+}
+
+@keyframes badge-pulse { to { box-shadow: 0 0 0.9rem rgb(217 74 82 / 65%); transform: scale(1.08); } }
+@keyframes icon-signal { to { transform: scaleX(0.25); opacity: 0.3; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .app,
+  .iconFrame,
+  .iconFrame::after,
+  .badge { animation: none; transition: none; }
 }
