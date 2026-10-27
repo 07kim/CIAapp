@@ -84,4 +84,23 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: 'ホーム' })).toBeEnabled()
     vi.useRealTimers()
   })
+
+  it('warns and returns to a clean desktop after inactivity', () => {
+    vi.useFakeTimers()
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: /入退室ログ/ }))
+
+    act(() => vi.advanceTimersByTime(20_000))
+    expect(screen.getByRole('alert')).toHaveTextContent(
+      '残り10秒でホーム画面に戻ります',
+    )
+
+    act(() => vi.advanceTimersByTime(10_000))
+    expect(
+      screen.getByRole('heading', { name: '業務アプリケーション' }),
+    ).toBeVisible()
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    vi.useRealTimers()
+  })
 })

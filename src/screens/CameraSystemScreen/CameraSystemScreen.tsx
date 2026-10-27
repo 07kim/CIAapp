@@ -86,7 +86,17 @@ export function CameraSystemScreen({
       </aside>
 
       <main className={styles.workspace}>
-        {selectedFile?.kind === 'video' ? (
+        {pendingFile ? (
+          <div className={styles.lockedPreview} aria-hidden="true">
+            <span>ENCRYPTED ARCHIVE SELECTED</span>
+            <strong>{pendingFile.filename}</strong>
+            <dl>
+              <div><dt>RECORDED</dt><dd>{pendingFile.recordedAt}</dd></div>
+              <div><dt>LOCATION</dt><dd>{pendingFile.location}</dd></div>
+              <div><dt>STATUS</dt><dd>AUTHORIZATION REQUIRED</dd></div>
+            </dl>
+          </div>
+        ) : selectedFile?.kind === 'video' ? (
           <VideoPlayer
             file={selectedFile}
             key={selectedFile.id}
@@ -143,7 +153,12 @@ export function CameraSystemScreen({
       </aside>
 
       {pendingFile ? (
-        <div className={styles.authOverlay} role="dialog" aria-modal="true">
+        <div
+          aria-label={`${pendingFile.filename}の認証`}
+          className={styles.authOverlay}
+          role="dialog"
+          aria-modal="true"
+        >
           <AuthPanel
             compact
             eyebrow={`ENCRYPTED ARCHIVE / ${pendingFile.filename}`}

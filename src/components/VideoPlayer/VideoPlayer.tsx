@@ -2,14 +2,16 @@ import { useEffect, useState } from 'react'
 
 import type { VideoStatus } from '../../app/app-state'
 import type { ArchiveFile } from '../../data/surveillance-files'
+import {
+  formatPlaybackTime,
+  formatRecordingTimestamp,
+} from './format-playback-time'
 import styles from './VideoPlayer.module.css'
 
 type VideoPlayerProps = {
   file: ArchiveFile
   onStatusChange: (status: VideoStatus) => void
 }
-
-const pad = (value: number) => String(value).padStart(2, '0')
 
 export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
   const [position, setPosition] = useState(0)
@@ -48,7 +50,7 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
           <span>実映像を受領後、この表示と差し替えます</span>
         </div>
         <time className={styles.timestamp}>
-          {file.recordedAt}:{pad(position)}
+          {formatRecordingTimestamp(file.recordedAt, position)}
         </time>
       </div>
 
@@ -62,7 +64,7 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
         >
           {status === 'playing' ? 'Ⅱ' : '▶'}
         </button>
-        <span>{`00:${pad(position)}`}</span>
+        <span>{formatPlaybackTime(position)}</span>
         <input
           aria-label="再生位置"
           max={file.duration}
@@ -74,7 +76,7 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
           type="range"
           value={position}
         />
-        <span>{`00:${pad(file.duration)}`}</span>
+        <span>{formatPlaybackTime(file.duration)}</span>
       </div>
     </div>
   )
