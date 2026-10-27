@@ -64,7 +64,7 @@ export function CameraSystemScreen({
               >
                 <span className={`${styles.fileIcon} ${styles.videoIcon}`}>
                   <i aria-hidden="true" />
-                  <b>0{index + 1}</b>
+                  <b>V{index + 1}</b>
                 </span>
                 <span>
                   <strong>{file.filename}</strong>
@@ -138,7 +138,7 @@ export function CameraSystemScreen({
         <dl>
           <div><dt>CAM-01</dt><dd>ONLINE</dd></div>
           <div><dt>ARCHIVE</dt><dd>READY</dd></div>
-          <div><dt>ENCRYPTED</dt><dd>02</dd></div>
+          <div><dt>ENCRYPTED</dt><dd>2 FILES</dd></div>
           <div><dt>NETWORK</dt><dd>STABLE</dd></div>
         </dl>
         <div className={styles.meter}>

@@ -13,6 +13,21 @@ describe('App', () => {
     expect(screen.getByRole('button', { name: /入退室ログ/ })).toBeVisible()
   })
 
+  it('uses semantic screen labels instead of decorative chapter numbers', () => {
+    vi.useFakeTimers()
+    const { container } = render(<App />)
+
+    expect(container.querySelector('[data-transition="desktop"]')).toBeInTheDocument()
+    expect(screen.getByText('DESKTOP SESSION')).toBeInTheDocument()
+
+    fireEvent.doubleClick(screen.getByRole('button', { name: /監視カメラ/ }))
+    act(() => vi.advanceTimersByTime(900))
+
+    expect(container.querySelector('[data-transition="authentication"]')).toBeInTheDocument()
+    expect(screen.getByText('CREDENTIAL GATE')).toBeInTheDocument()
+    vi.useRealTimers()
+  })
+
   it('makes the desktop taskbar controls interactive', async () => {
     const user = userEvent.setup()
     render(<App />)

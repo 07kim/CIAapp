@@ -130,7 +130,7 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
         <div className={styles.ambientSweep} />
         <div className={styles.ambientRail}><i /><i /><i /><i /><i /><i /><i /></div>
         <div className={styles.ambientTicker}>
-          <span>SECURE NODE 07</span>
+          <span>SECURE DESKTOP ONLINE</span>
           <span>LOCAL ARCHIVE SYNCHRONIZED</span>
           <span>PACKET TRACE ACTIVE</span>
           <span>ENCRYPTED CHANNEL STABLE</span>
@@ -264,7 +264,9 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
           role="status"
         >
           <div className={styles.launchWindow}>
-            <span aria-hidden="true" className={styles.launchIndex}>07</span>
+            <span aria-hidden="true" className={styles.launchIndex}>
+              {launchingApp === 'camera' ? 'SURV' : 'LOG'}
+            </span>
             <div aria-hidden="true" className={styles.launchGlyph}>
               <span /><i /><i />
             </div>

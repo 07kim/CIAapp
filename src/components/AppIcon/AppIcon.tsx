@@ -56,7 +56,7 @@ export function AppIcon({
       type="button"
     >
       <span className={styles.iconFrame}>
-        <span aria-hidden="true" className={styles.iconIndex}>{icon === 'camera' ? '01' : '03'}</span>
+        <span aria-hidden="true" className={styles.iconIndex}>{icon === 'camera' ? 'CAM' : 'LOG'}</span>
         {icon === 'camera' ? <CameraIcon /> : <LogIcon />}
         {badge ? <span className={styles.badge}>!</span> : null}
       </span>

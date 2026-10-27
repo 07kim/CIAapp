@@ -50,35 +50,57 @@ export function AuthPanel({
             : ''
       }`}
     >
-      <div aria-hidden="true" className={styles.reticle}>
-        <span />
-      </div>
-      <span className={styles.eyebrow}>{eyebrow}</span>
-      <h1>{title}</h1>
-      <p>{hint}</p>
+      <header className={styles.panelHeader}>
+        <span>{eyebrow}</span>
+        <span>ENCRYPTED LINK / LOCAL</span>
+      </header>
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor={compact ? 'archive-answer' : 'gate-answer'}>
-          SYSTEM PASSWORD
-        </label>
-        <div className={styles.inputRow}>
-          <input
-            autoComplete="off"
-            autoFocus
-            disabled={isBusy}
-            id={compact ? 'archive-answer' : 'gate-answer'}
-            onChange={(event) => setAnswer(event.target.value)}
-            placeholder="＊＊＊＊＊＊＊＊"
-            ref={inputRef}
-            spellCheck={false}
-            type="text"
-            value={answer}
-          />
-          <button disabled={isBusy || answer.trim().length === 0} type="submit">
-            認証
-          </button>
+      <div className={styles.consoleBody}>
+        <div aria-hidden="true" className={styles.scannerCell}>
+          <div className={styles.reticle}>
+            <span />
+            <i />
+          </div>
+          <span className={styles.scannerStatus}>CREDENTIAL TRACE ACTIVE</span>
+          <div className={styles.scannerWave}><i /><i /><i /><i /><i /><i /></div>
         </div>
-      </form>
+
+        <div className={styles.credentialCell}>
+          <span className={styles.eyebrow}>SECURITY CREDENTIAL</span>
+          <h1>{title}</h1>
+          <p>{hint}</p>
+
+          <form onSubmit={handleSubmit}>
+            <label htmlFor={compact ? 'archive-answer' : 'gate-answer'}>
+              SYSTEM PASSWORD
+              <span>PLAIN TEXT INPUT</span>
+            </label>
+            <div className={styles.inputRow}>
+              <input
+                aria-label="SYSTEM PASSWORD"
+                autoComplete="off"
+                autoFocus
+                disabled={isBusy}
+                id={compact ? 'archive-answer' : 'gate-answer'}
+                onChange={(event) => setAnswer(event.target.value)}
+                placeholder="＊＊＊＊＊＊＊＊"
+                ref={inputRef}
+                spellCheck={false}
+                type="text"
+                value={answer}
+              />
+              <button disabled={isBusy || answer.trim().length === 0} type="submit">
+                <span>認証</span><i aria-hidden="true">→</i>
+              </button>
+            </div>
+          </form>
+
+          <footer className={styles.credentialMeta}>
+            <span>CHANNEL: INTERNAL</span>
+            <span>TRACE: ARMED</span>
+          </footer>
+        </div>
+      </div>
 
       {onCancel ? (
         <button className={styles.cancel} disabled={isBusy} onClick={onCancel} type="button">

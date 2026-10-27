@@ -15,7 +15,7 @@
   bottom: 1.1rem;
   z-index: -1;
   color: rgb(255 255 255 / 2.5%);
-  content: 'SURVEILLANCE / ARCHIVE NODE 01';
+  content: 'SURVEILLANCE / LOCAL ARCHIVE';
   font-family: var(--font-display);
   font-size: clamp(2.5rem, 7vw, 7rem);
   font-weight: 700;
@@ -89,7 +89,7 @@
   right: 0.8rem;
   bottom: -0.45rem;
   color: rgb(255 255 255 / 4%);
-  content: '01';
+  content: 'CAM';
   font-family: var(--font-display);
   font-size: 3.6rem;
   font-weight: 800;
@@ -247,7 +247,7 @@
   left: 50%;
   z-index: -1;
   color: rgb(255 255 255 / 4%);
-  content: '01';
+  content: 'ARCHIVE';
   font-family: var(--font-display);
   font-size: clamp(14rem, 30vw, 28rem);
   font-weight: 800;

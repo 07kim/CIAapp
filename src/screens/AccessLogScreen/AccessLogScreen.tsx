@@ -23,17 +23,17 @@ export function AccessLogScreen({ repository = accessLogRepository }: AccessLogS
 
   return (
     <section aria-labelledby="access-log-title" className={styles.layout}>
-      <div aria-hidden="true" className={styles.ambientIndex}>03</div>
+      <div aria-hidden="true" className={styles.ambientIndex}>TRACE</div>
       <div className={styles.heading}>
         <div>
-          <span>03 / ACCESS CONTROL DATABASE</span>
+          <span>ACCESS CONTROL DATABASE / LOCAL RECORD</span>
           <h1 id="access-log-title">入退室ログ記録</h1>
           <p>2026年11月20日・役員フロア周辺の認証記録</p>
         </div>
         <div className={styles.activityPanel}>
           <div className={styles.status}>
             <span>LOCAL RECORD</span>
-            <strong>{String(entries.length).padStart(2, '0')} ENTRIES</strong>
+            <strong>{entries.length} ENTRIES</strong>
           </div>
           <div aria-hidden="true" className={styles.activityWave}>
             <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />

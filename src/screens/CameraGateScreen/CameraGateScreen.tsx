@@ -12,14 +12,14 @@ export function CameraGateScreen({ status, onAuthenticate }: CameraGateScreenPro
     <section aria-labelledby="camera-gate-title" className={styles.gate}>
       <div className={styles.backdrop} aria-hidden="true">
         <span>CAM-01</span>
-        <span>CAM-02</span>
+        <span>ARCHIVE STORAGE</span>
         <span>ARCHIVE NODE</span>
         <span>AUTH REQUIRED</span>
       </div>
       <div aria-hidden="true" className={styles.signalField}>
         <div className={styles.signalSweep} />
         <div className={styles.signalRail}><i /><i /><i /><i /><i /><i /><i /><i /></div>
-        <span>NODE 01 / BIOMETRIC FALLBACK / CREDENTIAL TRACE / ACTIVE</span>
+        <span>ARCHIVE NODE / CREDENTIAL TRACE / LOCAL CHANNEL / ACTIVE</span>
       </div>
       <AuthPanel
         eyebrow="RESTRICTED SURVEILLANCE NETWORK"

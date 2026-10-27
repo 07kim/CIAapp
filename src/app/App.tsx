@@ -92,13 +92,13 @@ export function App() {
         ? 'surveillance'
         : 'access'
 
-  const screenChapter = state.screen === 'desktop'
-    ? '00'
+  const transition = state.screen === 'desktop'
+    ? { mode: 'desktop', label: 'DESKTOP SESSION' }
     : state.screen === 'camera-gate'
-      ? '01'
+      ? { mode: 'authentication', label: 'CREDENTIAL GATE' }
       : state.screen === 'camera-browser'
-        ? '02'
-        : '03'
+        ? { mode: 'surveillance', label: 'ARCHIVE MOUNT' }
+        : { mode: 'access', label: 'ACCESS TRACE' }
 
   const screen = (() => {
     switch (state.screen) {
@@ -165,13 +165,13 @@ export function App() {
   return (
     <>
       <DynamicBackdrop variant={backdropVariant} />
-      <div className={styles.screenStage} key={state.screen}>
+      <div className={styles.screenStage} data-transition={transition.mode} key={state.screen}>
         <div aria-hidden="true" className={styles.transitionCurtain}>
-          <span className={styles.transitionChapter}>{screenChapter}</span>
+          <span className={styles.transitionCore}><i /></span>
           <span className={styles.transitionLine} />
-          <span className={styles.transitionLabel}>CIA / SECURE INTERFACE</span>
+          <span className={styles.transitionLabel}>{transition.label}</span>
           <span className={styles.transitionFragments}>
-            <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
+            <i /><i /><i /><i /><i /><i /><i /><i />
           </span>
         </div>
         {screen}
