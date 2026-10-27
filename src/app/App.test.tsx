@@ -30,7 +30,7 @@ describe('App', () => {
 
     await user.click(screen.getByRole('button', { name: 'ホーム' }))
     await user.click(screen.getByRole('button', { name: '戻る' }))
-    expect(screen.getByRole('heading', { name: '業務アプリケーション' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'セキュアデスクトップ' })).toBeVisible()
   })
 
   it('opens the access log without authentication', async () => {
@@ -49,18 +49,19 @@ describe('App', () => {
     render(<App />)
 
     fireEvent.click(screen.getByRole('button', { name: /監視カメラ/ }))
-    const input = screen.getByLabelText('SECURITY KEY')
+    const input = screen.getByLabelText('SYSTEM PASSWORD')
 
     fireEvent.change(input, { target: { value: 'ちがいます' } })
     fireEvent.click(screen.getByRole('button', { name: '認証' }))
-    expect(screen.getByText('ACCESS DENIED')).toBeVisible()
+    expect(screen.getByText('ACCESS DENIED')).toBeInTheDocument()
     act(() => vi.advanceTimersByTime(2_000))
 
-    fireEvent.change(screen.getByLabelText('SECURITY KEY'), {
+    expect(screen.getByLabelText('SYSTEM PASSWORD')).toHaveValue('')
+    fireEvent.change(screen.getByLabelText('SYSTEM PASSWORD'), {
       target: { value: 'めんてなんす' },
     })
     fireEvent.click(screen.getByRole('button', { name: '認証' }))
-    expect(screen.getByText('ACCESS GRANTED')).toBeVisible()
+    expect(screen.getByText('ACCESS GRANTED')).toBeInTheDocument()
     act(() => vi.advanceTimersByTime(2_000))
 
     expect(screen.getByText('ARCHIVE BROWSER')).toBeVisible()
@@ -72,7 +73,7 @@ describe('App', () => {
     render(<App />)
 
     fireEvent.click(screen.getByRole('button', { name: /監視カメラ/ }))
-    fireEvent.change(screen.getByLabelText('SECURITY KEY'), {
+    fireEvent.change(screen.getByLabelText('SYSTEM PASSWORD'), {
       target: { value: 'めんてなんす' },
     })
     fireEvent.click(screen.getByRole('button', { name: '認証' }))
@@ -98,7 +99,7 @@ describe('App', () => {
 
     act(() => vi.advanceTimersByTime(10_000))
     expect(
-      screen.getByRole('heading', { name: '業務アプリケーション' }),
+      screen.getByRole('heading', { name: 'セキュアデスクトップ' }),
     ).toBeVisible()
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     vi.useRealTimers()

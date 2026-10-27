@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import type { VideoStatus } from '../../app/app-state'
 import type { ArchiveFile } from '../../data/surveillance-files'
@@ -16,6 +16,17 @@ type VideoPlayerProps = {
 export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
   const [position, setPosition] = useState(0)
   const [status, setStatus] = useState<VideoStatus>('idle')
+  const [isFullscreen, setIsFullscreen] = useState(false)
+  const playerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const updateFullscreenState = () => {
+      setIsFullscreen(document.fullscreenElement === playerRef.current)
+    }
+    document.addEventListener('fullscreenchange', updateFullscreenState)
+    return () =>
+      document.removeEventListener('fullscreenchange', updateFullscreenState)
+  }, [])
 
   useEffect(() => {
     if (status !== 'playing') return
@@ -38,8 +49,16 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
     onStatusChange(nextStatus)
   }
 
+  const toggleFullscreen = async () => {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen()
+      return
+    }
+    await playerRef.current?.requestFullscreen()
+  }
+
   return (
-    <div className={styles.player}>
+    <div className={styles.player} ref={playerRef}>
       <div className={`${styles.viewport} ${status === 'playing' ? styles.playing : ''}`}>
         <div className={styles.noise} aria-hidden="true" />
         <div className={styles.frameGrid} aria-hidden="true" />
@@ -77,6 +96,14 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
           value={position}
         />
         <span>{formatPlaybackTime(file.duration)}</span>
+        <button
+          aria-label={isFullscreen ? '全画面を終了' : '全画面で表示'}
+          className={styles.fullscreenButton}
+          onClick={() => void toggleFullscreen()}
+          type="button"
+        >
+          {isFullscreen ? '×' : '⛶'}
+        </button>
       </div>
     </div>
   )

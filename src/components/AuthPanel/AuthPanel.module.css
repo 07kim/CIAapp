@@ -42,6 +42,14 @@
   padding: 2rem;
 }
 
+.panelDenied {
+  animation: panel-denied 420ms cubic-bezier(0.36, 0.07, 0.19, 0.97) 760ms both;
+}
+
+.panelGranted {
+  animation: panel-granted 900ms ease-out 650ms both;
+}
+
 .reticle {
   position: relative;
   width: 4.5rem;
@@ -172,23 +180,223 @@
   position: absolute;
   inset: 0;
   display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 1rem;
   place-content: center;
+  justify-items: center;
+  overflow: hidden;
   background: rgb(4 4 6 / 94%);
   animation: result-in 180ms ease-out;
 }
 
-.result strong {
+.result::before,
+.result::after {
+  position: absolute;
+  inset: 0;
+  content: '';
+  pointer-events: none;
+}
+
+.result::before {
+  background:
+    linear-gradient(rgb(239 69 76 / 7%) 1px, transparent 1px),
+    linear-gradient(90deg, rgb(239 69 76 / 7%) 1px, transparent 1px);
+  background-size: 2.5rem 2.5rem;
+  mask-image: radial-gradient(circle, black, transparent 70%);
+  animation: grid-pulse 800ms ease-in-out infinite alternate;
+}
+
+.result::after {
+  background: linear-gradient(transparent 42%, rgb(255 255 255 / 6%) 50%, transparent 58%);
+  translate: 0 -100%;
+  animation: verification-scan 950ms linear infinite;
+}
+
+.securityMatrix {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  width: 8rem;
+  aspect-ratio: 1;
+  place-items: center;
+}
+
+.orbit {
+  position: absolute;
+  inset: 0;
+  border: 1px solid var(--color-primary-muted);
+  border-top-color: var(--color-primary-bright);
+  border-radius: 50%;
+  animation: orbit-spin 850ms linear infinite;
+}
+
+.orbit::before,
+.orbit::after {
+  position: absolute;
+  inset: 0.65rem;
+  border: 1px dashed rgb(239 69 76 / 45%);
+  border-radius: 50%;
+  content: '';
+}
+
+.orbit::after {
+  inset: 1.3rem;
+  border-style: solid;
+  border-color: transparent var(--color-primary-bright);
+  animation: orbit-spin 500ms linear infinite reverse;
+}
+
+.orbit i {
+  position: absolute;
+  top: 50%;
+  left: -0.22rem;
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 50%;
+  background: var(--color-primary-bright);
+  box-shadow: 0 0 0.8rem currentcolor;
+}
+
+.verificationBox {
+  display: grid;
+  width: 2.6rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid currentcolor;
+  color: inherit;
+  font-size: 1.8rem;
+  font-weight: 800;
+  opacity: 0;
+  scale: 0.7;
+  animation: verification-mark 240ms ease-out 720ms forwards;
+}
+
+.signalGraph {
+  position: absolute;
+  right: -5rem;
+  bottom: 0.5rem;
+  display: flex;
+  gap: 0.18rem;
+  align-items: end;
+  width: 4rem;
+  height: 2rem;
+  padding-bottom: 0.2rem;
+  border-bottom: 1px solid rgb(239 69 76 / 35%);
+}
+
+.signalGraph i {
+  width: 0.28rem;
+  height: 30%;
+  background: currentcolor;
+  opacity: 0.6;
+  animation: signal-jump 420ms ease-in-out infinite alternate;
+}
+
+.signalGraph i:nth-child(2n) {
+  animation-delay: 120ms;
+}
+
+.signalGraph i:nth-child(3n) {
+  animation-delay: 260ms;
+}
+
+.diagnosticWindows {
+  position: absolute;
+  inset: -1.6rem -10rem;
+  font-family: var(--font-mono);
+  font-size: 0.46rem;
+  letter-spacing: 0.08em;
+}
+
+.diagnosticWindows span {
+  position: absolute;
+  display: grid;
+  gap: 0.22rem;
+  min-width: 7.5rem;
+  padding: 0.45rem 0.55rem;
+  border: 1px solid rgb(239 69 76 / 28%);
+  background: rgb(10 10 13 / 78%);
+  color: var(--color-text-subtle);
+  opacity: 0;
+  text-align: left;
+  animation: diagnostic-in 180ms ease-out forwards;
+}
+
+.diagnosticWindows b {
+  color: currentcolor;
+  font-size: 0.43rem;
+  font-weight: 500;
+}
+
+.diagnosticWindows span:nth-child(1) {
+  top: 0;
+  left: 0;
+  animation-delay: 120ms;
+}
+
+.diagnosticWindows span:nth-child(2) {
+  top: 3rem;
+  right: 0;
+  animation-delay: 300ms;
+}
+
+.diagnosticWindows span:nth-child(3) {
+  bottom: 0;
+  left: 0.8rem;
+  animation-delay: 480ms;
+}
+
+.checking {
+  z-index: 1;
+  color: var(--color-text-muted);
+  font-size: 0.62rem;
+  animation: checking-out 180ms linear 760ms forwards;
+}
+
+.resultMessage {
+  position: absolute;
+  z-index: 2;
+  display: grid;
+  gap: 0.7rem;
+  justify-items: center;
+  opacity: 0;
+  translate: 0 0.5rem;
+  animation: result-message-in 260ms ease-out 820ms forwards;
+}
+
+.resultMessage strong {
   font-size: clamp(1.5rem, 6vw, 3.5rem);
   text-shadow: 0 0 1.2rem currentcolor;
 }
 
-.result span {
-  margin-top: 0.7rem;
+.resultMessage span {
   color: var(--color-text-muted);
   font-size: 0.64rem;
 }
 
+.progress {
+  position: relative;
+  z-index: 1;
+  width: min(70vw, 18rem);
+  height: 0.22rem;
+  overflow: hidden;
+  background: rgb(255 255 255 / 9%);
+}
+
+.progress i {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: currentcolor;
+  transform-origin: left;
+  animation: verification-progress 850ms cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 .granted strong {
+  color: var(--color-success);
+}
+
+.granted {
   color: var(--color-success);
 }
 
@@ -196,10 +404,106 @@
   color: var(--color-danger);
 }
 
+.denied {
+  color: var(--color-danger);
+}
+
 @keyframes result-in {
   from {
     opacity: 0;
     transform: scale(1.03);
+  }
+}
+
+@keyframes verification-progress {
+  from {
+    scale: 0 1;
+  }
+}
+
+@keyframes orbit-spin {
+  to {
+    rotate: 1turn;
+  }
+}
+
+@keyframes signal-jump {
+  to {
+    height: 100%;
+  }
+}
+
+@keyframes verification-scan {
+  to {
+    translate: 0 100%;
+  }
+}
+
+@keyframes verification-mark {
+  to {
+    opacity: 1;
+    scale: 1;
+  }
+}
+
+@keyframes checking-out {
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes result-message-in {
+  to {
+    opacity: 1;
+    translate: 0;
+  }
+}
+
+@keyframes grid-pulse {
+  to {
+    opacity: 0.45;
+  }
+}
+
+@keyframes diagnostic-in {
+  from {
+    opacity: 0;
+    translate: 0 0.3rem;
+  }
+
+  to {
+    opacity: 0.75;
+    translate: 0;
+  }
+}
+
+@keyframes panel-denied {
+  10%,
+  90% {
+    translate: -0.08rem 0;
+  }
+
+  20%,
+  80% {
+    translate: 0.16rem 0;
+  }
+
+  30%,
+  50%,
+  70% {
+    translate: -0.3rem 0;
+  }
+
+  40%,
+  60% {
+    translate: 0.3rem 0;
+  }
+}
+
+@keyframes panel-granted {
+  50% {
+    border-color: var(--color-success);
+    box-shadow: 0 0 3rem rgb(98 220 78 / 24%);
   }
 }
 
@@ -215,5 +519,39 @@
 
   .inputRow button {
     min-height: 3rem;
+  }
+
+  .diagnosticWindows {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panelDenied,
+  .panelGranted,
+  .orbit,
+  .orbit::after,
+  .signalGraph i,
+  .result::before,
+  .result::after,
+  .progress i {
+    animation: none;
+  }
+
+  .diagnosticWindows span {
+    opacity: 0.75;
+    animation: none;
+  }
+
+  .checking {
+    display: none;
+  }
+
+  .verificationBox,
+  .resultMessage {
+    opacity: 1;
+    scale: 1;
+    translate: 0;
+    animation: none;
   }
 }

@@ -162,7 +162,7 @@ export function CameraSystemScreen({
           <AuthPanel
             compact
             eyebrow={`ENCRYPTED ARCHIVE / ${pendingFile.filename}`}
-            hint="この映像は保護されています。対応する解除キーを入力してください。"
+            hint="この映像は暗号化されています。閲覧権限を確認するパスワードを入力してください。"
             onCancel={onCancelArchiveAuth}
             onSubmit={(answer) => onAuthenticateArchive(pendingFile, answer)}
             status={authenticationStatus}

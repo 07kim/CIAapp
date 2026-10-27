@@ -18,7 +18,7 @@ export function CameraGateScreen({ status, onAuthenticate }: CameraGateScreenPro
       </div>
       <AuthPanel
         eyebrow="RESTRICTED SURVEILLANCE NETWORK"
-        hint="保守担当者用のセキュリティキーを入力してください。"
+        hint="監視アーカイブへ接続するためのシステムパスワードを入力してください。"
         onSubmit={onAuthenticate}
         status={status}
         title="監視カメラ認証"

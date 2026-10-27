@@ -1,4 +1,4 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useRef, useState, type FormEvent } from 'react'
 
 import type { AuthenticationStatus } from '../../app/app-state'
 import styles from './AuthPanel.module.css'
@@ -23,7 +23,17 @@ export function AuthPanel({
   title,
 }: AuthPanelProps) {
   const [answer, setAnswer] = useState('')
+  const inputRef = useRef<HTMLInputElement>(null)
+  const previousStatus = useRef(status)
   const isBusy = status !== 'idle'
+
+  useEffect(() => {
+    if (previousStatus.current === 'denied' && status === 'idle') {
+      setAnswer('')
+      inputRef.current?.focus()
+    }
+    previousStatus.current = status
+  }, [status])
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -31,7 +41,15 @@ export function AuthPanel({
   }
 
   return (
-    <section className={`${styles.panel} ${compact ? styles.compact : ''}`}>
+    <section
+      className={`${styles.panel} ${compact ? styles.compact : ''} ${
+        status === 'denied'
+          ? styles.panelDenied
+          : status === 'granted'
+            ? styles.panelGranted
+            : ''
+      }`}
+    >
       <div aria-hidden="true" className={styles.reticle}>
         <span />
       </div>
@@ -41,7 +59,7 @@ export function AuthPanel({
 
       <form onSubmit={handleSubmit}>
         <label htmlFor={compact ? 'archive-answer' : 'gate-answer'}>
-          SECURITY KEY
+          SYSTEM PASSWORD
         </label>
         <div className={styles.inputRow}>
           <input
@@ -50,8 +68,10 @@ export function AuthPanel({
             disabled={isBusy}
             id={compact ? 'archive-answer' : 'gate-answer'}
             onChange={(event) => setAnswer(event.target.value)}
-            placeholder="回答を入力"
+            placeholder="パスワードを入力"
+            ref={inputRef}
             spellCheck={false}
+            type="password"
             value={answer}
           />
           <button disabled={isBusy || answer.trim().length === 0} type="submit">
@@ -72,12 +92,32 @@ export function AuthPanel({
           className={`${styles.result} ${styles[status]}`}
           role="status"
         >
-          <strong>{status === 'granted' ? 'ACCESS GRANTED' : 'ACCESS DENIED'}</strong>
-          <span>
-            {status === 'granted'
-              ? '認証情報を確認しました'
-              : '認証キーが一致しません'}
-          </span>
+          <div aria-hidden="true" className={styles.securityMatrix}>
+            <div className={styles.orbit}><i /></div>
+            <div className={styles.verificationBox}>
+              {status === 'granted' ? '✓' : '×'}
+            </div>
+            <div className={styles.signalGraph}>
+              <i /><i /><i /><i /><i /><i /><i />
+            </div>
+            <div className={styles.diagnosticWindows}>
+              <span><b>IDENTITY HASH</b>ANALYZING</span>
+              <span><b>ACCESS POLICY</b>VERIFYING</span>
+              <span><b>SECURITY NODE</b>CONNECTED</span>
+            </div>
+          </div>
+          <span className={styles.checking}>VERIFYING CREDENTIALS...</span>
+          <div className={styles.resultMessage}>
+            <strong>
+              {status === 'granted' ? 'ACCESS GRANTED' : 'ACCESS DENIED'}
+            </strong>
+            <span>
+              {status === 'granted'
+                ? 'セキュリティ認証が完了しました'
+                : 'パスワードが一致しません'}
+            </span>
+          </div>
+          <div aria-hidden="true" className={styles.progress}><i /></div>
         </div>
       ) : null}
     </section>

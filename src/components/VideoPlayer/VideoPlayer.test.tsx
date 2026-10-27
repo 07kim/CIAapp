@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { fireEvent, render, screen } from '@testing-library/react'
 import { vi } from 'vitest'
 
 import type { ArchiveFile } from '../../data/surveillance-files'
@@ -35,5 +35,19 @@ describe('VideoPlayer', () => {
     render(<VideoPlayer file={longArchive} onStatusChange={vi.fn()} />)
 
     expect(screen.getByText('01:30')).toBeVisible()
+  })
+
+  it('requests fullscreen playback from its control', () => {
+    const requestFullscreen = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(HTMLElement.prototype, 'requestFullscreen', {
+      configurable: true,
+      value: requestFullscreen,
+    })
+    render(<VideoPlayer file={longArchive} onStatusChange={vi.fn()} />)
+
+    fireEvent.click(screen.getByRole('button', { name: '全画面で表示' }))
+
+    expect(requestFullscreen).toHaveBeenCalledOnce()
+    Reflect.deleteProperty(HTMLElement.prototype, 'requestFullscreen')
   })
 })

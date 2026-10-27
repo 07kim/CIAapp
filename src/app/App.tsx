@@ -86,7 +86,7 @@ export function App() {
     switch (state.screen) {
       case 'desktop':
         return (
-          <AppShell title="社内端末" subtitle="INTERNAL OPERATIONS TERMINAL">
+          <AppShell title="セキュアデスクトップ" subtitle="CIA INTERNAL NETWORK">
             <DesktopScreen
               onOpenAccessLog={() => dispatch({ type: 'open-access-log' })}
               onOpenCamera={() => dispatch({ type: 'open-camera' })}

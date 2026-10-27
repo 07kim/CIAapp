@@ -12,35 +12,57 @@ export function DesktopScreen({
 }: DesktopScreenProps) {
   return (
     <section aria-labelledby="desktop-title" className={styles.desktop}>
-      <div className={styles.intro}>
-        <span className={styles.kicker}>AUTHORIZED WORKSTATION</span>
-        <h1 id="desktop-title">業務アプリケーション</h1>
-        <p>使用するシステムを選択してください。</p>
+      <div className={styles.desktopBar}>
+        <div>
+          <span className={styles.statusLight} />
+          <strong>CIA SECURE DESKTOP</strong>
+        </div>
+        <span>NODE 07 / INTERNAL NETWORK</span>
       </div>
 
-      <div className={styles.appGrid}>
-        <AppIcon
-          badge="LOCKED"
-          description="録画映像アーカイブおよびカメラシステム診断"
-          icon="camera"
-          label="監視カメラシステム"
-          onOpen={onOpenCamera}
-          systemLabel="SURVEILLANCE SYSTEM"
-        />
-        <AppIcon
-          description="社員IDによる入室・退室履歴の照会"
-          icon="log"
-          label="入退室ログ記録"
-          onOpen={onOpenAccessLog}
-          systemLabel="ACCESS CONTROL LOG"
-        />
+      <div className={styles.workspace}>
+        <div className={styles.wallpaper}>
+          <span>AUTHORIZED INTERNAL TERMINAL</span>
+          <h1 id="desktop-title">セキュアデスクトップ</h1>
+          <p>CIA INTERNET CO. / CORPORATE SECURITY NETWORK</p>
+          <div aria-hidden="true" className={styles.orbitalMark}>
+            <i /><i /><i />
+          </div>
+        </div>
+
+        <div aria-label="社内システム" className={styles.appGrid} role="group">
+          <AppIcon
+            badge="LOCKED"
+            description="録画映像とカメラ診断"
+            icon="camera"
+            label="監視カメラ"
+            onOpen={onOpenCamera}
+            systemLabel="SURVEILLANCE"
+          />
+          <AppIcon
+            description="社員IDの入退室履歴"
+            icon="log"
+            label="入退室ログ"
+            onOpen={onOpenAccessLog}
+            systemLabel="ACCESS LOG"
+          />
+        </div>
+
+        <aside className={styles.systemPanel} aria-label="端末情報">
+          <span>WORKSTATION STATUS</span>
+          <dl>
+            <div><dt>NETWORK</dt><dd>INTERNAL</dd></div>
+            <div><dt>SECURITY</dt><dd>LEVEL 04</dd></div>
+            <div><dt>APPLICATIONS</dt><dd>02 READY</dd></div>
+          </dl>
+          <p>SECURE SESSION ACTIVE</p>
+        </aside>
       </div>
 
-      <aside className={styles.statusStrip} aria-label="端末情報">
-        <span>NETWORK: INTERNAL</span>
-        <span>APPLICATIONS: 02</span>
-        <span>SECURITY LEVEL: 04</span>
-      </aside>
+      <div className={styles.taskbar}>
+        <span>▦&nbsp; CIA NET</span>
+        <span>SECURE CHANNEL&nbsp; ●</span>
+      </div>
     </section>
   )
 }
