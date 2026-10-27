@@ -60,7 +60,6 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
   const [quickOpen, setQuickOpen] = useState(false)
   const [clockOpen, setClockOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
-  const [selectedApp, setSelectedApp] = useState<DesktopApp | null>(null)
   const [launchingApp, setLaunchingApp] = useState<DesktopApp | null>(null)
   const launchTimerRef = useRef<number | null>(null)
 
@@ -98,14 +97,12 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
       setNetworkOpen(false)
       setQuickOpen(false)
       setClockOpen(false)
-      setSelectedApp(null)
     }
   }
 
   const launchApp = (app: DesktopApp) => {
     if (launchingApp !== null) return
 
-    setSelectedApp(app)
     setLaunchingApp(app)
     setStartOpen(false)
     setNetworkOpen(false)
@@ -142,8 +139,6 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
           icon="camera"
           label="監視カメラ"
           onOpen={() => launchApp('camera')}
-          onSelect={() => setSelectedApp('camera')}
-          selected={selectedApp === 'camera'}
           systemLabel="SURVEILLANCE"
         />
         <AppIcon
@@ -151,8 +146,6 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
           icon="log"
           label="入退室ログ"
           onOpen={() => launchApp('access-log')}
-          onSelect={() => setSelectedApp('access-log')}
-          selected={selectedApp === 'access-log'}
           systemLabel="ACCESS LOG"
         />
       </div>

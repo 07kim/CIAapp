@@ -45,13 +45,13 @@ describe('App', () => {
     expect(screen.queryByRole('region', { name: '日時とカレンダー' })).not.toBeInTheDocument()
   })
 
-  it('selects a desktop shortcut once and opens it on double click', async () => {
+  it('keeps a single click neutral and opens a shortcut on double click', async () => {
     const user = userEvent.setup()
     render(<App />)
 
     const cameraShortcut = screen.getByRole('button', { name: /監視カメラ/ })
     await user.click(cameraShortcut)
-    expect(cameraShortcut).toHaveAttribute('aria-pressed', 'true')
+    expect(cameraShortcut).not.toHaveAttribute('aria-pressed')
     expect(screen.queryByRole('heading', { name: '監視カメラ認証' })).not.toBeInTheDocument()
 
     await user.dblClick(cameraShortcut)

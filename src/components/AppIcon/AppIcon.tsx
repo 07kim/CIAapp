@@ -6,8 +6,6 @@ type AppIconProps = {
   icon: 'camera' | 'log'
   label: string
   onOpen: () => void
-  onSelect: () => void
-  selected: boolean
   systemLabel: string
 }
 
@@ -38,15 +36,11 @@ export function AppIcon({
   icon,
   label,
   onOpen,
-  onSelect,
-  selected,
   systemLabel,
 }: AppIconProps) {
   return (
     <button
-      aria-pressed={selected}
-      className={`${styles.app} ${selected ? styles.selected : ''}`}
-      onClick={onSelect}
+      className={styles.app}
       onDoubleClick={onOpen}
       onKeyDown={(event) => {
         if (event.key === 'Enter') {
