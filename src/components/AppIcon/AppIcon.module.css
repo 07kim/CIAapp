@@ -1,76 +1,76 @@
 .app {
   display: grid;
-  width: 6.8rem;
-  padding: 0.55rem 0.35rem;
+  width: 7rem;
+  padding: 0.65rem 0.4rem;
   border: 1px solid transparent;
-  border-radius: 0.35rem;
+  border-radius: 0.6rem;
   background: transparent;
   color: #fff;
   text-align: center;
   cursor: pointer;
   place-items: center;
-  transition: background 120ms ease, border-color 120ms ease;
+  transition: background 160ms ease, border-color 160ms ease, transform 160ms ease;
 }
 
 .app:hover,
 .app:focus-visible,
 .selected {
-  border-color: rgb(255 255 255 / 18%);
-  background: rgb(255 255 255 / 10%);
+  border-color: rgb(255 255 255 / 12%);
+  background: rgb(255 255 255 / 6%);
   outline: none;
 }
 
 .selected {
-  border-color: rgb(239 69 76 / 55%);
-  background: rgb(197 29 36 / 19%);
-  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 4%);
+  border-color: rgb(224 74 83 / 38%);
+  background: linear-gradient(135deg, rgb(189 48 57 / 13%), rgb(255 255 255 / 4%));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 2%);
 }
 
 .app:active {
-  background: rgb(197 29 36 / 28%);
-  transform: scale(0.96);
+  background: rgb(189 48 57 / 16%);
+  transform: scale(0.98);
 }
 
 .iconFrame {
   position: relative;
   display: grid;
-  width: 3.65rem;
+  width: 3.5rem;
   aspect-ratio: 1;
-  border: 1px solid rgb(255 255 255 / 16%);
-  border-radius: 0.7rem;
-  background: linear-gradient(145deg, #3b3b43, #17171c 60%);
-  box-shadow: 0 0.55rem 1.3rem rgb(0 0 0 / 38%), inset 0 1px rgb(255 255 255 / 12%);
-  color: #ff555d;
+  border: 1px solid rgb(255 255 255 / 11%);
+  border-radius: 0.75rem;
+  background: linear-gradient(145deg, rgb(37 40 47 / 96%), rgb(18 20 25 / 98%));
+  box-shadow: 0 0.8rem 1.8rem rgb(0 0 0 / 32%), inset 0 1px rgb(255 255 255 / 7%);
+  color: #d84a52;
   place-items: center;
 }
 
 .iconFrame svg {
-  width: 2.25rem;
+  width: 2rem;
   fill: none;
   stroke: currentcolor;
   stroke-linecap: round;
   stroke-linejoin: round;
-  stroke-width: 3;
+  stroke-width: 2.25;
 }
 
 .copy {
   display: grid;
   gap: 0.12rem;
-  margin-top: 0.45rem;
-  text-shadow: 0 1px 3px #000, 0 1px 8px #000;
+  margin-top: 0.55rem;
+  text-shadow: 0 1px 5px rgb(0 0 0 / 85%);
 }
 
 .copy strong {
-  font-size: 0.76rem;
-  font-weight: 500;
+  font-size: 0.74rem;
+  font-weight: 600;
   line-height: 1.3;
 }
 
 .systemLabel {
-  color: rgb(255 255 255 / 62%);
+  color: rgb(255 255 255 / 42%);
   font-family: var(--font-mono);
-  font-size: 0.42rem;
-  letter-spacing: 0.05em;
+  font-size: 0.4rem;
+  letter-spacing: 0.09em;
 }
 
 .description {
@@ -84,17 +84,17 @@
 
 .badge {
   position: absolute;
-  right: -0.2rem;
-  bottom: -0.2rem;
+  right: -0.15rem;
+  bottom: -0.15rem;
   display: grid;
-  width: 1.25rem;
+  width: 1.1rem;
   aspect-ratio: 1;
-  border: 2px solid #202027;
+  border: 2px solid #17191e;
   border-radius: 50%;
-  background: #c51d24;
+  background: #bd3039;
   color: #fff;
   font-family: var(--font-mono);
-  font-size: 0.68rem;
+  font-size: 0.6rem;
   font-weight: 700;
   place-items: center;
 }

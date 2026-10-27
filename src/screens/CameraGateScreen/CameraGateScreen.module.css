@@ -13,10 +13,10 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   align-content: space-between;
-  color: rgb(239 69 76 / 23%);
+  color: rgb(255 255 255 / 11%);
   font-family: var(--font-mono);
   font-size: clamp(0.55rem, 1vw, 0.75rem);
-  letter-spacing: 0.2em;
+  letter-spacing: 0.16em;
 }
 
 .backdrop span:nth-child(even) {
