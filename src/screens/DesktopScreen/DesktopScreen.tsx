@@ -24,10 +24,32 @@ function formatDate(date: Date) {
   }).format(date)
 }
 
+function formatLongDate(date: Date) {
+  return new Intl.DateTimeFormat('ja-JP', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    weekday: 'long',
+  }).format(date)
+}
+
+function getCalendarDays(date: Date) {
+  const year = date.getFullYear()
+  const month = date.getMonth()
+  const firstWeekday = new Date(year, month, 1).getDay()
+  const lastDate = new Date(year, month + 1, 0).getDate()
+  return [
+    ...Array.from<null>({ length: firstWeekday }).fill(null),
+    ...Array.from({ length: lastDate }, (_, index) => index + 1),
+  ]
+}
+
 export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenProps) {
   const [now, setNow] = useState(() => new Date())
   const [startOpen, setStartOpen] = useState(false)
   const [networkOpen, setNetworkOpen] = useState(false)
+  const [quickOpen, setQuickOpen] = useState(false)
+  const [clockOpen, setClockOpen] = useState(false)
   const [searchQuery, setSearchQuery] = useState('')
 
   useEffect(() => {
@@ -40,6 +62,8 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
       if (event.key === 'Escape') {
         setStartOpen(false)
         setNetworkOpen(false)
+        setQuickOpen(false)
+        setClockOpen(false)
       }
     }
 
@@ -54,6 +78,8 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
     if (event.target === event.currentTarget) {
       setStartOpen(false)
       setNetworkOpen(false)
+      setQuickOpen(false)
+      setClockOpen(false)
     }
   }
 
@@ -147,6 +173,43 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
         </section>
       ) : null}
 
+      {quickOpen ? (
+        <section aria-label="クイック状態" className={styles.quickPanel}>
+          <header>
+            <strong>QUICK STATUS</strong>
+            <button aria-label="クイック状態を閉じる" onClick={() => setQuickOpen(false)} type="button">×</button>
+          </header>
+          <div className={styles.quickGrid}>
+            <div><span>▮▮</span><strong>ネットワーク</strong><small>接続中</small></div>
+            <div><span>▰</span><strong>ローカル保存</strong><small>準備完了</small></div>
+            <div><span>◆</span><strong>セキュリティ</strong><small>有効</small></div>
+          </div>
+        </section>
+      ) : null}
+
+      {clockOpen ? (
+        <section aria-label="日時とカレンダー" className={styles.clockPanel}>
+          <header>
+            <div>
+              <strong>{formatTime(now)}</strong>
+              <span>{formatLongDate(now)}</span>
+            </div>
+            <button aria-label="日時とカレンダーを閉じる" onClick={() => setClockOpen(false)} type="button">×</button>
+          </header>
+          <div className={styles.calendarHeader}>
+            {now.getFullYear()}年 {now.getMonth() + 1}月
+          </div>
+          <div aria-label={`${now.getFullYear()}年${now.getMonth() + 1}月のカレンダー`} className={styles.calendarGrid}>
+            {['日', '月', '火', '水', '木', '金', '土'].map((weekday) => <b key={weekday}>{weekday}</b>)}
+            {getCalendarDays(now).map((day, index) => (
+              <span className={day === now.getDate() ? styles.today : ''} key={`${day ?? 'empty'}-${index}`}>
+                {day ?? ''}
+              </span>
+            ))}
+          </div>
+        </section>
+      ) : null}
+
       <footer className={styles.taskbar}>
         <div className={styles.taskbarLeft}>
           <button
@@ -156,6 +219,8 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
             onClick={() => {
               setStartOpen((open) => !open)
               setNetworkOpen(false)
+              setQuickOpen(false)
+              setClockOpen(false)
               setSearchQuery('')
             }}
             type="button"
@@ -167,6 +232,8 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
             onClick={() => {
               setStartOpen(true)
               setNetworkOpen(false)
+              setQuickOpen(false)
+              setClockOpen(false)
             }}
             type="button"
           >⌕&nbsp; 社内システムを検索</button>
@@ -177,16 +244,42 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
             onClick={() => {
               setNetworkOpen((open) => !open)
               setStartOpen(false)
+              setQuickOpen(false)
+              setClockOpen(false)
             }}
             type="button"
           >CIA</button>
         </div>
         <div className={styles.taskbarRight}>
-          <span className={styles.tray}>⌃ · ▮▮ · ▰</span>
-          <time dateTime={now.toISOString()}>
-            <strong>{formatTime(now)}</strong>
-            <small>{formatDate(now)}</small>
-          </time>
+          <button
+            aria-expanded={quickOpen}
+            aria-label="クイック状態"
+            className={`${styles.trayButton} ${quickOpen ? styles.activeTaskButton : ''}`}
+            onClick={() => {
+              setQuickOpen((open) => !open)
+              setClockOpen(false)
+              setStartOpen(false)
+              setNetworkOpen(false)
+            }}
+            type="button"
+          >⌃ · ▮▮ · ▰</button>
+          <button
+            aria-expanded={clockOpen}
+            aria-label="日時とカレンダー"
+            className={`${styles.clockButton} ${clockOpen ? styles.activeTaskButton : ''}`}
+            onClick={() => {
+              setClockOpen((open) => !open)
+              setQuickOpen(false)
+              setStartOpen(false)
+              setNetworkOpen(false)
+            }}
+            type="button"
+          >
+            <time dateTime={now.toISOString()}>
+              <strong>{formatTime(now)}</strong>
+              <small>{formatDate(now)}</small>
+            </time>
+          </button>
         </div>
       </footer>
     </section>

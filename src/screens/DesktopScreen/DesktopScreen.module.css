@@ -192,7 +192,9 @@
 }
 
 .startMenu,
-.networkPanel {
+.networkPanel,
+.quickPanel,
+.clockPanel {
   position: absolute;
   z-index: 4;
   bottom: 4rem;
@@ -274,7 +276,9 @@
 }
 
 .startMenu footer,
-.networkPanel header {
+.networkPanel header,
+.quickPanel header,
+.clockPanel header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -290,7 +294,9 @@
 }
 
 .startMenu footer button,
-.networkPanel header button {
+.networkPanel header button,
+.quickPanel header button,
+.clockPanel header button {
   width: 2rem;
   height: 2rem;
   border: 0;
@@ -301,7 +307,9 @@
 }
 
 .startMenu footer button:hover,
-.networkPanel header button:hover {
+.networkPanel header button:hover,
+.quickPanel header button:hover,
+.clockPanel header button:hover {
   background: rgb(255 255 255 / 10%);
   color: #fff;
 }
@@ -327,16 +335,116 @@
 .networkPanel dd { margin: 0; color: #76de69; font-family: var(--font-mono); font-size: 0.58rem; }
 
 .taskbarRight { color: rgb(255 255 255 / 78%); }
-.tray { font-size: 0.65rem; }
-.taskbarRight time { display: grid; min-width: 5rem; text-align: right; }
+.trayButton,
+.clockButton {
+  min-height: 2.4rem;
+  padding: 0.3rem 0.55rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: transparent;
+  color: rgb(255 255 255 / 78%);
+  cursor: pointer;
+}
+
+.trayButton { font-size: 0.65rem; }
+.trayButton:hover,
+.clockButton:hover { background: rgb(255 255 255 / 9%); }
+.clockButton time { display: grid; min-width: 4.3rem; text-align: right; }
 .taskbarRight strong { font-size: 0.7rem; font-weight: 400; }
 .taskbarRight small { font-size: 0.58rem; }
+
+.quickPanel,
+.clockPanel {
+  right: 0.8rem;
+  padding: 1rem;
+}
+
+.quickPanel { width: min(21rem, calc(100vw - 1.6rem)); }
+.clockPanel { width: min(22rem, calc(100vw - 1.6rem)); }
+
+.quickPanel header,
+.clockPanel header {
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgb(255 255 255 / 10%);
+}
+
+.quickPanel header > strong {
+  color: #ef454c;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+}
+
+.quickGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+  margin-top: 0.85rem;
+}
+
+.quickGrid div {
+  display: grid;
+  gap: 0.3rem;
+  min-width: 0;
+  padding: 0.75rem 0.45rem;
+  border: 1px solid rgb(255 255 255 / 9%);
+  border-radius: 0.45rem;
+  background: rgb(255 255 255 / 5%);
+  text-align: center;
+}
+
+.quickGrid span { color: #ef454c; font-size: 1rem; }
+.quickGrid strong { font-size: 0.58rem; }
+.quickGrid small { color: #76de69; font-family: var(--font-mono); font-size: 0.48rem; }
+
+.clockPanel header > div {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.clockPanel header > div strong {
+  color: #fff;
+  font-family: var(--font-mono);
+  font-size: 1.55rem;
+  font-weight: 400;
+}
+
+.clockPanel header > div span {
+  color: rgb(255 255 255 / 58%);
+  font-size: 0.62rem;
+}
+
+.calendarHeader {
+  padding: 1rem 0 0.65rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.2rem;
+  text-align: center;
+}
+
+.calendarGrid b,
+.calendarGrid span {
+  display: grid;
+  min-height: 1.9rem;
+  border-radius: 50%;
+  font-size: 0.62rem;
+  font-weight: 400;
+  place-items: center;
+}
+
+.calendarGrid b { color: rgb(255 255 255 / 42%); }
+.today { background: #c51d24; color: #fff; box-shadow: 0 0 0.8rem rgb(197 29 36 / 38%); }
 
 @media (max-width: 640px) {
   .wallpaperBrand { left: 64%; width: 70vw; }
   .desktopWidget { display: none; }
   .shortcuts { grid-template-columns: repeat(2, 6.8rem); }
   .search { display: none; }
-  .tray { display: none; }
   .networkPanel { right: 0.8rem; left: 0.8rem; width: auto; }
+  .trayButton { padding-inline: 0.35rem; font-size: 0.55rem; }
 }

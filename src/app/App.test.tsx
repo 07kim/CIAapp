@@ -32,6 +32,17 @@ describe('App', () => {
     expect(screen.getByRole('region', { name: 'CIAネットワーク情報' })).toBeVisible()
     await user.click(screen.getByRole('button', { name: 'ネットワーク情報を閉じる' }))
     expect(screen.queryByRole('region', { name: 'CIAネットワーク情報' })).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: 'クイック状態' }))
+    expect(screen.getByRole('region', { name: 'クイック状態' })).toBeVisible()
+    await user.click(screen.getByRole('button', { name: 'クイック状態を閉じる' }))
+    expect(screen.queryByRole('region', { name: 'クイック状態' })).not.toBeInTheDocument()
+
+    await user.click(screen.getByRole('button', { name: '日時とカレンダー' }))
+    expect(screen.getByRole('region', { name: '日時とカレンダー' })).toBeVisible()
+    expect(screen.getByLabelText(/月のカレンダー/)).toBeVisible()
+    await user.click(screen.getByRole('button', { name: '日時とカレンダーを閉じる' }))
+    expect(screen.queryByRole('region', { name: '日時とカレンダー' })).not.toBeInTheDocument()
   })
 
   it('opens the camera gate and returns home after confirmation', async () => {
