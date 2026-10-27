@@ -5,18 +5,42 @@
   display: grid;
   place-items: center;
   padding: var(--space-md);
-  background: rgb(0 0 0 / 78%);
-  backdrop-filter: blur(6px);
+  background: rgb(0 0 0 / 58%);
+  backdrop-filter: blur(9px) saturate(120%);
+  animation: confirmation-backdrop 180ms ease-out both;
+}
+
+.backdrop::before,
+.backdrop::after {
+  position: absolute;
+  inset: 0;
+  background: #a62a34;
+  content: '';
+  clip-path: polygon(0 0, 24% 0, 13% 100%, 0 100%);
+  transform: translate3d(-100%, 0, 0);
+  animation: confirmation-blade 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.backdrop::after {
+  background: #11141a;
+  clip-path: polygon(84% 0, 100% 0, 100% 100%, 73% 100%);
+  transform: translate3d(100%, 0, 0);
+  animation-name: confirmation-blade-right;
 }
 
 .dialog {
+  position: relative;
+  z-index: 1;
   width: min(100%, 30rem);
   padding: clamp(1.5rem, 5vw, 2.5rem);
   border: 1px solid var(--color-primary);
-  background: var(--color-panel-raised);
+  background: rgb(20 23 29 / 88%);
   box-shadow:
     0 0 0 1px rgb(255 255 255 / 4%) inset,
     0 2rem 7rem rgb(0 0 0 / 65%);
+  backdrop-filter: blur(22px);
+  clip-path: polygon(0 0, 94% 0, 100% 18%, 100% 100%, 6% 100%, 0 82%);
+  animation: confirmation-dialog 420ms cubic-bezier(0.16, 1, 0.3, 1) 90ms both;
 }
 
 .label {
@@ -57,4 +81,16 @@
 
 .primary {
   background: var(--color-primary);
+}
+
+@keyframes confirmation-backdrop { from { opacity: 0; } }
+@keyframes confirmation-blade { to { transform: translate3d(0, 0, 0); } }
+@keyframes confirmation-blade-right { to { transform: translate3d(0, 0, 0); } }
+@keyframes confirmation-dialog { from { opacity: 0; transform: translate3d(0, 1rem, 0) scale(0.96); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .backdrop,
+  .backdrop::before,
+  .backdrop::after,
+  .dialog { transform: none; animation: none; }
 }

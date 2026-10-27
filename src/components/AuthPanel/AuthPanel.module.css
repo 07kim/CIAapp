@@ -9,8 +9,9 @@
   border-radius: 1rem;
   background:
     linear-gradient(135deg, rgb(189 48 57 / 5%), transparent 48%),
-    rgb(17 19 24 / 95%);
+    rgb(17 19 24 / 82%);
   box-shadow: var(--shadow-window), inset 0 1px rgb(255 255 255 / 3%);
+  backdrop-filter: blur(24px) saturate(118%);
   text-align: center;
 }
 
@@ -199,7 +200,7 @@
   justify-items: center;
   overflow: hidden;
   border-radius: inherit;
-  background: rgb(11 12 15 / 96%);
+  background: rgb(11 12 15 / 88%);
   animation: result-in 180ms ease-out;
 }
 

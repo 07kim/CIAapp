@@ -5,7 +5,7 @@
   gap: 1rem;
   min-height: calc(100vh - 7.1rem);
   padding: 1rem;
-  background: radial-gradient(ellipse at 62% 35%, rgb(125 36 44 / 7%), transparent 42%), #0b0c0f;
+  background: radial-gradient(ellipse at 62% 35%, rgb(125 36 44 / 6%), transparent 42%);
   isolation: isolate;
 }
 
@@ -62,7 +62,8 @@
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 8%);
   border-radius: 0.85rem;
-  background: rgb(18 20 25 / 92%);
+  background: rgb(18 20 25 / 76%);
+  backdrop-filter: blur(18px) saturate(118%);
   box-shadow: 0 1rem 3rem rgb(0 0 0 / 16%);
   animation: panel-arrive 560ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -152,7 +153,7 @@
   font-size: 0.5rem;
 }
 
-.workspace { padding: 1.25rem; background: rgb(10 11 14 / 90%); }
+.workspace { padding: 1.25rem; background: rgb(10 11 14 / 70%); }
 .workspace > * { animation: workspace-in 280ms cubic-bezier(0.2, 0.8, 0.2, 1); }
 .standby {
   position: relative;

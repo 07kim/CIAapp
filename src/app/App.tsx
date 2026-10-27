@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react'
 
 import { AppShell } from '../components/AppShell/AppShell'
+import { DynamicBackdrop, type BackdropVariant } from '../components/DynamicBackdrop/DynamicBackdrop'
 import { HomeConfirmation } from '../components/HomeConfirmation/HomeConfirmation'
 import { IdleWarning } from '../components/IdleWarning/IdleWarning'
 import type { ArchiveFile } from '../data/surveillance-files'
@@ -82,6 +83,14 @@ export function App() {
     onWarning: showIdleWarning,
   })
 
+  const backdropVariant: BackdropVariant = state.screen === 'desktop'
+    ? 'desktop'
+    : state.screen === 'camera-gate'
+      ? 'authentication'
+      : state.screen === 'camera-browser'
+        ? 'surveillance'
+        : 'access'
+
   const screen = (() => {
     switch (state.screen) {
       case 'desktop':
@@ -146,6 +155,7 @@ export function App() {
 
   return (
     <>
+      <DynamicBackdrop variant={backdropVariant} />
       {screen}
       {state.isIdleWarningOpen ? <IdleWarning /> : null}
       {state.isHomeConfirmationOpen ? (

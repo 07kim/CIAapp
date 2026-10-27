@@ -28,6 +28,7 @@
     linear-gradient(152deg, #17191e 0 38%, #0b0c0f 39% 60%, #20232a 61% 100%);
   color: #d7d7d9;
   font-family: var(--font-mono);
+  box-shadow: inset 0 0 4rem rgb(0 0 0 / 35%);
 }
 
 .viewport::after {
@@ -147,4 +148,8 @@
   to {
     translate: 80% 0;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playing::after { animation: none; }
 }

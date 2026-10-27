@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, type CSSProperties } from 'react'
 
 import { accessLogRepository } from '../../data/access-log/static-access-log-repository'
 import type { AccessLogEntry, AccessLogRepository } from '../../data/access-log/types'
@@ -23,15 +23,21 @@ export function AccessLogScreen({ repository = accessLogRepository }: AccessLogS
 
   return (
     <section aria-labelledby="access-log-title" className={styles.layout}>
+      <div aria-hidden="true" className={styles.ambientIndex}>03</div>
       <div className={styles.heading}>
         <div>
-          <span>ACCESS CONTROL DATABASE</span>
+          <span>03 / ACCESS CONTROL DATABASE</span>
           <h1 id="access-log-title">入退室ログ記録</h1>
           <p>2026年11月20日・役員フロア周辺の認証記録</p>
         </div>
-        <div className={styles.status}>
-          <span>LOCAL RECORD</span>
-          <strong>{String(entries.length).padStart(2, '0')} ENTRIES</strong>
+        <div className={styles.activityPanel}>
+          <div className={styles.status}>
+            <span>LOCAL RECORD</span>
+            <strong>{String(entries.length).padStart(2, '0')} ENTRIES</strong>
+          </div>
+          <div aria-hidden="true" className={styles.activityWave}>
+            <i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
+          </div>
         </div>
       </div>
 
@@ -46,8 +52,8 @@ export function AccessLogScreen({ repository = accessLogRepository }: AccessLogS
           <span>TIME</span><span>PERSON</span><span>ACTION</span><span>CHECKPOINT</span><span>STATUS</span>
         </div>
         <div className={styles.rows}>
-          {entries.map((entry) => (
-            <article className={styles.row} key={entry.id}>
+          {entries.map((entry, index) => (
+            <article className={styles.row} key={entry.id} style={{ '--row-index': index } as CSSProperties}>
               <time dateTime={entry.timestamp}>{entry.time}</time>
               <div className={styles.person}>
                 <strong>{entry.personName}</strong>

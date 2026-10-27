@@ -1,13 +1,12 @@
 .shell {
   position: relative;
+  z-index: 1;
   display: grid;
   min-width: 320px;
   min-height: 100vh;
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
-  background:
-    radial-gradient(ellipse at 76% 24%, rgb(126 35 43 / 10%), transparent 40%),
-    linear-gradient(145deg, #0f1115, var(--color-background) 58%);
+  background: linear-gradient(145deg, rgb(15 17 21 / 38%), rgb(11 12 15 / 22%) 58%);
 }
 
 .shell::before {
@@ -72,7 +71,7 @@
   min-height: 4.75rem;
   padding: 0.75rem clamp(1rem, 3vw, 3rem);
   border-bottom: 1px solid rgb(255 255 255 / 8%);
-  background: rgb(14 16 20 / 86%);
+  background: rgb(14 16 20 / 72%);
   box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 18%);
   backdrop-filter: blur(24px);
 }
@@ -194,6 +193,16 @@
   animation: shell-content-in 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.content::before {
+  position: fixed;
+  inset: 4.75rem 0 2.2rem;
+  z-index: -1;
+  border-block: 1px solid rgb(255 255 255 / 3%);
+  background: linear-gradient(105deg, transparent 30%, rgb(199 44 56 / 3%) 50%, transparent 70%);
+  content: '';
+  pointer-events: none;
+}
+
 .compact .content {
   width: 100%;
   padding: 0;
@@ -224,6 +233,8 @@
   font-family: var(--font-mono);
   font-size: 0.58rem;
   letter-spacing: 0.1em;
+  background: rgb(10 11 15 / 58%);
+  backdrop-filter: blur(14px);
 }
 
 @keyframes shell-content-in {

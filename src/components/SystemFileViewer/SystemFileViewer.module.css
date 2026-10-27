@@ -2,7 +2,8 @@
   overflow: hidden;
   border: 1px solid rgb(255 255 255 / 7%);
   border-radius: 0.7rem;
-  background: #0b0c0f;
+  background: rgb(11 12 15 / 78%);
+  backdrop-filter: blur(16px);
 }
 
 .viewer header {
@@ -20,6 +21,7 @@
 .viewer header strong { color: var(--color-text-strong); font-size: 0.8rem; font-weight: 550; }
 
 .terminal {
+  position: relative;
   min-height: 24rem;
   padding: clamp(1.35rem, 3vw, 2rem);
   color: #9cc8a6;
@@ -27,8 +29,24 @@
   line-height: 1.55;
 }
 
+.terminal::after {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 42%, rgb(114 200 135 / 4%) 50%, transparent 58%);
+  content: '';
+  transform: translate3d(0, -100%, 0);
+  animation: terminal-scan 4s linear infinite;
+  pointer-events: none;
+}
+
 .terminal p { display: grid; grid-template-columns: 2rem 1fr; gap: 0.9rem; margin: 0 0 0.9rem; }
 .terminal p span { color: var(--color-text-subtle); }
 .terminal i { display: block; width: 0.48rem; height: 0.9rem; border-radius: 1px; background: var(--color-success); animation: blink 900ms steps(1) infinite; }
 
 @keyframes blink { 50% { opacity: 0; } }
+@keyframes terminal-scan { to { transform: translate3d(0, 100%, 0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .terminal::after,
+  .terminal i { animation: none; }
+}
