@@ -5,6 +5,7 @@ import styles from './AppShell.module.css'
 type AppShellProps = {
   children: ReactNode
   compact?: boolean
+  desktop?: boolean
   homeDisabled?: boolean
   onRequestHome?: () => void
   subtitle: string
@@ -23,6 +24,7 @@ function formatClock(date: Date) {
 export function AppShell({
   children,
   compact = false,
+  desktop = false,
   homeDisabled = false,
   onRequestHome,
   subtitle,
@@ -73,7 +75,7 @@ export function AppShell({
       : 'SYSTEM ONLINE'
 
   return (
-    <div className={`${styles.shell} ${compact ? styles.compact : ''}`}>
+    <div className={`${styles.shell} ${compact ? styles.compact : ''} ${desktop ? styles.desktop : ''}`}>
       <header className={styles.header}>
         <div className={styles.brand} aria-label="CIA Internet Co.">
           <span aria-hidden="true" className={styles.brandMark}>

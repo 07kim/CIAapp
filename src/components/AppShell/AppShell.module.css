@@ -166,6 +166,22 @@
   padding: 0;
 }
 
+.desktop {
+  display: block;
+}
+
+.desktop::before,
+.desktop .header,
+.desktop .footer {
+  display: none;
+}
+
+.desktop .content {
+  width: 100%;
+  min-height: 100vh;
+  padding: 0;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;

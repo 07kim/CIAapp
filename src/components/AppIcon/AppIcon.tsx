@@ -42,15 +42,12 @@ export function AppIcon({
     <button className={styles.app} onClick={onOpen} type="button">
       <span className={styles.iconFrame}>
         {icon === 'camera' ? <CameraIcon /> : <LogIcon />}
+        {badge ? <span className={styles.badge}>!</span> : null}
       </span>
       <span className={styles.copy}>
-        <span className={styles.systemLabel}>{systemLabel}</span>
         <strong>{label}</strong>
+        <span className={styles.systemLabel}>{systemLabel}</span>
         <span className={styles.description}>{description}</span>
-      </span>
-      {badge ? <span className={styles.badge}>{badge}</span> : null}
-      <span aria-hidden="true" className={styles.arrow}>
-        ↗
       </span>
     </button>
   )

@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react'
+
 import { AppIcon } from '../../components/AppIcon/AppIcon'
 import styles from './DesktopScreen.module.css'
 
@@ -6,63 +8,80 @@ type DesktopScreenProps = {
   onOpenCamera: () => void
 }
 
-export function DesktopScreen({
-  onOpenAccessLog,
-  onOpenCamera,
-}: DesktopScreenProps) {
+function formatTime(date: Date) {
+  return new Intl.DateTimeFormat('ja-JP', {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).format(date)
+}
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('ja-JP', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date)
+}
+
+export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenProps) {
+  const [now, setNow] = useState(() => new Date())
+
+  useEffect(() => {
+    const timerId = window.setInterval(() => setNow(new Date()), 1_000)
+    return () => window.clearInterval(timerId)
+  }, [])
+
   return (
     <section aria-labelledby="desktop-title" className={styles.desktop}>
-      <div className={styles.desktopBar}>
-        <div>
-          <span className={styles.statusLight} />
-          <strong>CIA SECURE DESKTOP</strong>
-        </div>
-        <span>NODE 07 / INTERNAL NETWORK</span>
+      <h1 className={styles.visuallyHidden} id="desktop-title">CIA社内デスクトップ</h1>
+
+      <div aria-hidden="true" className={styles.wallpaperBrand}>
+        <span>CIA</span>
+        <strong>INTERNAL NETWORK</strong>
+        <small>AUTHORIZED PERSONNEL ONLY</small>
       </div>
 
-      <div className={styles.workspace}>
-        <div className={styles.wallpaper}>
-          <span>AUTHORIZED INTERNAL TERMINAL</span>
-          <h1 id="desktop-title">セキュアデスクトップ</h1>
-          <p>CIA INTERNET CO. / CORPORATE SECURITY NETWORK</p>
-          <div aria-hidden="true" className={styles.orbitalMark}>
-            <i /><i /><i />
-          </div>
-        </div>
-
-        <div aria-label="社内システム" className={styles.appGrid} role="group">
-          <AppIcon
-            badge="LOCKED"
-            description="録画映像とカメラ診断"
-            icon="camera"
-            label="監視カメラ"
-            onOpen={onOpenCamera}
-            systemLabel="SURVEILLANCE"
-          />
-          <AppIcon
-            description="社員IDの入退室履歴"
-            icon="log"
-            label="入退室ログ"
-            onOpen={onOpenAccessLog}
-            systemLabel="ACCESS LOG"
-          />
-        </div>
-
-        <aside className={styles.systemPanel} aria-label="端末情報">
-          <span>WORKSTATION STATUS</span>
-          <dl>
-            <div><dt>NETWORK</dt><dd>INTERNAL</dd></div>
-            <div><dt>SECURITY</dt><dd>LEVEL 04</dd></div>
-            <div><dt>APPLICATIONS</dt><dd>02 READY</dd></div>
-          </dl>
-          <p>SECURE SESSION ACTIVE</p>
-        </aside>
+      <div aria-label="デスクトップのアプリ" className={styles.shortcuts} role="group">
+        <AppIcon
+          badge="LOCKED"
+          description="録画映像とカメラ診断"
+          icon="camera"
+          label="監視カメラ"
+          onOpen={onOpenCamera}
+          systemLabel="SURVEILLANCE"
+        />
+        <AppIcon
+          description="社員IDの入退室履歴"
+          icon="log"
+          label="入退室ログ"
+          onOpen={onOpenAccessLog}
+          systemLabel="ACCESS LOG"
+        />
       </div>
 
-      <div className={styles.taskbar}>
-        <span>▦&nbsp; CIA NET</span>
-        <span>SECURE CHANNEL&nbsp; ●</span>
-      </div>
+      <aside className={styles.desktopWidget} aria-label="端末状態">
+        <div><span className={styles.statusDot} />CIA-SEC-07</div>
+        <strong>INTERNAL NETWORK</strong>
+        <small>LOCAL CACHE READY</small>
+      </aside>
+
+      <footer className={styles.taskbar}>
+        <div className={styles.taskbarLeft}>
+          <button aria-label="スタート" className={styles.startButton} type="button">
+            <i /><i /><i /><i />
+          </button>
+          <div className={styles.search}>⌕&nbsp; 社内システムを検索</div>
+          <span className={styles.pinnedApp}>CIA</span>
+        </div>
+        <div className={styles.taskbarRight}>
+          <span className={styles.tray}>⌃ · ▮▮ · ▰</span>
+          <time dateTime={now.toISOString()}>
+            <strong>{formatTime(now)}</strong>
+            <small>{formatDate(now)}</small>
+          </time>
+        </div>
+      </footer>
     </section>
   )
 }

@@ -68,10 +68,10 @@ export function AuthPanel({
             disabled={isBusy}
             id={compact ? 'archive-answer' : 'gate-answer'}
             onChange={(event) => setAnswer(event.target.value)}
-            placeholder="パスワードを入力"
+            placeholder="＊＊＊＊＊＊＊＊"
             ref={inputRef}
             spellCheck={false}
-            type="password"
+            type="text"
             value={answer}
           />
           <button disabled={isBusy || answer.trim().length === 0} type="submit">

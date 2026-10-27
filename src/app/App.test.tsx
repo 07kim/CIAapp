@@ -30,7 +30,7 @@ describe('App', () => {
 
     await user.click(screen.getByRole('button', { name: 'ホーム' }))
     await user.click(screen.getByRole('button', { name: '戻る' }))
-    expect(screen.getByRole('heading', { name: 'セキュアデスクトップ' })).toBeVisible()
+    expect(screen.getByRole('heading', { name: 'CIA社内デスクトップ' })).toBeVisible()
   })
 
   it('opens the access log without authentication', async () => {
@@ -99,7 +99,7 @@ describe('App', () => {
 
     act(() => vi.advanceTimersByTime(10_000))
     expect(
-      screen.getByRole('heading', { name: 'セキュアデスクトップ' }),
+      screen.getByRole('heading', { name: 'CIA社内デスクトップ' }),
     ).toBeVisible()
     expect(screen.queryByRole('alert')).not.toBeInTheDocument()
     vi.useRealTimers()

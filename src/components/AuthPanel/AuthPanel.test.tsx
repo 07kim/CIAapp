@@ -16,12 +16,13 @@ const renderPanel = (status: AuthenticationStatus = 'idle') =>
   )
 
 describe('AuthPanel', () => {
-  it('masks the entered password', () => {
+  it('shows the entered password and uses a masked placeholder', () => {
     renderPanel()
 
+    expect(screen.getByLabelText('SYSTEM PASSWORD')).toHaveAttribute('type', 'text')
     expect(screen.getByLabelText('SYSTEM PASSWORD')).toHaveAttribute(
-      'type',
-      'password',
+      'placeholder',
+      '＊＊＊＊＊＊＊＊',
     )
   })
 
