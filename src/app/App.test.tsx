@@ -66,4 +66,22 @@ describe('App', () => {
     expect(screen.getByText('ARCHIVE BROWSER')).toBeVisible()
     vi.useRealTimers()
   })
+
+  it('prevents home navigation while an authentication result is pending', () => {
+    vi.useFakeTimers()
+    render(<App />)
+
+    fireEvent.click(screen.getByRole('button', { name: /監視カメラ/ }))
+    fireEvent.change(screen.getByLabelText('SECURITY KEY'), {
+      target: { value: 'めんてなんす' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: '認証' }))
+
+    expect(screen.getByRole('button', { name: 'ホーム' })).toBeDisabled()
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+
+    act(() => vi.advanceTimersByTime(2_000))
+    expect(screen.getByRole('button', { name: 'ホーム' })).toBeEnabled()
+    vi.useRealTimers()
+  })
 })

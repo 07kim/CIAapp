@@ -5,6 +5,7 @@ import styles from './AppShell.module.css'
 type AppShellProps = {
   children: ReactNode
   compact?: boolean
+  homeDisabled?: boolean
   onRequestHome?: () => void
   subtitle: string
   title: string
@@ -22,16 +23,54 @@ function formatClock(date: Date) {
 export function AppShell({
   children,
   compact = false,
+  homeDisabled = false,
   onRequestHome,
   subtitle,
   title,
 }: AppShellProps) {
   const [now, setNow] = useState(() => new Date())
+  const [isOnline, setIsOnline] = useState(() => navigator.onLine)
+  const [offlineReady, setOfflineReady] = useState(
+    () => 'serviceWorker' in navigator && Boolean(navigator.serviceWorker.controller),
+  )
 
   useEffect(() => {
     const timerId = window.setInterval(() => setNow(new Date()), 1_000)
     return () => window.clearInterval(timerId)
   }, [])
+
+  useEffect(() => {
+    const updateConnection = () => setIsOnline(navigator.onLine)
+    const updateOfflineReadiness = () => setOfflineReady(true)
+
+    window.addEventListener('online', updateConnection)
+    window.addEventListener('offline', updateConnection)
+
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.addEventListener(
+        'controllerchange',
+        updateOfflineReadiness,
+      )
+      void navigator.serviceWorker.ready.then(updateOfflineReadiness)
+    }
+
+    return () => {
+      window.removeEventListener('online', updateConnection)
+      window.removeEventListener('offline', updateConnection)
+      if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.removeEventListener(
+          'controllerchange',
+          updateOfflineReadiness,
+        )
+      }
+    }
+  }, [])
+
+  const systemStatus = !isOnline
+    ? 'OFFLINE LOCAL'
+    : offlineReady
+      ? 'LOCAL READY'
+      : 'SYSTEM ONLINE'
 
   return (
     <div className={`${styles.shell} ${compact ? styles.compact : ''}`}>
@@ -52,10 +91,14 @@ export function AppShell({
         </div>
 
         <div className={styles.controls}>
-          <span className={styles.online}>SYSTEM ONLINE</span>
+          <span
+            className={`${styles.online} ${!isOnline ? styles.offline : ''}`}
+          >
+            {systemStatus}
+          </span>
           <time dateTime={now.toISOString()}>{formatClock(now)}</time>
           {onRequestHome ? (
-            <button onClick={onRequestHome} type="button">
+            <button disabled={homeDisabled} onClick={onRequestHome} type="button">
               ホーム
             </button>
           ) : null}

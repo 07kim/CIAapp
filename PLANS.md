@@ -73,17 +73,29 @@
 
 ## Phase 6: ブランド・レスポンシブ・実素材
 
-- 状態: Not started
+- 状態: Implemented for available assets / final media pending
 - 目的: 赤黒の最終デザイン、ロゴ、謎画像、動画を統合する。
 - 前提: 最終素材と使用権、対象PCまたは代表解像度が確認できること。
 - 完了条件: 代表的なPC画面幅で崩れず、操作と文字が判別できる。
+- 実装結果:
+  - 提供ロゴをローカル資産として組み込み、赤・黒・ダークグレーの監視端末UIを全画面へ適用
+  - 1100px、900px、760px、560px、480pxの段階でレイアウトを調整するレスポンシブCSSを実装
+  - キーボードフォーカス表示と動きを抑えるOS設定へ対応
+  - PC幅と狭幅表示で主要導線を目視確認
+- 残件: 実動画5本と謎画像3点の受領後に交換用枠へ統合し、対象PCの実解像度で最終確認する。
 
 ## Phase 7: オフライン対応
 
-- 状態: Not started
+- 状態: Application shell completed / final media validation pending
 - 目的: 通信断でもホーム、謎、監視映像が動くようにする。
 - 対象: キャッシュ戦略、準備状態表示、実機オフラインテスト、必要ならローカル予備配信。
 - 完了条件: 対象PCでネットワークを切断し、再起動後も主要導線と5本の動画を確認できる。
+- 実装結果:
+  - Service WorkerによるHTML、JavaScript、CSS、ロゴ、同一配信元資産のキャッシュを実装
+  - `SYSTEM ONLINE`、`LOCAL READY`、`OFFLINE LOCAL`の準備・通信状態表示を実装
+  - 本番相当ビルドでService Worker制御を確認
+  - 配信サーバー停止後の再読み込み、PCホーム、暫定入退室ログ、監視カメラ入口認証を確認
+- 残件: 最終動画5本を統合後、対象PCをオフラインで再起動し、全動画の再生と保存容量を確認する。
 
 ## Phase 8: GitHub / Vercel公開フロー
 
@@ -99,6 +111,7 @@
   - GitHubとVercelのGit連携が完了
   - Vercel本番デプロイが`Ready`になり、固定URLをブラウザで表示確認
   - GitのcommitとVercelのdeployment履歴から以前の版へ戻せる状態を確認
+  - フェーズ単位で検証後にcommit/pushし、GitHub Actions成功後にVercelの反映を確認する段階公開を運用
 
 ## Phase 9: 入退室ログアプリ
 

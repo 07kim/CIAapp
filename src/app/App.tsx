@@ -96,6 +96,7 @@ export function App() {
       case 'camera-gate':
         return (
           <AppShell
+            homeDisabled={state.authenticationStatus !== 'idle'}
             title="監視カメラ認証"
             subtitle="SURVEILLANCE AUTHENTICATION"
             onRequestHome={() => dispatch({ type: 'request-home' })}
@@ -110,6 +111,7 @@ export function App() {
         return (
           <AppShell
             compact
+            homeDisabled={state.authenticationStatus !== 'idle'}
             title="監視カメラシステム"
             subtitle="SURVEILLANCE ARCHIVE"
             onRequestHome={() => dispatch({ type: 'request-home' })}

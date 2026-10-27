@@ -1,0 +1,10 @@
+{
+  "name": "CIA Internet Co. Security Terminal",
+  "short_name": "CIAapp",
+  "description": "CIA Internet Co. event-use virtual security terminal",
+  "lang": "ja",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#09090b",
+  "theme_color": "#c51d24"
+}
