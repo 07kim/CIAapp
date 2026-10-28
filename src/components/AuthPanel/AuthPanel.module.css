@@ -354,7 +354,10 @@
 .inlineResult .securityMatrix { width: 5.6rem; }
 .inlineResult .diagnosticWindows { inset: -1rem -7rem; transform: scale(0.82); }
 .inlineResult .signalGraph { right: -3.8rem; transform: scale(0.82); }
-.inlineResult .resultMessage { inset: 1.5rem; }
+.inlineResult .securityMatrix,
+.inlineResult .checking,
+.inlineResult .progress { translate: 0 1.6rem; }
+.inlineResult .resultMessage { inset: 1rem 1.5rem auto; }
 .inlineResult .resultMessage strong { font-size: clamp(1.1rem, 3vw, 1.75rem); }
 .inlineResult .progress { width: min(62%, 14rem); }
 
@@ -456,9 +459,12 @@
 .diagnosticWindows span:nth-child(3) { bottom: 0; left: 0.8rem; animation-delay: 480ms; }
 
 .checking { z-index: 1; color: var(--color-text-muted); font-size: 0.56rem; animation: checking-out 200ms linear 1.18s forwards; }
-.resultMessage { position: absolute; inset: clamp(2rem, 8vw, 6rem); z-index: 2; display: grid; gap: 0.9rem; align-content: center; justify-items: center; padding: 2rem; opacity: 0; scale: 0.9; animation: result-message-in 360ms cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards; }
-.resultMessage strong { font-size: clamp(1.35rem, 4vw, 2.3rem); letter-spacing: 0.1em; }
+.resultMessage { position: absolute; inset: clamp(2.2rem, 7vh, 4.5rem) 2rem auto; z-index: 2; display: grid; gap: 0.55rem; justify-items: center; padding: 0; opacity: 0; scale: 0.94; animation: result-message-in 360ms cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards; }
+.resultMessage strong { font-size: clamp(1.55rem, 5vw, 3.6rem); letter-spacing: 0.08em; line-height: 0.96; }
 .resultMessage span { color: var(--color-text-muted); font-family: var(--font-body); font-size: clamp(0.72rem, 1.5vw, 0.9rem); }
+.securityMatrix,
+.checking,
+.progress { translate: 0 clamp(2.8rem, 7vh, 4.4rem); }
 .progress { z-index: 1; width: min(70vw, 18rem); height: 2px; overflow: hidden; background: rgb(255 255 255 / 9%); }
 .progress i { display: block; width: 100%; height: 100%; background: currentcolor; transform-origin: left; animation: verification-progress 1.12s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 .granted { animation: result-iris 240ms cubic-bezier(0.16, 1, 0.3, 1) both, granted-resolve 180ms ease 1.08s forwards; }
@@ -518,6 +524,15 @@
   .inputRow button { min-height: 3rem; border-top: 1px solid rgb(224 74 83 / 32%); border-left: 0; }
   .inlineResult .diagnosticWindows,
   .inlineResult .signalGraph { display: none; }
+}
+
+@media (max-height: 640px) {
+  .resultMessage { inset-block-start: 1.5rem; }
+  .resultMessage strong { font-size: clamp(1.35rem, 5vw, 2.6rem); }
+  .securityMatrix,
+  .checking,
+  .progress { translate: 0 2.6rem; }
+  .diagnosticWindows { transform: scale(0.82); }
 }
 
 @media (prefers-reduced-motion: reduce) {

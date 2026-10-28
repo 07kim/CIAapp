@@ -91,10 +91,12 @@ void main() {
 
   float vignette = smoothstep(0.95, 0.18, length(p * vec2(0.72, 1.0)));
   color *= 0.45 + vignette * 0.7;
-  color += (hash(gl_FragCoord.xy + t) - 0.5) / 255.0;
   gl_FragColor = vec4(color, 1.0);
 }
 `
+
+const MAX_PIXEL_RATIO = 1.25
+const FRAME_INTERVAL_MS = 1_000 / 30
 
 function createShader(
   gl: WebGLRenderingContext,
@@ -168,9 +170,10 @@ export function DynamicBackdrop({ variant }: DynamicBackdropProps) {
     let currentMode = variantRef.current
     let animationFrame = 0
     let startTime = performance.now()
+    let previousFrame = 0
 
     const resize = () => {
-      const pixelRatio = Math.min(window.devicePixelRatio || 1, 1.5)
+      const pixelRatio = Math.min(window.devicePixelRatio || 1, MAX_PIXEL_RATIO)
       const width = Math.max(1, Math.floor(window.innerWidth * pixelRatio))
       const height = Math.max(1, Math.floor(window.innerHeight * pixelRatio))
       if (canvas.width !== width || canvas.height !== height) {
@@ -181,21 +184,23 @@ export function DynamicBackdrop({ variant }: DynamicBackdropProps) {
     }
 
     const render = (timestamp: number) => {
-      resize()
-      currentMode += (variantRef.current - currentMode) * 0.035
+      if (!reduceMotion.matches && !document.hidden) {
+        animationFrame = window.requestAnimationFrame(render)
+      }
+      if (previousFrame && timestamp - previousFrame < FRAME_INTERVAL_MS) return
+      previousFrame = timestamp
+      currentMode += (variantRef.current - currentMode) * 0.07
       gl.uniform2f(resolution, canvas.width, canvas.height)
       gl.uniform1f(time, (timestamp - startTime) / 1_000)
       gl.uniform1f(mode, currentMode)
       gl.drawArrays(gl.TRIANGLES, 0, 6)
-      if (!reduceMotion.matches && !document.hidden) {
-        animationFrame = window.requestAnimationFrame(render)
-      }
     }
 
     const resume = () => {
       window.cancelAnimationFrame(animationFrame)
       if (!document.hidden) {
         startTime = performance.now()
+        previousFrame = 0
         animationFrame = window.requestAnimationFrame(render)
       }
     }

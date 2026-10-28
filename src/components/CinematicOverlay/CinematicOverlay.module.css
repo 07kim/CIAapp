@@ -1,9 +1,5 @@
 .overlay {
   --cinematic-accent: 217 74 82;
-  --pointer-x: 68vw;
-  --pointer-y: 46vh;
-  --pointer-rx: 0deg;
-  --pointer-ry: 0deg;
   position: fixed;
   inset: 0;
   z-index: 3;
@@ -16,55 +12,11 @@
 .overlay[data-variant='surveillance'] { --cinematic-accent: 224 74 83; }
 .overlay[data-variant='access'] { --cinematic-accent: 211 91 101; }
 
-.overlay[data-variant='access'] .pointerField { opacity: 0.28; }
 .overlay[data-variant='access'] .depthField { opacity: 0.16; }
 .overlay[data-variant='access'] .scanBeam { opacity: 0.35; }
 .overlay[data-variant='access'] .telemetry,
 .overlay[data-variant='access'] .cornerIndex { opacity: 0.18; }
 .overlay[data-variant='access'] .dataMarquee { opacity: 0.35; }
-
-.pointerField {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle 12rem at var(--pointer-x) var(--pointer-y), rgb(var(--cinematic-accent) / 12%), transparent 66%),
-    radial-gradient(circle 1.5rem at var(--pointer-x) var(--pointer-y), rgb(255 255 255 / 8%), transparent 74%);
-  mix-blend-mode: screen;
-  opacity: 0.8;
-  transition: opacity 350ms ease;
-}
-
-.pointerField::before,
-.pointerField::after {
-  position: absolute;
-  content: '';
-}
-
-.pointerField::before {
-  top: var(--pointer-y);
-  left: var(--pointer-x);
-  width: min(36rem, 54vw);
-  height: min(36rem, 54vw);
-  border: 1px solid rgb(var(--cinematic-accent) / 13%);
-  border-radius: 50%;
-  box-shadow:
-    0 0 0 2.4rem rgb(var(--cinematic-accent) / 2.5%),
-    0 0 0 7rem rgb(var(--cinematic-accent) / 1.8%);
-  transform: translate(-50%, -50%) rotateX(var(--pointer-rx)) rotateY(var(--pointer-ry));
-  transition: transform 140ms ease-out;
-}
-
-.pointerField::after {
-  top: var(--pointer-y);
-  left: var(--pointer-x);
-  width: 0.45rem;
-  height: 0.45rem;
-  border: 1px solid rgb(255 255 255 / 56%);
-  background: rgb(var(--cinematic-accent) / 42%);
-  rotate: 45deg;
-  translate: -50% -50%;
-  box-shadow: 0 0 1.8rem rgb(var(--cinematic-accent) / 65%);
-}
 
 .depthField {
   position: absolute;
@@ -72,9 +24,8 @@
   left: 71%;
   width: min(44rem, 56vw);
   aspect-ratio: 1;
-  transform: translate(-50%, -50%) perspective(48rem) rotateX(calc(62deg + var(--pointer-rx))) rotateZ(-12deg);
+  transform: translate(-50%, -50%) perspective(48rem) rotateX(62deg) rotateZ(-12deg);
   transform-style: preserve-3d;
-  transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1);
   opacity: 0.42;
 }
 
@@ -197,7 +148,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pointerField::before,
   .depthField,
   .depthField::before,
   .depthField::after,
@@ -205,5 +155,4 @@
   .scanBeam,
   .telemetry i,
   .dataMarquee div { animation: none; transition: none; }
-  .pointerField { opacity: 0.32; }
 }
