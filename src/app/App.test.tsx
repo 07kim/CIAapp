@@ -110,6 +110,7 @@ describe('App', () => {
     const gateWindow = screen.getByRole('heading', { name: '監視カメラ認証' }).closest('section')
     expect(gateWindow).not.toBeNull()
     expect(within(gateWindow!).getByText('ACCESS DENIED')).toBeInTheDocument()
+    expect(within(gateWindow!).getByRole('status').className).toMatch(/popupResult/)
     act(() => vi.advanceTimersByTime(2_800))
 
     expect(screen.getByLabelText('SYSTEM PASSWORD')).toHaveValue('')

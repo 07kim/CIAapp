@@ -378,6 +378,27 @@
   position: absolute;
 }
 
+.popupResult {
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  width: min(calc(100% - 3rem), 34rem);
+  min-height: 13rem;
+  grid-template-columns: 5.4rem minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 1rem 1.35rem;
+  padding: 1.4rem 1.65rem 1.2rem;
+  border: 1px solid rgb(255 255 255 / 13%);
+  background: #0a0c10;
+  box-shadow: 0 0 0 100vmax rgb(3 4 6 / 64%), 0 1.8rem 5rem rgb(0 0 0 / 58%);
+  transform: translate(-50%, -50%);
+  clip-path: polygon(0 0, calc(100% - 0.8rem) 0, 100% 0.8rem, 100% 100%, 0 100%);
+}
+
+.popupResult .securityMatrix { width: 4.8rem; }
+.popupResult .resultMessage strong { font-size: clamp(1.35rem, 3vw, 1.9rem); }
+.popupResult .handoffBloom { display: none; }
+
 .result::before,
 .result::after { position: absolute; inset: 0; content: ''; pointer-events: none; }
 .result::before {

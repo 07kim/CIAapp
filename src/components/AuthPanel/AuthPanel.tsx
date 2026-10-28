@@ -6,7 +6,7 @@ import styles from './AuthPanel.module.css'
 
 type AuthPanelProps = {
   compact?: boolean
-  containedResult?: boolean
+  popupResult?: boolean
   eyebrow: string
   hint: string
   status: AuthenticationStatus
@@ -17,7 +17,7 @@ type AuthPanelProps = {
 
 export function AuthPanel({
   compact = false,
-  containedResult = false,
+  popupResult = false,
   eyebrow,
   hint,
   onCancel,
@@ -29,7 +29,7 @@ export function AuthPanel({
   const inputRef = useRef<HTMLInputElement>(null)
   const previousStatus = useRef(status)
   const isBusy = status !== 'idle'
-  const showResultInPanel = compact || containedResult
+  const showResultInPanel = compact || popupResult
 
   useEffect(() => {
     if (previousStatus.current === 'denied' && status === 'idle') {
@@ -47,7 +47,9 @@ export function AuthPanel({
   const resultPanel = status !== 'idle' ? (
     <div
       aria-live="assertive"
-      className={`${styles.result} ${showResultInPanel ? styles.inlineResult : ''} ${styles[status]}`}
+      className={`${styles.result} ${showResultInPanel ? styles.inlineResult : ''} ${
+        popupResult ? styles.popupResult : ''
+      } ${styles[status]}`}
       role="status"
     >
       <span aria-hidden="true" className={styles.handoffBloom} />

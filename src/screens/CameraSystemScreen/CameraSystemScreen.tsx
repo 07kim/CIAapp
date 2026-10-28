@@ -71,7 +71,17 @@ export function CameraSystemScreen({
                     isUnlocked ? styles.readyIcon : styles.lockedIcon
                   }`}
                 >
-                  <i aria-hidden="true" />
+                  {isUnlocked ? (
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                      <path d="M8.5 6.7 17 12l-8.5 5.3Z" />
+                    </svg>
+                  ) : (
+                    <svg aria-hidden="true" viewBox="0 0 24 24">
+                      <path d="M7.4 10V7.7a4.6 4.6 0 0 1 9.2 0V10" />
+                      <rect height="9.2" rx="1.4" width="13.6" x="5.2" y="10" />
+                      <path d="M12 13.2v2.8" />
+                    </svg>
+                  )}
                   <b>V{index + 1}</b>
                 </span>
                 <span>

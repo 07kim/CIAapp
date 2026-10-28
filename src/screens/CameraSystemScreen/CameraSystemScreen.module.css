@@ -186,42 +186,9 @@
   font-weight: 500;
 }
 
-.lockedIcon i::before,
-.lockedIcon i::after,
-.readyIcon i::before {
-  position: absolute;
-  left: 50%;
-  content: '';
-}
-
-.lockedIcon i::before {
-  top: 0;
-  width: 0.58rem;
-  height: 0.55rem;
-  border: 1px solid currentcolor;
-  border-bottom: 0;
-  border-radius: 0.3rem 0.3rem 0 0;
-  transform: translateX(-50%);
-}
-
-.lockedIcon i::after {
-  bottom: 0.02rem;
-  width: 0.9rem;
-  height: 0.65rem;
-  border: 1px solid currentcolor;
-  background: rgb(217 74 82 / 8%);
-  transform: translateX(-50%);
-}
-
-.readyIcon i::before {
-  top: 50%;
-  width: 0;
-  height: 0;
-  border-top: 0.46rem solid transparent;
-  border-bottom: 0.46rem solid transparent;
-  border-left: 0.72rem solid currentcolor;
-  transform: translate(-42%, -50%);
-}
+.videoIcon svg { z-index: 1; width: 1.22rem; height: 1.22rem; overflow: visible; }
+.lockedIcon svg { fill: none; stroke: currentcolor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.8; }
+.readyIcon svg { fill: currentcolor; stroke: none; }
 
 .systemIcon i {
   border: 1px solid currentcolor;
