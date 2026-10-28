@@ -167,6 +167,16 @@ export function CameraSystemScreen({
         <div
           aria-label={`${pendingFile.filename}の認証`}
           className={styles.authOverlay}
+          onKeyDown={(event) => {
+            if (event.key === 'Escape' && authenticationStatus === 'idle') {
+              onCancelArchiveAuth()
+            }
+          }}
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && authenticationStatus === 'idle') {
+              onCancelArchiveAuth()
+            }
+          }}
           role="dialog"
           aria-modal="true"
         >
@@ -174,7 +184,6 @@ export function CameraSystemScreen({
             compact
             eyebrow={`ENCRYPTED ARCHIVE / ${pendingFile.filename}`}
             hint="この映像は暗号化されています。閲覧権限を確認するパスワードを入力してください。"
-            onCancel={onCancelArchiveAuth}
             onSubmit={(answer) => onAuthenticateArchive(pendingFile, answer)}
             status={authenticationStatus}
             title="映像ファイル認証"

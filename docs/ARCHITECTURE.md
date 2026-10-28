@@ -162,7 +162,8 @@ interface AccessLogRepository {
 - 認証の成否判定は既存の純粋関数とreducerに残し、約2.8秒の視覚演出は`AuthPanel`へ閉じ込める。
 - 不正解から`idle`へ戻る状態変化を検知して入力値を消去し、同じ画面で再試行できるようにする。
 - 認証モーションはCSSで実装し、`prefers-reduced-motion`時は静的な結果表示へ切り替える。
-- 映像1・2の認証待ちは`pendingArchiveId`だけで表し、`CameraSystemScreen`の中央表示を認証専用画面へ差し替えない。`position: fixed`のモーダル暗幕を監視画面全体へ重ね、背景操作を遮断する。キャンセル時は`pendingArchiveId`だけを解除し、直前の`selectedFileId`と中央表示を維持する。
+- 映像1・2の認証待ちは`pendingArchiveId`だけで表し、`CameraSystemScreen`の中央表示を認証専用画面へ差し替えない。`position: fixed`のモーダル暗幕を監視画面全体へ重ね、背景操作を遮断する。認証前の暗幕クリックまたはEscキーでは`pendingArchiveId`だけを解除し、直前の`selectedFileId`と中央表示を維持する。認証判定中は暗幕から閉じない。
+- `AuthPanel`は入口認証では結果を従来どおり全画面Portalへ表示する。映像1・2の`compact`表示では結果を同じパネル内へ絶対配置し、パネルの位置と外形、背後の監視画面を維持する。
 
 ### 仮監視映像素材
 
@@ -205,6 +206,7 @@ interface AccessLogRepository {
 - ホーム確認の戻る／キャンセル
 - ロックされた映像と閲覧可能映像の表示差
 - ロック映像の認証モーダル背後に監視画面が維持されること
+- 個別認証は暗幕クリックで閉じ、送信後の結果は同じモーダル内に留まること
 - システムファイルが動画として扱われないこと
 
 ### ブラウザテスト

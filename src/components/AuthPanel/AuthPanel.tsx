@@ -41,6 +41,46 @@ export function AuthPanel({
     if (!isBusy) onSubmit(answer)
   }
 
+  const resultPanel = status !== 'idle' ? (
+    <div
+      aria-live="assertive"
+      className={`${styles.result} ${compact ? styles.inlineResult : ''} ${styles[status]}`}
+      role="status"
+    >
+      <span aria-hidden="true" className={styles.handoffBloom} />
+      <div aria-hidden="true" className={styles.securityMatrix}>
+        <div className={styles.orbit}><i /></div>
+        <div className={styles.verificationBox}>
+          {status === 'granted' ? (
+            <span className={styles.grantedMark}>✓</span>
+          ) : (
+            <span className={styles.deniedMark}><b>!</b></span>
+          )}
+        </div>
+        <div className={styles.signalGraph}>
+          <i /><i /><i /><i /><i /><i /><i />
+        </div>
+        <div className={styles.diagnosticWindows}>
+          <span><b>IDENTITY HASH</b>ANALYZING</span>
+          <span><b>ACCESS POLICY</b>VERIFYING</span>
+          <span><b>SECURITY NODE</b>CONNECTED</span>
+        </div>
+      </div>
+      <span className={styles.checking}>VERIFYING CREDENTIALS...</span>
+      <div className={styles.resultMessage}>
+        <strong>
+          {status === 'granted' ? 'ACCESS GRANTED' : 'ACCESS DENIED'}
+        </strong>
+        <span>
+          {status === 'granted'
+            ? 'セキュリティ認証が完了しました'
+            : 'パスワードが一致しません'}
+        </span>
+      </div>
+      <div aria-hidden="true" className={styles.progress}><i /></div>
+    </div>
+  ) : null
+
   return (
     <section
       className={`${styles.panel} ${compact ? styles.compact : ''} ${
@@ -109,45 +149,11 @@ export function AuthPanel({
         </button>
       ) : null}
 
-      {status !== 'idle' ? createPortal((
-        <div
-          aria-live="assertive"
-          className={`${styles.result} ${styles[status]}`}
-          role="status"
-        >
-          <span aria-hidden="true" className={styles.handoffBloom} />
-          <div aria-hidden="true" className={styles.securityMatrix}>
-            <div className={styles.orbit}><i /></div>
-            <div className={styles.verificationBox}>
-              {status === 'granted' ? (
-                <span className={styles.grantedMark}>✓</span>
-              ) : (
-                <span className={styles.deniedMark}><b>!</b></span>
-              )}
-            </div>
-            <div className={styles.signalGraph}>
-              <i /><i /><i /><i /><i /><i /><i />
-            </div>
-            <div className={styles.diagnosticWindows}>
-              <span><b>IDENTITY HASH</b>ANALYZING</span>
-              <span><b>ACCESS POLICY</b>VERIFYING</span>
-              <span><b>SECURITY NODE</b>CONNECTED</span>
-            </div>
-          </div>
-          <span className={styles.checking}>VERIFYING CREDENTIALS...</span>
-          <div className={styles.resultMessage}>
-            <strong>
-              {status === 'granted' ? 'ACCESS GRANTED' : 'ACCESS DENIED'}
-            </strong>
-            <span>
-              {status === 'granted'
-                ? 'セキュリティ認証が完了しました'
-                : 'パスワードが一致しません'}
-            </span>
-          </div>
-          <div aria-hidden="true" className={styles.progress}><i /></div>
-        </div>
-      ), document.body) : null}
+      {resultPanel
+        ? compact
+          ? resultPanel
+          : createPortal(resultPanel, document.body)
+        : null}
     </section>
   )
 }

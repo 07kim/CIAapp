@@ -343,6 +343,25 @@
   animation: result-iris 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
+.inlineResult {
+  position: absolute;
+  z-index: 6;
+  gap: 0.8rem;
+  padding: 1.4rem;
+  background: rgb(8 10 13 / 94%);
+}
+
+.inlineResult .securityMatrix { width: 5.6rem; }
+.inlineResult .diagnosticWindows { inset: -1rem -7rem; transform: scale(0.82); }
+.inlineResult .signalGraph { right: -3.8rem; transform: scale(0.82); }
+.inlineResult .resultMessage { inset: 1.5rem; }
+.inlineResult .resultMessage strong { font-size: clamp(1.1rem, 3vw, 1.75rem); }
+.inlineResult .progress { width: min(62%, 14rem); }
+
+.inlineResult .handoffBloom {
+  position: absolute;
+}
+
 .result::before,
 .result::after { position: absolute; inset: 0; content: ''; pointer-events: none; }
 .result::before {
@@ -497,6 +516,8 @@
   .inputRow { grid-template-columns: 1fr; }
   .inputRow::after { right: 0; }
   .inputRow button { min-height: 3rem; border-top: 1px solid rgb(224 74 83 / 32%); border-left: 0; }
+  .inlineResult .diagnosticWindows,
+  .inlineResult .signalGraph { display: none; }
 }
 
 @media (prefers-reduced-motion: reduce) {
