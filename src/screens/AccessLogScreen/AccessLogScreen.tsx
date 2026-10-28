@@ -54,16 +54,18 @@ export function AccessLogScreen({ repository = accessLogRepository }: AccessLogS
 
         <div className={styles.logPanel}>
           <header>
-            <div><span>IDENTITY TRACE</span><strong>ID-0719</strong></div>
-            <span>CHRONOLOGICAL / JST</span>
+            <div><span>社員証認証履歴</span><strong>ID-0719</strong></div>
+            <span>時刻順 / JST</span>
           </header>
+          <div aria-hidden="true" className={styles.columnLabels}>
+            <span>日時</span><span>認証</span><span>氏名 / 社員ID</span><span>状態 / 区画</span>
+          </div>
           <div aria-label="社長室入退室ログ" className={styles.rows} role="list">
             {entries.map((entry, index) => (
               <article className={styles.row} key={entry.id} role="listitem" style={{ '--row-index': index } as CSSProperties}>
                 <time dateTime={entry.timestamp}><small>{entry.date}</small><strong>{entry.time}</strong></time>
                 <i aria-hidden="true" className={styles.timelineNode} />
                 <div className={styles.person}>
-                  <small>AUTHORIZED PERSONNEL</small>
                   <strong>{entry.personName}</strong>
                   <span>{entry.personId}</span>
                 </div>
@@ -74,7 +76,7 @@ export function AccessLogScreen({ repository = accessLogRepository }: AccessLogS
               </article>
             ))}
           </div>
-          <footer><span>TRACE COMPLETE</span><strong>{entries.length} RECORDS</strong></footer>
+          <footer><span>照合完了</span><strong>{entries.length}件の記録</strong></footer>
         </div>
       </div>
 

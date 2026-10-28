@@ -16,6 +16,13 @@
 .overlay[data-variant='surveillance'] { --cinematic-accent: 224 74 83; }
 .overlay[data-variant='access'] { --cinematic-accent: 211 91 101; }
 
+.overlay[data-variant='access'] .pointerField { opacity: 0.28; }
+.overlay[data-variant='access'] .depthField { opacity: 0.16; }
+.overlay[data-variant='access'] .scanBeam { opacity: 0.35; }
+.overlay[data-variant='access'] .telemetry,
+.overlay[data-variant='access'] .cornerIndex { opacity: 0.18; }
+.overlay[data-variant='access'] .dataMarquee { opacity: 0.35; }
+
 .pointerField {
   position: absolute;
   inset: 0;
