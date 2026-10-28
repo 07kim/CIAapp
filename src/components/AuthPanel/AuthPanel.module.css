@@ -337,31 +337,57 @@
     linear-gradient(rgb(255 255 255 / 2.5%) 1px, transparent 1px),
     linear-gradient(90deg, rgb(255 255 255 / 2.5%) 1px, transparent 1px);
   background-size: 3rem 3rem;
-  mask-image: radial-gradient(circle, #000, transparent 70%);
+  opacity: 0.42;
 }
 .result::after {
-  background: conic-gradient(from 0deg at 50% 50%, transparent 0 78%, currentcolor 84%, transparent 90%);
-  opacity: 0.1;
-  animation: orbit-spin 1.8s linear infinite;
+  top: 50%;
+  bottom: auto;
+  height: 1px;
+  background: currentcolor;
+  opacity: 0.12;
+  animation: result-scanline 1.8s ease-in-out infinite alternate;
 }
 
 .handoffBloom {
   position: fixed;
-  top: 50%;
-  left: 50%;
+  inset: 0;
   z-index: 4;
-  width: 5rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: radial-gradient(circle, #e8fff0 0 4%, #72c887 5% 24%, #16351f 46%, #0b0d11 72%);
-  box-shadow: 0 0 4rem rgb(114 200 135 / 42%);
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -50%) scale(0.18);
+}
+
+.handoffBloom::before,
+.handoffBloom::after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: calc(50% + 1px);
+  background: #0b1710;
+  content: '';
+}
+
+.handoffBloom::before {
+  left: 0;
+  border-right: 1px solid rgb(114 200 135 / 62%);
+  transform: translateX(-101%);
+}
+
+.handoffBloom::after {
+  right: 0;
+  border-left: 1px solid rgb(114 200 135 / 62%);
+  transform: translateX(101%);
 }
 
 .granted .handoffBloom {
-  animation: handoff-bloom 720ms cubic-bezier(0.7, 0, 0.2, 1) 2.08s forwards;
+  animation: handoff-visible 720ms linear 2.08s forwards;
+}
+
+.granted .handoffBloom::before {
+  animation: handoff-left-close 720ms cubic-bezier(0.7, 0, 0.2, 1) 2.08s forwards;
+}
+
+.granted .handoffBloom::after {
+  animation: handoff-right-close 720ms cubic-bezier(0.7, 0, 0.2, 1) 2.08s forwards;
 }
 
 .securityMatrix {
@@ -398,7 +424,7 @@
 .diagnosticWindows span:nth-child(3) { bottom: 0; left: 0.8rem; animation-delay: 480ms; }
 
 .checking { z-index: 1; color: var(--color-text-muted); font-size: 0.56rem; animation: checking-out 200ms linear 1.18s forwards; }
-.resultMessage { position: absolute; inset: 1rem; z-index: 2; display: grid; gap: 0.9rem; align-content: center; justify-items: center; padding: 2rem; border: 1px solid rgb(255 255 255 / 6%); background: rgb(8 10 13 / 92%); opacity: 0; scale: 0.9; animation: result-message-in 360ms cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards; }
+.resultMessage { position: absolute; inset: clamp(2rem, 8vw, 6rem); z-index: 2; display: grid; gap: 0.9rem; align-content: center; justify-items: center; padding: 2rem; opacity: 0; scale: 0.9; animation: result-message-in 360ms cubic-bezier(0.16, 1, 0.3, 1) 1.25s forwards; }
 .resultMessage strong { font-size: clamp(1.35rem, 4vw, 2.3rem); letter-spacing: 0.1em; }
 .resultMessage span { color: var(--color-text-muted); font-family: var(--font-body); font-size: clamp(0.72rem, 1.5vw, 0.9rem); }
 .progress { z-index: 1; width: min(70vw, 18rem); height: 2px; overflow: hidden; background: rgb(255 255 255 / 9%); }
@@ -427,11 +453,10 @@
 @keyframes granted-resolve { to { color: var(--color-success); } }
 @keyframes denied-resolve { to { color: var(--color-danger); } }
 @keyframes denied-release { to { opacity: 0; clip-path: circle(0 at 50% 50%); } }
-@keyframes handoff-bloom {
-  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.18); }
-  22% { opacity: 1; transform: translate(-50%, -50%) scale(0.72); }
-  100% { opacity: 1; transform: translate(-50%, -50%) scale(36); }
-}
+@keyframes result-scanline { to { translate: 0 1.5rem; opacity: 0.04; } }
+@keyframes handoff-visible { to { opacity: 1; } }
+@keyframes handoff-left-close { to { transform: translateX(0); } }
+@keyframes handoff-right-close { to { transform: translateX(0); } }
 @keyframes diagnostic-in { from { opacity: 0; translate: 0 0.3rem; } to { opacity: 0.75; translate: 0; } }
 @keyframes panel-denied { 10%, 90% { translate: -0.08rem 0; } 20%, 80% { translate: 0.16rem 0; } 30%, 50%, 70% { translate: -0.3rem 0; } 40%, 60% { translate: 0.3rem 0; } }
 @keyframes panel-granted { 50% { border-color: var(--color-success); box-shadow: 0 0 3rem rgb(98 220 78 / 24%); } }
@@ -473,6 +498,8 @@
   .result,
   .result::after,
   .handoffBloom,
+  .handoffBloom::before,
+  .handoffBloom::after,
   .orbit,
   .orbit::after,
   .signalGraph i,
