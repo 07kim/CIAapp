@@ -118,12 +118,26 @@ export function CameraSystemScreen({
           <SystemFileViewer file={selectedFile} />
         ) : (
           <div className={styles.standby}>
-            <div className={styles.brandMark} aria-hidden="true">
-              <img src="/assets/brand/cia-logo-official.png" alt="" />
+            <header className={styles.standbyHeader}>
+              <span>ARCHIVE STANDBY</span>
+              <span><i aria-hidden="true" /> CAM-01 CONNECTED</span>
+            </header>
+            <div className={styles.standbyCore}>
+              <div className={styles.brandMark} aria-hidden="true">
+                <img src="/assets/brand/cia-logo-official.png" alt="" />
+              </div>
+              <span>SURVEILLANCE ARCHIVE NETWORK</span>
+              <strong>監視記録を選択してください</strong>
+              <p>CAM-01 / EXECUTIVE OFFICE / LOCAL ARCHIVE READY</p>
             </div>
-            <span>SURVEILLANCE ARCHIVE NETWORK</span>
-            <strong>監視記録を選択してください</strong>
-            <p>CAM-01 / EXECUTIVE OFFICE / LOCAL ARCHIVE READY</p>
+            <div className={styles.standbyTelemetry}>
+              <div><span>CAMERA NODE</span><strong>CAM-01</strong><small>ONLINE</small></div>
+              <div><span>RECORD RANGE</span><strong>20:00—23:55</strong><small>LOCAL TIME</small></div>
+              <div><span>ARCHIVE FILES</span><strong>5 FILES</strong><small>2 ENCRYPTED</small></div>
+              <div className={styles.standbyWave} aria-hidden="true">
+                <i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
+              </div>
+            </div>
           </div>
         )}
       </main>

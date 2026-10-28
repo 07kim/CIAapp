@@ -107,7 +107,9 @@ describe('App', () => {
 
     fireEvent.change(input, { target: { value: 'ちがいます' } })
     fireEvent.click(screen.getByRole('button', { name: '認証' }))
-    expect(screen.getByText('ACCESS DENIED')).toBeInTheDocument()
+    const gateWindow = screen.getByRole('heading', { name: '監視カメラ認証' }).closest('section')
+    expect(gateWindow).not.toBeNull()
+    expect(within(gateWindow!).getByText('ACCESS DENIED')).toBeInTheDocument()
     act(() => vi.advanceTimersByTime(2_800))
 
     expect(screen.getByLabelText('SYSTEM PASSWORD')).toHaveValue('')
@@ -115,7 +117,7 @@ describe('App', () => {
       target: { value: 'めんてなんす' },
     })
     fireEvent.click(screen.getByRole('button', { name: '認証' }))
-    expect(screen.getByText('ACCESS GRANTED')).toBeInTheDocument()
+    expect(within(gateWindow!).getByText('ACCESS GRANTED')).toBeInTheDocument()
     act(() => vi.advanceTimersByTime(2_800))
 
     expect(screen.getByText('ARCHIVE BROWSER')).toBeVisible()

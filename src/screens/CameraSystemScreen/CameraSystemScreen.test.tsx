@@ -24,6 +24,8 @@ describe('CameraSystemScreen', () => {
       screen.getByRole('dialog', { name: '20261120-2000の認証' }),
     ).toBeVisible()
     expect(screen.getByText('監視記録を選択してください')).toBeInTheDocument()
+    expect(screen.getByText('20:00—23:55')).toBeInTheDocument()
+    expect(screen.getByText('2 ENCRYPTED')).toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: /20261120-2000/ }).className,
     ).toMatch(/selected/)

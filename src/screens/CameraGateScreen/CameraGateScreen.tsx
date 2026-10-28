@@ -22,6 +22,7 @@ export function CameraGateScreen({ status, onAuthenticate }: CameraGateScreenPro
         <span>ARCHIVE NODE / CREDENTIAL TRACE / LOCAL CHANNEL / ACTIVE</span>
       </div>
       <AuthPanel
+        containedResult
         eyebrow="RESTRICTED SURVEILLANCE NETWORK"
         hint="監視アーカイブへ接続するためのシステムパスワードを入力してください。"
         onSubmit={onAuthenticate}
