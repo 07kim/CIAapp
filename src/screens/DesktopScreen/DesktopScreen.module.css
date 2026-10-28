@@ -125,14 +125,23 @@
   content: '';
 }
 
-.wallpaperBrand span {
+.wallpaperLockup {
+  position: relative;
   z-index: 1;
-  font-family: var(--font-display);
-  font-size: clamp(4.5rem, 10vw, 8.5rem);
-  font-weight: 700;
-  letter-spacing: -0.055em;
-  line-height: 0.82;
-  opacity: 0.09;
+  display: block;
+  width: min(34rem, 46vw);
+  height: clamp(5rem, 9vw, 7.4rem);
+  overflow: hidden;
+  opacity: 0.3;
+  filter: brightness(3.25) saturate(0.48) drop-shadow(0 0 2.4rem rgb(217 74 82 / 30%));
+}
+
+.wallpaperLockup img {
+  position: absolute;
+  top: -39%;
+  left: 0;
+  width: 100%;
+  max-width: none;
 }
 
 .wallpaperBrand strong,
@@ -142,7 +151,7 @@
   letter-spacing: 0.24em;
 }
 
-.wallpaperBrand strong { font-size: clamp(0.75rem, 1.35vw, 1.05rem); font-weight: 500; }
+.wallpaperBrand strong { margin-top: 1.1rem; font-size: clamp(0.68rem, 1.15vw, 0.92rem); font-weight: 500; }
 .wallpaperBrand small { margin-top: 0.65rem; font-size: 0.46rem; opacity: 0.42; }
 
 .desktopWidget {

@@ -58,6 +58,18 @@ void main() {
   float blade = smoothstep(0.47, 0.5, diagonal) - smoothstep(0.5, 0.54, diagonal);
   color += vec3(0.5, 0.045, 0.065) * blade * 0.12;
 
+  vec2 orbitCenter = p - vec2(0.32 + sin(t * 0.09) * 0.08, 0.02);
+  float orbitDistance = length(orbitCenter);
+  float orbitA = line(orbitDistance - 0.29 - sin(atan(orbitCenter.y, orbitCenter.x) * 5.0 + t * 0.42) * 0.012, 0.006);
+  float orbitB = line(orbitDistance - 0.43 - cos(atan(orbitCenter.y, orbitCenter.x) * 3.0 - t * 0.24) * 0.018, 0.004);
+  float orbitMask = smoothstep(-0.3, 0.55, orbitCenter.x) * smoothstep(-0.42, 0.38, orbitCenter.y);
+  color += vec3(0.68, 0.055, 0.09) * orbitA * orbitMask * 0.22;
+  color += vec3(0.22, 0.10, 0.14) * orbitB * orbitMask * 0.13;
+
+  float telemetry = sin((p.y + sin(p.x * 8.0 + t * 0.7) * 0.018) * 62.0 - t * 1.8);
+  telemetry = smoothstep(0.91, 0.99, telemetry) * smoothstep(0.22, 0.65, abs(p.x));
+  color += vec3(0.58, 0.05, 0.08) * telemetry * 0.055;
+
   vec2 gridUv = uv * vec2(18.0, 10.0);
   vec2 gridDistance = min(fract(gridUv), 1.0 - fract(gridUv));
   float grid = 1.0 - smoothstep(0.0, 0.035, min(gridDistance.x, gridDistance.y));

@@ -138,8 +138,10 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
       </div>
 
       <div aria-hidden="true" className={styles.wallpaperBrand}>
-        <span>CIA</span>
-        <strong>INTERNAL NETWORK</strong>
+        <span className={styles.wallpaperLockup}>
+          <img src="/assets/brand/cia-logo-official.png" alt="" />
+        </span>
+        <strong>INTERNAL NETWORK / SECURE DESKTOP</strong>
         <small>AUTHORIZED PERSONNEL ONLY</small>
       </div>
 

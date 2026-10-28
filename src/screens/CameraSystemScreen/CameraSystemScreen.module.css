@@ -286,16 +286,15 @@
 
 .brandMark {
   position: relative;
-  width: 5.2rem;
-  height: 4.7rem;
+  width: min(25rem, 54vw);
+  height: clamp(5.5rem, 11vw, 8.5rem);
   overflow: hidden;
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  filter: drop-shadow(0 0 1rem rgb(189 48 57 / 16%));
-  opacity: 0.88;
+  filter: brightness(2.35) saturate(0.62) drop-shadow(0 0 1.4rem rgb(189 48 57 / 24%));
+  opacity: 0.72;
   z-index: 1;
 }
 
-.brandMark img { position: absolute; top: -0.85rem; left: -0.85rem; width: 19.5rem; max-width: none; }
+.brandMark img { position: absolute; top: -39%; left: 0; width: 100%; max-width: none; }
 .standby > span { margin-top: 1.6rem; color: #d94a52; font-size: 0.54rem; letter-spacing: 0.16em; }
 .standby > strong { margin-top: 0.8rem; color: var(--color-text-strong); font-family: var(--font-body); font-size: clamp(1.15rem, 2.4vw, 1.65rem); font-weight: 600; }
 .standby p { margin: 0.9rem 0 0; color: var(--color-text-subtle); font-size: 0.52rem; }

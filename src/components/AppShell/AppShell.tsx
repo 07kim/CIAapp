@@ -81,12 +81,8 @@ export function AppShell({
       </div>
       <header className={styles.header}>
         <div className={styles.brand} aria-label="CIA Internet Co.">
-          <span aria-hidden="true" className={styles.brandMark}>
-            <img src="/assets/brand/cia-logo-source.png" alt="" />
-          </span>
-          <span>
-            <strong>CIA Internet Co.</strong>
-            <small>CORPORATE SECURITY NETWORK</small>
+          <span aria-hidden="true" className={styles.brandLockup}>
+            <img src="/assets/brand/cia-logo-official.png" alt="" />
           </span>
         </div>
 

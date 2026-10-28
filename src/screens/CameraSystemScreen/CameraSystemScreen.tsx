@@ -121,7 +121,7 @@ export function CameraSystemScreen({
         ) : (
           <div className={styles.standby}>
             <div className={styles.brandMark} aria-hidden="true">
-              <img src="/assets/brand/cia-logo-source.png" alt="" />
+              <img src="/assets/brand/cia-logo-official.png" alt="" />
             </div>
             <span>SURVEILLANCE ARCHIVE NETWORK</span>
             <strong>監視記録を選択してください</strong>

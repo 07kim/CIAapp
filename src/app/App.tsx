@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useReducer, useRef } from 'react'
 
 import { AppShell } from '../components/AppShell/AppShell'
+import { CinematicOverlay } from '../components/CinematicOverlay/CinematicOverlay'
 import { DynamicBackdrop, type BackdropVariant } from '../components/DynamicBackdrop/DynamicBackdrop'
 import { HomeConfirmation } from '../components/HomeConfirmation/HomeConfirmation'
 import { IdleWarning } from '../components/IdleWarning/IdleWarning'
@@ -165,6 +166,7 @@ export function App() {
   return (
     <>
       <DynamicBackdrop variant={backdropVariant} />
+      <CinematicOverlay variant={backdropVariant} />
       <div className={styles.screenStage} data-transition={transition.mode} key={state.screen}>
         <div aria-hidden="true" className={styles.transitionCurtain}>
           <span className={styles.transitionCore}><i /></span>

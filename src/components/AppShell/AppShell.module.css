@@ -92,42 +92,28 @@
 }
 
 .brand {
-  display: flex;
-  gap: 0.8rem;
-  align-items: center;
+  display: block;
+  width: 12rem;
   animation: shell-item-in 520ms ease-out 480ms both;
 }
 
-.brandMark {
+.brandLockup {
   position: relative;
-  width: 2.7rem;
-  aspect-ratio: 1;
+  display: block;
+  width: 12rem;
+  height: 3rem;
   overflow: hidden;
-  clip-path: polygon(50% 0, 100% 100%, 0 100%);
-  filter: drop-shadow(0 0 0.4rem rgb(224 74 83 / 14%));
+  filter: brightness(2.5) saturate(0.72) drop-shadow(0 0 0.7rem rgb(224 74 83 / 16%));
 }
 
-.brandMark img {
+.brandLockup img {
   position: absolute;
-  top: -0.58rem;
-  left: -0.58rem;
+  top: -4.55rem;
+  left: 0;
   width: 12rem;
   max-width: none;
 }
 
-.brand > span:last-child {
-  display: grid;
-}
-
-.brand strong {
-  color: var(--color-text-strong);
-  font-family: var(--font-display);
-  font-size: 0.92rem;
-  font-weight: 600;
-  letter-spacing: 0.08em;
-}
-
-.brand small,
 .screenTitle span {
   color: var(--color-text-subtle);
   font-family: var(--font-mono);
@@ -346,11 +332,14 @@
     min-height: 4.5rem;
   }
 
-  .brandMark {
-    width: 2.5rem;
+  .brand,
+  .brandLockup {
+    width: 9rem;
   }
 
-  .brand small,
+  .brandLockup { height: 2.5rem; }
+  .brandLockup img { top: -3.42rem; width: 9rem; }
+
   .controls time {
     display: none;
   }
