@@ -346,20 +346,33 @@
 .inlineResult {
   position: absolute;
   z-index: 6;
-  gap: 0.8rem;
-  padding: 1.4rem;
-  background: rgb(8 10 13 / 94%);
+  display: grid;
+  grid-template-columns: minmax(6.5rem, 27%) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 1.3rem 2rem;
+  padding: 2rem 2.4rem 1.6rem;
+  place-content: stretch;
+  place-items: center;
+  background: #080a0d;
 }
 
-.inlineResult .securityMatrix { width: 5.6rem; }
-.inlineResult .diagnosticWindows { inset: -1rem -7rem; transform: scale(0.82); }
-.inlineResult .signalGraph { right: -3.8rem; transform: scale(0.82); }
-.inlineResult .securityMatrix,
-.inlineResult .checking,
-.inlineResult .progress { translate: 0 1.6rem; }
-.inlineResult .resultMessage { inset: 1rem 1.5rem auto; }
-.inlineResult .resultMessage strong { font-size: clamp(1.1rem, 3vw, 1.75rem); }
-.inlineResult .progress { width: min(62%, 14rem); }
+.inlineResult .securityMatrix { grid-column: 1; grid-row: 1; width: 5.8rem; translate: 0; }
+.inlineResult .diagnosticWindows,
+.inlineResult .signalGraph { display: none; }
+.inlineResult .checking { grid-column: 2; grid-row: 1; justify-self: start; translate: 0; }
+.inlineResult .resultMessage {
+  position: static;
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: stretch;
+  justify-items: start;
+  gap: 0.6rem;
+  padding: 0;
+  text-align: left;
+}
+.inlineResult .resultMessage strong { font-size: clamp(1.45rem, 3.8vw, 2.3rem); letter-spacing: 0.06em; }
+.inlineResult .resultMessage span { text-align: left; }
+.inlineResult .progress { grid-column: 1 / -1; grid-row: 2; width: 100%; translate: 0; }
 
 .inlineResult .handoffBloom {
   position: absolute;
@@ -524,6 +537,9 @@
   .inputRow button { min-height: 3rem; border-top: 1px solid rgb(224 74 83 / 32%); border-left: 0; }
   .inlineResult .diagnosticWindows,
   .inlineResult .signalGraph { display: none; }
+  .inlineResult { grid-template-columns: 4.8rem minmax(0, 1fr); gap: 1rem; padding: 1.2rem; }
+  .inlineResult .securityMatrix { width: 4.5rem; }
+  .inlineResult .resultMessage strong { font-size: clamp(1.1rem, 6vw, 1.55rem); }
 }
 
 @media (max-height: 640px) {

@@ -66,7 +66,11 @@ export function CameraSystemScreen({
                 style={{ '--file-index': index } as CSSProperties}
                 type="button"
               >
-                <span className={`${styles.fileIcon} ${styles.videoIcon}`}>
+                <span
+                  className={`${styles.fileIcon} ${styles.videoIcon} ${
+                    isUnlocked ? styles.readyIcon : styles.lockedIcon
+                  }`}
+                >
                   <i aria-hidden="true" />
                   <b>V{index + 1}</b>
                 </span>

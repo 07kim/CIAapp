@@ -135,9 +135,9 @@
 
 .browser button:hover,
 .browser button:focus-visible { border-color: rgb(255 255 255 / 9%); outline: 0; background: rgb(255 255 255 / 4%); }
-.browser .selected { position: relative; overflow: hidden; border-color: rgb(224 74 83 / 28%); background: linear-gradient(90deg, rgb(189 48 57 / 12%), rgb(255 255 255 / 2%)); box-shadow: inset 2px 0 #d94a52; }
+.browser .selected { position: relative; overflow: hidden; border-color: rgb(224 74 83 / 42%); background: rgb(189 48 57 / 10%); box-shadow: inset 0 0 0 1px rgb(217 74 82 / 10%); }
 .browser .selected::after { position: absolute; inset: 0; background: linear-gradient(105deg, transparent 30%, rgb(255 255 255 / 7%) 50%, transparent 70%); content: ''; transform: translate3d(-110%, 0, 0); animation: selected-scan 2.8s ease-in-out infinite; pointer-events: none; }
-.browser .selected .fileIcon { border-color: rgb(224 74 83 / 36%); background: #bd3039; color: #fff; transform: skewX(-5deg); }
+.browser .selected .fileIcon { border-color: rgb(224 74 83 / 46%); background: rgb(189 48 57 / 18%); color: #f3a0a5; }
 .browser button > span:nth-child(2) { display: grid; min-width: 0; }
 .browser button strong { overflow: hidden; color: var(--color-text-strong); font-size: 0.67rem; font-weight: 550; text-overflow: ellipsis; }
 .browser button small { margin-top: 0.28rem; color: var(--color-text-subtle); font-size: 0.49rem; }
@@ -186,24 +186,42 @@
   font-weight: 500;
 }
 
-.videoIcon i {
-  border: 1px solid currentcolor;
-  border-radius: 50%;
-  box-shadow: inset 0 0 0 0.18rem transparent;
-}
-
-.videoIcon i::before,
-.videoIcon i::after {
+.lockedIcon i::before,
+.lockedIcon i::after,
+.readyIcon i::before {
   position: absolute;
-  top: 50%;
   left: 50%;
-  background: currentcolor;
   content: '';
-  transform: translate(-50%, -50%);
 }
 
-.videoIcon i::before { width: 1.35rem; height: 1px; }
-.videoIcon i::after { width: 1px; height: 1.35rem; }
+.lockedIcon i::before {
+  top: 0;
+  width: 0.58rem;
+  height: 0.55rem;
+  border: 1px solid currentcolor;
+  border-bottom: 0;
+  border-radius: 0.3rem 0.3rem 0 0;
+  transform: translateX(-50%);
+}
+
+.lockedIcon i::after {
+  bottom: 0.02rem;
+  width: 0.9rem;
+  height: 0.65rem;
+  border: 1px solid currentcolor;
+  background: rgb(217 74 82 / 8%);
+  transform: translateX(-50%);
+}
+
+.readyIcon i::before {
+  top: 50%;
+  width: 0;
+  height: 0;
+  border-top: 0.46rem solid transparent;
+  border-bottom: 0.46rem solid transparent;
+  border-left: 0.72rem solid currentcolor;
+  transform: translate(-42%, -50%);
+}
 
 .systemIcon i {
   border: 1px solid currentcolor;
