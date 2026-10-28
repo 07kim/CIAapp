@@ -165,6 +165,7 @@ interface AccessLogRepository {
 - 入口認証の結果は入力パネル内へ小さい`popupResult`として絶対配置し、入力画面を暗幕越しに残す。映像個別認証は`inlineResult`で入力パネル全体を置き換える。どちらも左へ認証記号、右へ結果文、下へ進行表示を割り当てる。
 - 映像1・2の認証待ちは`pendingArchiveId`だけで表し、`CameraSystemScreen`の中央表示を認証専用画面へ差し替えない。`position: fixed`のモーダル暗幕を監視画面全体へ重ね、背景操作を遮断する。認証前の暗幕クリックまたはEscキーでは`pendingArchiveId`だけを解除し、直前の`selectedFileId`と中央表示を維持する。認証判定中は暗幕から閉じない。
 - `AuthPanel`の入口認証には`popupResult`、映像1・2には`compact`を指定する。`popupResult`は背景を暗くする影と小型の判定ウィンドウを表示し、`compact`は認証パネル全体の内部で結果へ切り替える。
+- 不正解結果には終了前の`opacity`・`clip-path`消去アニメーションを設定しない。reducerが約2.8秒後に`idle`へ戻すまで結果を保持し、同じReact更新で結果を外して入力状態を見せる。
 
 ### 仮監視映像素材
 

@@ -502,7 +502,7 @@
 .progress { z-index: 1; width: min(70vw, 18rem); height: 2px; overflow: hidden; background: rgb(255 255 255 / 9%); }
 .progress i { display: block; width: 100%; height: 100%; background: currentcolor; transform-origin: left; animation: verification-progress 1.12s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
 .granted { animation: result-iris 240ms cubic-bezier(0.16, 1, 0.3, 1) both, granted-resolve 180ms ease 1.08s forwards; }
-.denied { animation: result-iris 240ms cubic-bezier(0.16, 1, 0.3, 1) both, denied-resolve 180ms ease 1.08s forwards, denied-release 380ms ease 2.4s forwards; }
+.denied { animation: result-iris 240ms cubic-bezier(0.16, 1, 0.3, 1) both, denied-resolve 180ms ease 1.08s forwards; }
 .granted strong { color: var(--color-success); }
 .denied strong { color: var(--color-danger); }
 
@@ -524,7 +524,6 @@
 @keyframes result-message-in { to { opacity: 1; scale: 1; } }
 @keyframes granted-resolve { to { color: var(--color-success); } }
 @keyframes denied-resolve { to { color: var(--color-danger); } }
-@keyframes denied-release { to { opacity: 0; clip-path: circle(0 at 50% 50%); } }
 @keyframes result-scanline { to { translate: 0 1.5rem; opacity: 0.04; } }
 @keyframes handoff-visible { to { opacity: 1; } }
 @keyframes handoff-left-close { to { transform: translateX(0); } }
