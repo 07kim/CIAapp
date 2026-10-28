@@ -130,13 +130,37 @@
 [data-transition='desktop'] .transitionCore { animation: core-expand 780ms ease-out both; }
 [data-transition='desktop'] .transitionCore i { animation: core-spin 620ms linear both; }
 
-[data-transition='authentication'] .transitionCurtain::after {
-  background: conic-gradient(from 20deg at 50% 50%, #0b0d11, #b72c36 14%, #151820 21%, #0b0d11 48%, #b72c36 64%, #0b0d11 82%);
-  animation: auth-radar-release 940ms cubic-bezier(0.65, 0, 0.2, 1) both;
+[data-transition='authentication'] { animation-duration: 1.45s; }
+
+[data-transition='authentication'] .transitionCurtain {
+  background: transparent;
+  animation-duration: 1.45s;
 }
 
-[data-transition='authentication'] .transitionCore { animation: core-scan 760ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+[data-transition='authentication'] .transitionCurtain::before {
+  inset: 0 0 50%;
+  border-bottom: 1px solid rgb(183 44 54 / 64%);
+  background: #0b0d11;
+  mask-image: none;
+  animation: auth-top-open 1.36s cubic-bezier(0.72, 0, 0.18, 1) both;
+}
+
+[data-transition='authentication'] .transitionCurtain::after {
+  inset: 50% 0 0;
+  border-top: 1px solid rgb(183 44 54 / 64%);
+  background: #0b0d11;
+  animation: auth-bottom-open 1.36s cubic-bezier(0.72, 0, 0.18, 1) both;
+}
+
+[data-transition='authentication'] .transitionCore { animation: core-scan 1.08s cubic-bezier(0.22, 1, 0.36, 1) both; }
 [data-transition='authentication'] .transitionCore i { animation: core-spin 420ms linear infinite; }
+[data-transition='authentication'] .transitionLine {
+  width: 100%;
+  background: rgb(183 44 54 / 72%);
+  transform: translate(-50%, -50%) scaleX(1);
+  animation: auth-seam 1.16s ease-out both;
+}
+[data-transition='authentication'] .transitionLabel { animation-duration: 1.12s; }
 
 [data-transition='surveillance'] .transitionCurtain::after {
   background: repeating-linear-gradient(90deg, #b72c36 0 10vw, #111318 10vw 20vw);
@@ -197,8 +221,9 @@
 
 [data-transition='access'] .transitionCurtain::after {
   background:
-    repeating-linear-gradient(0deg, transparent 0 2.8rem, rgb(255 255 255 / 7%) 2.8rem calc(2.8rem + 1px)),
-    linear-gradient(135deg, #b72c36, #111318 60%);
+    repeating-linear-gradient(0deg, transparent 0 2.8rem, rgb(255 255 255 / 6%) 2.8rem calc(2.8rem + 1px)),
+    #111318;
+  border-top: 1px solid rgb(183 44 54 / 62%);
   transform-origin: 50% 100%;
   animation: trace-plane 920ms cubic-bezier(0.7, 0, 0.2, 1) both;
 }
@@ -220,10 +245,19 @@
   100% { clip-path: circle(0% at 50% 50%); }
 }
 
-@keyframes auth-radar-release {
-  0%, 30% { clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); rotate: 0deg; }
-  72% { clip-path: polygon(0 47%, 100% 47%, 100% 53%, 0 53%); rotate: 150deg; }
-  100% { clip-path: polygon(50% 50%, 50% 50%, 50% 50%, 50% 50%); rotate: 180deg; }
+@keyframes auth-top-open {
+  0%, 30% { transform: translateY(0); }
+  100% { transform: translateY(-102%); }
+}
+
+@keyframes auth-bottom-open {
+  0%, 30% { transform: translateY(0); }
+  100% { transform: translateY(102%); }
+}
+
+@keyframes auth-seam {
+  0%, 28% { opacity: 0.92; box-shadow: 0 0 1.2rem rgb(183 44 54 / 35%); }
+  100% { opacity: 0; box-shadow: 0 0 0 rgb(183 44 54 / 0%); }
 }
 
 @keyframes archive-shutters {

@@ -93,7 +93,7 @@ describe('App', () => {
     await user.dblClick(screen.getByRole('button', { name: /入退室ログ/ }))
 
     expect(
-      await screen.findByRole('heading', { name: '入退室ログ記録' }),
+      await screen.findByRole('heading', { name: '社長室 入退室ログ' }),
     ).toBeVisible()
   })
 

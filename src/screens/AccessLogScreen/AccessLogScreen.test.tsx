@@ -1,14 +1,22 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 
 import { AccessLogScreen } from './AccessLogScreen'
 
 describe('AccessLogScreen', () => {
-  it('shows provisional clue records from the repository boundary', async () => {
+  it('shows the four approved access records in chronological order', async () => {
     render(<AccessLogScreen />)
 
-    expect((await screen.findAllByText('四ツ谷 はると')).length).toBe(2)
-    expect(screen.getAllByText('一ノ瀬 なつき')).toHaveLength(2)
-    expect(screen.getByText('警備巡回端末')).toBeVisible()
-    expect(screen.getByText('23:55')).toBeVisible()
+    const log = await screen.findByRole('list', { name: '社長室入退室ログ' })
+    const rows = within(log).getAllByRole('listitem')
+
+    expect(rows).toHaveLength(4)
+    expect(rows.map((row) => row.textContent)).toEqual([
+      '2026/11/2020:00一ノ瀬 なつきID-0719入室社長室',
+      '2026/11/2020:15一ノ瀬 なつきID-0719退室社長室',
+      '2026/11/2020:30一ノ瀬 なつきID-0719入室社長室',
+      '2026/11/2020:45一ノ瀬 なつきID-0719退室社長室',
+    ])
+    expect(screen.queryByText('四ツ谷 はると')).not.toBeInTheDocument()
+    expect(screen.queryByText('23:55')).not.toBeInTheDocument()
   })
 })

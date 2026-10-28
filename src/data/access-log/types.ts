@@ -1,16 +1,14 @@
-export type AccessDirection = '入室' | '退室' | '巡回'
-export type AccessStatus = '許可' | '記録のみ'
+export type AccessDirection = '入室' | '退室'
 
 export type AccessLogEntry = {
   id: string
   timestamp: string
+  date: string
   time: string
   personId: string
   personName: string
-  department: string
   direction: AccessDirection
-  checkpoint: string
-  status: AccessStatus
+  room: string
 }
 
 export interface AccessLogRepository {

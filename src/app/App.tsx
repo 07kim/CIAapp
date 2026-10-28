@@ -152,7 +152,7 @@ export function App() {
       case 'access-log':
         return (
           <AppShell
-            title="入退室ログ記録"
+            title="社長室 入退室ログ"
             subtitle="ACCESS CONTROL LOG"
             onRequestHome={() => dispatch({ type: 'request-home' })}
           >

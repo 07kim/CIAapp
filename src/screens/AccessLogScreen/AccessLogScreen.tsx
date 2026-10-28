@@ -27,8 +27,8 @@ export function AccessLogScreen({ repository = accessLogRepository }: AccessLogS
       <div className={styles.heading}>
         <div>
           <span>ACCESS CONTROL DATABASE / LOCAL RECORD</span>
-          <h1 id="access-log-title">入退室ログ記録</h1>
-          <p>2026年11月20日・役員フロア周辺の認証記録</p>
+          <h1 id="access-log-title">社長室 入退室ログ</h1>
+          <p>2026年11月20日・社員証による入退室記録</p>
         </div>
         <div className={styles.activityPanel}>
           <div className={styles.status}>
@@ -43,35 +43,32 @@ export function AccessLogScreen({ repository = accessLogRepository }: AccessLogS
 
       <div className={styles.summary}>
         <article><i aria-hidden="true" className={styles.calendarIcon} /><span>対象日</span><strong>2026 / 11 / 20</strong></article>
-        <article><i aria-hidden="true" className={styles.zoneIcon} /><span>対象区画</span><strong>役員フロア</strong></article>
+        <article><i aria-hidden="true" className={styles.zoneIcon} /><span>対象区画</span><strong>社長室</strong></article>
         <article><i aria-hidden="true" className={styles.verifyIcon} /><span>データ整合性</span><strong>VERIFIED</strong></article>
       </div>
 
       <div className={styles.tableFrame}>
         <div className={styles.tableHeader}>
-          <span>TIME</span><span>PERSON</span><span>ACTION</span><span>CHECKPOINT</span><span>STATUS</span>
+          <span>DATE / TIME</span><span>NAME</span><span>EMPLOYEE ID</span><span>EVENT</span><span>ROOM</span>
         </div>
-        <div className={styles.rows}>
+        <div aria-label="社長室入退室ログ" className={styles.rows} role="list">
           {entries.map((entry, index) => (
-            <article className={styles.row} key={entry.id} style={{ '--row-index': index } as CSSProperties}>
-              <time dateTime={entry.timestamp}>{entry.time}</time>
+            <article className={styles.row} key={entry.id} role="listitem" style={{ '--row-index': index } as CSSProperties}>
+              <time dateTime={entry.timestamp}><small>{entry.date}</small><strong>{entry.time}</strong></time>
               <div className={styles.person}>
                 <strong>{entry.personName}</strong>
-                <small>{entry.personId} / {entry.department}</small>
               </div>
+              <span className={styles.employeeId}>{entry.personId}</span>
               <span className={styles.direction}>{entry.direction}</span>
-              <span>{entry.checkpoint}</span>
-              <span className={entry.status === '許可' ? styles.allowed : styles.recorded}>
-                {entry.status}
-              </span>
+              <span>{entry.room}</span>
             </article>
           ))}
         </div>
       </div>
 
       <footer className={styles.notice}>
-        <span>ANALYSIS NOTE</span>
-        <p>監視映像の時刻と入退室時刻を照合してください。巡回記録は社員証の入退室を示すものではありません。</p>
+        <span>READ ONLY</span>
+        <p>この記録は閲覧専用です。社員証を使用した社長室の入退室履歴を表示しています。</p>
       </footer>
     </section>
   )

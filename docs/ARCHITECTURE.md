@@ -115,15 +115,13 @@ interface AccessLogRepository {
 }
 ```
 
-候補実装:
+採用実装:
 
-- `StaticAccessLogRepository`: リポジトリ内の固定データを読む。Phase 9前の暫定ヒントログではこの実装を使用する。
-- `GasAccessLogRepository`: Google Apps ScriptのWeb APIから取得する。
-- `CachedAccessLogRepository`: オンライン取得に失敗した場合、最後に成功したデータを返す。
+- `StaticAccessLogRepository`: リポジトリ内の確定データ4件を読む。
 
-謎解き用データが固定なら、データベース、Google Sheets、GASは使用しない。運営中にスタッフがデータを変更する必要がある場合のみ、Sheets / GASを候補とする。
+イベント中にデータを更新する要件がないため、データベース、Google Sheets、GASは使用しない。日付、時刻、名前、社員ID、入退室、対象区画を型で固定し、オフラインでも同じ内容を返す。
 
-画面は`AccessLogRepository`だけを参照し、Phase 9でデータ項目や取得元が決まっても画面全体を書き直さずに済む境界を維持する。
+画面は`AccessLogRepository`だけを参照し、将来データ元を変更する場合も画面全体を書き直さずに済む境界を維持する。
 
 ## 7. オフライン方針
 

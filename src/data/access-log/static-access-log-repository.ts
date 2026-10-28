@@ -1,66 +1,51 @@
 import type { AccessLogEntry, AccessLogRepository } from './types'
 
-export const provisionalAccessLogs: AccessLogEntry[] = [
+export const eventAccessLogs: AccessLogEntry[] = [
   {
-    id: 'log-1948',
-    timestamp: '2026/11/20 19:48:32',
-    time: '19:48',
-    personId: 'CIA-0417',
-    personName: '四ツ谷 はると',
-    department: 'システム管理部',
-    direction: '入室',
-    checkpoint: '役員フロア 東側入口',
-    status: '許可',
-  },
-  {
-    id: 'log-2022',
-    timestamp: '2026/11/20 20:22:06',
-    time: '20:22',
-    personId: 'CIA-0417',
-    personName: '四ツ谷 はると',
-    department: 'システム管理部',
-    direction: '退室',
-    checkpoint: '役員フロア 東側入口',
-    status: '許可',
-  },
-  {
-    id: 'log-2029',
-    timestamp: '2026/11/20 20:29:41',
-    time: '20:29',
-    personId: 'CIA-0831',
+    id: 'log-2000',
+    timestamp: '2026-11-20T20:00:00+09:00',
+    date: '2026/11/20',
+    time: '20:00',
+    personId: 'ID-0719',
     personName: '一ノ瀬 なつき',
-    department: '施設管理部',
     direction: '入室',
-    checkpoint: '役員フロア 清掃員入口',
-    status: '許可',
+    room: '社長室',
   },
   {
-    id: 'log-2046',
-    timestamp: '2026/11/20 20:46:11',
-    time: '20:46',
-    personId: 'CIA-0831',
+    id: 'log-2015',
+    timestamp: '2026-11-20T20:15:00+09:00',
+    date: '2026/11/20',
+    time: '20:15',
+    personId: 'ID-0719',
     personName: '一ノ瀬 なつき',
-    department: '施設管理部',
     direction: '退室',
-    checkpoint: '役員フロア 清掃員入口',
-    status: '許可',
+    room: '社長室',
   },
   {
-    id: 'log-2355',
-    timestamp: '2026/11/20 23:55:00',
-    time: '23:55',
-    personId: 'SEC-PATROL',
-    personName: '警備巡回端末',
-    department: '警備室',
-    direction: '巡回',
-    checkpoint: '役員フロア 廊下',
-    status: '記録のみ',
+    id: 'log-2030',
+    timestamp: '2026-11-20T20:30:00+09:00',
+    date: '2026/11/20',
+    time: '20:30',
+    personId: 'ID-0719',
+    personName: '一ノ瀬 なつき',
+    direction: '入室',
+    room: '社長室',
+  },
+  {
+    id: 'log-2045',
+    timestamp: '2026-11-20T20:45:00+09:00',
+    date: '2026/11/20',
+    time: '20:45',
+    personId: 'ID-0719',
+    personName: '一ノ瀬 なつき',
+    direction: '退室',
+    room: '社長室',
   },
 ]
 
 export class StaticAccessLogRepository implements AccessLogRepository {
   async list() {
-    return provisionalAccessLogs
+    return eventAccessLogs
   }
 }
 
