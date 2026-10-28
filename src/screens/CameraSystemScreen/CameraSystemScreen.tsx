@@ -56,7 +56,11 @@ export function CameraSystemScreen({
             const isUnlocked = !file.locked || unlockedArchiveIds.includes(file.id)
             return (
               <button
-                className={selectedFileId === file.id ? styles.selected : ''}
+                className={
+                  selectedFileId === file.id || pendingArchiveId === file.id
+                    ? styles.selected
+                    : ''
+                }
                 key={file.id}
                 onClick={() => onSelectArchive(file)}
                 style={{ '--file-index': index } as CSSProperties}
@@ -100,17 +104,7 @@ export function CameraSystemScreen({
       </aside>
 
       <main className={styles.workspace}>
-        {pendingFile ? (
-          <div className={styles.lockedPreview} aria-hidden="true">
-            <span>ENCRYPTED ARCHIVE SELECTED</span>
-            <strong>{pendingFile.filename}</strong>
-            <dl>
-              <div><dt>RECORDED</dt><dd>{pendingFile.recordedAt}</dd></div>
-              <div><dt>LOCATION</dt><dd>{pendingFile.location}</dd></div>
-              <div><dt>STATUS</dt><dd>AUTHORIZATION REQUIRED</dd></div>
-            </dl>
-          </div>
-        ) : selectedFile?.kind === 'video' ? (
+        {selectedFile?.kind === 'video' ? (
           <VideoPlayer
             file={selectedFile}
             key={selectedFile.id}

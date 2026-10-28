@@ -4,7 +4,7 @@ import { vi } from 'vitest'
 import { CameraSystemScreen } from './CameraSystemScreen'
 
 describe('CameraSystemScreen', () => {
-  it('keeps the selected encrypted file details behind its authentication dialog', () => {
+  it('keeps the surveillance workspace visible behind its authentication dialog', () => {
     render(
       <CameraSystemScreen
         authenticationStatus="idle"
@@ -22,8 +22,10 @@ describe('CameraSystemScreen', () => {
     expect(
       screen.getByRole('dialog', { name: '20261120-2000の認証' }),
     ).toBeVisible()
-    expect(screen.getByText('ENCRYPTED ARCHIVE SELECTED')).toBeInTheDocument()
-    expect(screen.getByText('2026/11/20 20:00')).toBeInTheDocument()
-    expect(screen.getByText('AUTHORIZATION REQUIRED')).toBeInTheDocument()
+    expect(screen.getByText('監視記録を選択してください')).toBeInTheDocument()
+    expect(
+      screen.getByRole('button', { name: /20261120-2000/ }).className,
+    ).toMatch(/selected/)
+    expect(screen.queryByText('ENCRYPTED ARCHIVE SELECTED')).not.toBeInTheDocument()
   })
 })

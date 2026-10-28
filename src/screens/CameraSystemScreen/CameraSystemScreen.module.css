@@ -265,25 +265,6 @@
   animation: standby-line 4s ease-in-out infinite alternate;
 }
 
-.lockedPreview {
-  display: grid;
-  min-height: 100%;
-  align-content: end;
-  padding: clamp(2rem, 5vw, 4rem);
-  border: 1px solid rgb(255 255 255 / 6%);
-  border-radius: 0.65rem;
-  background: linear-gradient(145deg, rgb(189 48 57 / 6%), rgb(255 255 255 / 1%));
-  font-family: var(--font-mono);
-}
-
-.lockedPreview > span { color: #d94a52; font-size: 0.56rem; letter-spacing: 0.16em; }
-.lockedPreview > strong { margin-top: 0.8rem; color: var(--color-text-strong); font-size: clamp(1.2rem, 3vw, 2rem); font-weight: 600; }
-.lockedPreview dl { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; margin: 2rem 0 0; }
-.lockedPreview dl div { display: grid; gap: 0.45rem; padding-top: 0.8rem; border-top: 1px solid rgb(255 255 255 / 9%); }
-.lockedPreview dt { color: var(--color-text-subtle); font-size: 0.52rem; }
-.lockedPreview dd { margin: 0; color: var(--color-text-muted); font-size: 0.64rem; }
-.lockedPreview dl div:last-child dd { color: var(--color-danger); }
-
 .brandMark {
   position: relative;
   width: min(25rem, 54vw);
@@ -367,12 +348,28 @@
   display: grid;
   place-items: center;
   padding: 1.5rem;
-  background: rgb(6 7 9 / 72%);
-  backdrop-filter: blur(8px);
+  background: rgb(6 7 9 / 46%);
+  backdrop-filter: blur(3px) saturate(82%);
+  animation: auth-overlay-in 220ms ease-out both;
 }
+
+.authOverlay::before {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgb(217 74 82 / 10%);
+  background: linear-gradient(90deg, rgb(0 0 0 / 9%), transparent 24%, transparent 76%, rgb(0 0 0 / 9%));
+  content: '';
+  pointer-events: none;
+}
+
+.authOverlay > * { position: relative; z-index: 1; }
 
 @keyframes workspace-in {
   from { opacity: 0; translate: 1rem 0; }
+}
+
+@keyframes auth-overlay-in {
+  from { opacity: 0; }
 }
 
 @keyframes standby-line {
@@ -406,7 +403,7 @@
   .browser section { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.35rem; }
   .browser h2 { grid-column: 1 / -1; }
   .workspace { min-height: 28rem; padding: 0.8rem; }
-  .lockedPreview dl { grid-template-columns: 1fr; }
+  .authOverlay { padding: 0.75rem; }
 }
 
 @media (max-width: 480px) {
@@ -425,5 +422,6 @@
   .eventLog p,
   .liveWave i,
   .workspace > *,
-  .standby::after { animation: none; }
+  .standby::after,
+  .authOverlay { animation: none; }
 }
