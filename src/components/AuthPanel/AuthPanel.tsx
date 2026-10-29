@@ -57,7 +57,19 @@ export function AuthPanel({
         <div className={styles.orbit}><i /></div>
         <div className={styles.verificationBox}>
           {status === 'granted' ? (
-            <span className={styles.grantedMark}>✓</span>
+            compact ? (
+              <span className={styles.archiveUnlock}>
+                <svg aria-hidden="true" viewBox="0 0 48 48">
+                  <path className={styles.unlockShackleClosed} d="M14 22v-7a10 10 0 0 1 20 0v7" />
+                  <path className={styles.unlockShackleOpen} d="M14 22v-7a10 10 0 0 1 20 0v2" />
+                  <rect height="20" rx="2" width="30" x="9" y="22" />
+                  <path className={styles.unlockKeyhole} d="M24 28v7" />
+                </svg>
+                <small>ARCHIVE LOCK RELEASED</small>
+              </span>
+            ) : (
+              <span className={styles.grantedMark}>✓</span>
+            )
           ) : (
             <span className={styles.deniedMark}><b>!</b></span>
           )}

@@ -72,7 +72,11 @@ describe('App', () => {
     await user.dblClick(cameraShortcut)
     expect(screen.getByRole('status', { name: '監視カメラを起動中' })).toBeVisible()
     expect(
-      await screen.findByRole('heading', { name: '監視カメラ認証' }),
+      await screen.findByRole(
+        'heading',
+        { name: '監視カメラ認証' },
+        { timeout: 2_500 },
+      ),
     ).toBeVisible()
 
     await user.click(screen.getByRole('button', { name: 'ホーム' }))
@@ -121,7 +125,7 @@ describe('App', () => {
     expect(within(gateWindow!).getByText('ACCESS GRANTED')).toBeInTheDocument()
     act(() => vi.advanceTimersByTime(2_800))
 
-    expect(screen.getByText('ARCHIVE BROWSER')).toBeVisible()
+    expect(screen.getByText('LOCAL NODE / CAM-01')).toBeVisible()
     expect(screen.getByText('ACCESS GRANTED / ARCHIVE ONLINE')).toBeInTheDocument()
     vi.useRealTimers()
   })

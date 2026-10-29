@@ -23,8 +23,10 @@ describe('CameraSystemScreen', () => {
     expect(
       screen.getByRole('dialog', { name: '20261120-2000の認証' }),
     ).toBeVisible()
-    expect(screen.getByText('監視記録を選択してください')).toBeInTheDocument()
-    expect(screen.getByText('20:00—23:55')).toBeInTheDocument()
+    expect(screen.getByText('端末内の監視記録を選択してください')).toBeInTheDocument()
+    expect(screen.getByText('UNREGISTERED OPERATOR SESSION')).toBeInTheDocument()
+    expect(screen.getAllByText('24 NODES')).toHaveLength(2)
+    expect(screen.getAllByText('5 RECORDS').length).toBeGreaterThanOrEqual(2)
     expect(screen.getByText('2 ENCRYPTED')).toBeInTheDocument()
     expect(
       screen.getByRole('button', { name: /20261120-2000/ }).className,

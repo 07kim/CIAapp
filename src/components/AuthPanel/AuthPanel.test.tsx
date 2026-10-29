@@ -52,4 +52,20 @@ describe('AuthPanel', () => {
 
     expect(screen.getByLabelText('SYSTEM PASSWORD')).toHaveValue('')
   })
+
+  it('shows an archive lock release state for compact successful authentication', () => {
+    render(
+      <AuthPanel
+        compact
+        eyebrow="ENCRYPTED ARCHIVE"
+        hint="パスワードを入力してください。"
+        onSubmit={vi.fn()}
+        status="granted"
+        title="映像ファイル認証"
+      />,
+    )
+
+    expect(screen.getByText('ARCHIVE LOCK RELEASED')).toBeInTheDocument()
+    expect(screen.getByText('ACCESS GRANTED')).toBeInTheDocument()
+  })
 })

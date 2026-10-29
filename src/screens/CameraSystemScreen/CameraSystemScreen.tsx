@@ -46,12 +46,12 @@ export function CameraSystemScreen({
       </div>
       <aside className={styles.browser}>
         <header>
-          <span>ARCHIVE BROWSER</span>
-          <strong>記録ファイル</strong>
+          <span>LOCAL NODE / CAM-01</span>
+          <strong>端末内記録</strong>
         </header>
 
         <section>
-          <h2>監視映像 / VIDEO</h2>
+          <h2>LOCAL CACHE / 5 RECORDS</h2>
           {archiveFiles.map((file, index) => {
             const isUnlocked = !file.locked || unlockedArchiveIds.includes(file.id)
             return (
@@ -129,21 +129,50 @@ export function CameraSystemScreen({
         ) : (
           <div className={styles.standby}>
             <header className={styles.standbyHeader}>
-              <span>ARCHIVE STANDBY</span>
-              <span><i aria-hidden="true" /> CAM-01 CONNECTED</span>
+              <span>UNREGISTERED OPERATOR SESSION</span>
+              <span><i aria-hidden="true" /> LOCAL ROUTE / CAM-01</span>
             </header>
-            <div className={styles.standbyCore}>
-              <div className={styles.brandMark} aria-hidden="true">
-                <img src="/assets/brand/cia-logo-official.png" alt="" />
+
+            <div className={styles.standbyConsole}>
+              <div className={styles.nodeFabric} aria-hidden="true">
+                <header><span>CAMERA FABRIC</span><b>24 NODES</b></header>
+                <div className={styles.nodeField}>
+                  <i /><i /><i /><i /><i /><i /><i /><i />
+                  <span>CORE</span>
+                  <strong>CAM-01</strong>
+                </div>
+                <footer><span>ACTIVE ROUTE</span><b>LOCAL</b></footer>
               </div>
-              <span>SURVEILLANCE ARCHIVE NETWORK</span>
-              <strong>監視記録を選択してください</strong>
-              <p>CAM-01 / EXECUTIVE OFFICE / LOCAL ARCHIVE READY</p>
+
+              <div className={styles.standbyCore}>
+                <div className={styles.brandMark} aria-hidden="true">
+                  <img src="/assets/brand/cia-logo-official.png" alt="" />
+                </div>
+                <span>LOCAL CACHE INTERCEPT</span>
+                <strong>端末内の監視記録を選択してください</strong>
+                <p>CAM-01 / EXECUTIVE OFFICE / BUFFER MOUNTED</p>
+              </div>
+
+              <div className={styles.cacheLedger} aria-hidden="true">
+                <header><span>LOCAL BUFFER</span><b>5 RECORDS</b></header>
+                {archiveFiles.map((file, index) => (
+                  <div
+                    key={file.id}
+                    style={{ '--cache-index': index } as CSSProperties}
+                  >
+                    <i />
+                    <span>{file.time}</span>
+                    <small>{file.locked ? 'ENCRYPTED' : 'INDEXED'}</small>
+                  </div>
+                ))}
+                <footer>LAST WRITE / 23:55:00</footer>
+              </div>
             </div>
+
             <div className={styles.standbyTelemetry}>
-              <div><span>CAMERA NODE</span><strong>CAM-01</strong><small>ONLINE</small></div>
-              <div><span>RECORD RANGE</span><strong>20:00—23:55</strong><small>LOCAL TIME</small></div>
-              <div><span>ARCHIVE FILES</span><strong>5 FILES</strong><small>2 ENCRYPTED</small></div>
+              <div><span>ACTIVE NODE</span><strong>CAM-01</strong><small>LOCAL SESSION</small></div>
+              <div><span>CAMERA FABRIC</span><strong>24 NODES</strong><small>NETWORK ONLINE</small></div>
+              <div><span>LOCAL BUFFER</span><strong>5 RECORDS</strong><small>2 ENCRYPTED</small></div>
               <div className={styles.standbyWave} aria-hidden="true">
                 <i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i /><i />
               </div>
@@ -159,9 +188,9 @@ export function CameraSystemScreen({
         </header>
         <dl>
           <div><dt>CAM-01</dt><dd>ONLINE</dd></div>
-          <div><dt>ARCHIVE</dt><dd>READY</dd></div>
-          <div><dt>ENCRYPTED</dt><dd>2 FILES</dd></div>
-          <div><dt>NETWORK</dt><dd>STABLE</dd></div>
+          <div><dt>NODE FABRIC</dt><dd>24 ONLINE</dd></div>
+          <div><dt>LOCAL CACHE</dt><dd>5 RECORDS</dd></div>
+          <div><dt>SESSION</dt><dd>UNLISTED</dd></div>
         </dl>
         <div className={styles.meter}>
           <span>STORAGE LOAD</span>
