@@ -25,7 +25,10 @@ describe('CameraSystemScreen', () => {
     ).toBeVisible()
     expect(screen.getByText('端末内の監視記録を選択してください')).toBeInTheDocument()
     expect(screen.getByText('UNREGISTERED OPERATOR SESSION')).toBeInTheDocument()
-    expect(screen.getAllByText('24 NODES')).toHaveLength(2)
+    expect(screen.getByText('CAMERA FABRIC / LIVE TOPOLOGY')).toBeInTheDocument()
+    expect(screen.getByText('24 NODES ONLINE')).toBeInTheDocument()
+    expect(screen.getByText('CAM-01 / ACTIVE')).toBeInTheDocument()
+    expect(screen.getByText('OPERATOR UNLISTED')).toBeInTheDocument()
     expect(screen.getAllByText('5 RECORDS').length).toBeGreaterThanOrEqual(2)
     expect(screen.getByText('2 ENCRYPTED')).toBeInTheDocument()
     expect(

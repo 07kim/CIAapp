@@ -134,39 +134,92 @@ export function CameraSystemScreen({
             </header>
 
             <div className={styles.standbyConsole}>
-              <div className={styles.nodeFabric} aria-hidden="true">
-                <header><span>CAMERA FABRIC</span><b>24 NODES</b></header>
-                <div className={styles.nodeField}>
-                  <i /><i /><i /><i /><i /><i /><i /><i />
-                  <span>CORE</span>
-                  <strong>CAM-01</strong>
+              <aside className={styles.editorialRail} aria-hidden="true">
+                <strong>SURVEILLANCE</strong>
+                <div>
+                  <span>UNLISTED</span>
+                  <b>SESSION</b>
                 </div>
-                <footer><span>ACTIVE ROUTE</span><b>LOCAL</b></footer>
-              </div>
-
-              <div className={styles.standbyCore}>
-                <div className={styles.brandMark} aria-hidden="true">
-                  <img src="/assets/brand/cia-logo-official.png" alt="" />
+                <div>
+                  <span>ROUTE</span>
+                  <b>CAM-01</b>
                 </div>
-                <span>LOCAL CACHE INTERCEPT</span>
-                <strong>端末内の監視記録を選択してください</strong>
-                <p>CAM-01 / EXECUTIVE OFFICE / BUFFER MOUNTED</p>
-              </div>
+              </aside>
 
-              <div className={styles.cacheLedger} aria-hidden="true">
-                <header><span>LOCAL BUFFER</span><b>5 RECORDS</b></header>
-                {archiveFiles.map((file, index) => (
-                  <div
-                    key={file.id}
-                    style={{ '--cache-index': index } as CSSProperties}
-                  >
-                    <i />
-                    <span>{file.time}</span>
-                    <small>{file.locked ? 'ENCRYPTED' : 'INDEXED'}</small>
-                  </div>
-                ))}
-                <footer>LAST WRITE / 23:55:00</footer>
-              </div>
+              <section className={styles.networkMap} aria-label="社内監視カメラネットワーク">
+                <header>
+                  <span>CAMERA FABRIC / LIVE TOPOLOGY</span>
+                  <b><i aria-hidden="true" /> 24 NODES ONLINE</b>
+                </header>
+                <div className={styles.graphStage} aria-hidden="true">
+                  <svg viewBox="0 0 760 420" role="presentation">
+                    <g className={styles.graphRoutes}>
+                      <path d="M92 98 210 76 318 134 430 78 590 112 690 72" />
+                      <path d="M70 280 188 244 318 134 356 304 520 250 682 304" />
+                      <path d="M188 244 126 350 356 304 500 354 682 304" />
+                      <path d="M210 76 166 164 318 134 356 304 430 78 520 250 590 112" />
+                      <path d="M70 280 166 164 92 98M430 78 480 166 590 112M520 250 604 210 682 304" />
+                    </g>
+                    <g className={styles.graphNodes}>
+                      <circle cx="92" cy="98" r="5" /><circle cx="70" cy="280" r="4" />
+                      <circle cx="126" cy="350" r="3" /><circle cx="166" cy="164" r="4" />
+                      <circle cx="210" cy="76" r="5" /><circle cx="188" cy="244" r="5" />
+                      <circle cx="244" cy="336" r="3" /><circle cx="270" cy="196" r="3" />
+                      <circle cx="318" cy="134" r="7" /><circle cx="356" cy="304" r="5" />
+                      <circle cx="396" cy="208" r="3" /><circle cx="430" cy="78" r="5" />
+                      <circle cx="480" cy="166" r="4" /><circle cx="500" cy="354" r="3" />
+                      <circle cx="520" cy="250" r="6" /><circle cx="556" cy="322" r="3" />
+                      <circle cx="590" cy="112" r="5" /><circle cx="604" cy="210" r="4" />
+                      <circle cx="634" cy="158" r="3" /><circle cx="650" cy="252" r="3" />
+                      <circle cx="682" cy="304" r="5" /><circle cx="690" cy="72" r="3" />
+                      <circle cx="716" cy="190" r="3" /><circle cx="724" cy="354" r="3" />
+                    </g>
+                    <g className={styles.graphActive}>
+                      <circle cx="318" cy="134" r="19" />
+                      <circle cx="318" cy="134" r="5" />
+                      <path d="M318 134 396 208 520 250" />
+                    </g>
+                  </svg>
+                  <span className={styles.nodeLabel} style={{ '--x': '12%', '--y': '19%' } as CSSProperties}>ENTRY</span>
+                  <span className={styles.nodeLabel} style={{ '--x': '24%', '--y': '57%' } as CSSProperties}>OFFICE</span>
+                  <span className={`${styles.nodeLabel} ${styles.activeLabel}`} style={{ '--x': '40%', '--y': '28%' } as CSSProperties}>CAM-01 / ACTIVE</span>
+                  <span className={styles.nodeLabel} style={{ '--x': '64%', '--y': '17%' } as CSSProperties}>STORAGE</span>
+                  <span className={styles.nodeLabel} style={{ '--x': '70%', '--y': '62%' } as CSSProperties}>EXECUTIVE</span>
+                  <span className={styles.nodeLabel} style={{ '--x': '87%', '--y': '72%' } as CSSProperties}>PERIMETER</span>
+                </div>
+                <div className={styles.graphPrompt}>
+                  <span>LOCAL CACHE INTERCEPT</span>
+                  <strong>端末内の監視記録を選択してください</strong>
+                  <p>CAM-01 / EXECUTIVE OFFICE / BUFFER MOUNTED</p>
+                </div>
+              </section>
+
+              <aside className={styles.signalStack}>
+                <div className={styles.signalModule}>
+                  <span>CAMERA FABRIC</span>
+                  <strong>24</strong>
+                  <small>NODES ONLINE</small>
+                </div>
+                <div className={styles.cacheLedger} aria-hidden="true">
+                  <header><span>LOCAL BUFFER</span><b>5 RECORDS</b></header>
+                  {archiveFiles.map((file, index) => (
+                    <div
+                      key={file.id}
+                      style={{ '--cache-index': index } as CSSProperties}
+                    >
+                      <i />
+                      <span>{file.time}</span>
+                      <small>{file.locked ? 'ENCRYPTED' : 'INDEXED'}</small>
+                    </div>
+                  ))}
+                  <footer>LAST WRITE / 23:55:00</footer>
+                </div>
+                <div className={styles.signalModule}>
+                  <span>IDENTITY TRACE</span>
+                  <strong>NONE</strong>
+                  <small>OPERATOR UNLISTED</small>
+                </div>
+              </aside>
             </div>
 
             <div className={styles.standbyTelemetry}>

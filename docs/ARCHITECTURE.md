@@ -1,7 +1,7 @@
 # 技術設計書
 
 - 文書状態: Draft
-- 最終更新日: 2026-10-28
+- 最終更新日: 2026-10-29
 
 ## 1. 採用構成
 
@@ -194,6 +194,7 @@ interface AccessLogRepository {
 - 入退室ログは`AccessLogRepository`の4件を変更せず、左側の記録コンテキストと右側の時系列トレースへ表示する。狭幅では概要を上段、時系列を下段へ積み替える。
 - 監視映像未選択時の待機領域は、固定データからカメラノード、録画時刻範囲、ファイル数、暗号化数を表示し、軽量なCSS波形だけを連続描画する。新しい状態や外部取得は追加しない。
 - 待機領域の会社規模は、固定のカメラファブリック24ノードと現在のローカルバッファ5件で表す。別映像をデータとして追加せず、ノード図と診断値は操作不能な状態表示として描画する。
+- 24ノード状態図は`CameraSystemScreen`内の静的SVGとCSS Modulesで描画し、外部画像、Canvasライブラリ、追加データ取得へ依存しない。接続線と点の動きは`transform`、`opacity`、`stroke-dashoffset`に限定し、`prefers-reduced-motion`では停止する。
 - Illustratorの正式ロゴ原稿は`design/source/`へ保管し、実行時は`public/assets/brand/`の透過PNGだけを読む。透過PNGはService Workerの事前キャッシュへ含める。
 
 ## 9. テスト方針
