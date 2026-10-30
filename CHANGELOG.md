@@ -163,6 +163,7 @@
 - Phase 13をGitHubへpushし、Vercel本番が`index-BHzjgDNz.js`と`index-KAByEup5.css`を配信していることを確認。
 - 連続シークの小数値が時刻文字列へ露出しないよう、現在位置と録画時刻を整数秒へ切り捨てて表示するよう修正。
 - Phase 14の型検査、Lint、全27件の自動テスト、本番ビルドに成功。
+- Phase 14をGitHubへpushし、Vercel本番が`index-DnZD7kLG.js`と`index-KAByEup5.css`を配信していることを確認。
 
 ### Not implemented
 
