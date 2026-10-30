@@ -34,10 +34,16 @@ type NetworkNode = {
 
 const initialNetworkNodes: NetworkNode[] = [
   { id: 'entry', label: 'ENTRY', x: 92, y: 98 },
+  { id: 'floor-2', label: 'FLOOR-2', x: 210, y: 76 },
+  { id: 'lobby', label: 'LOBBY', x: 166, y: 164 },
   { id: 'office', label: 'OFFICE', x: 188, y: 244 },
   { id: 'cam-01', label: 'CAM-01 / ACTIVE', x: 318, y: 134, active: true },
   { id: 'storage', label: 'STORAGE', x: 430, y: 78 },
+  { id: 'relay-a', label: 'RELAY-A', x: 480, y: 166 },
   { id: 'executive', label: 'EXECUTIVE', x: 520, y: 250 },
+  { id: 'vault', label: 'VAULT', x: 356, y: 304 },
+  { id: 'backup', label: 'BACKUP', x: 590, y: 112 },
+  { id: 'service', label: 'SERVICE', x: 604, y: 210 },
   { id: 'perimeter', label: 'PERIMETER', x: 682, y: 304 },
 ]
 
@@ -211,23 +217,37 @@ export function CameraSystemScreen({
                     <g className={styles.graphActive}>
                       <circle cx={cameraNode.x} cy={cameraNode.y} r="19" />
                       <circle cx={cameraNode.x} cy={cameraNode.y} r="5" />
-                      {connectedNetworkNodes.map((networkNode) => (
-                        <path
-                          d={`M${cameraNode.x} ${cameraNode.y} L${networkNode.x} ${networkNode.y}`}
-                          key={networkNode.id}
-                        />
+                      {connectedNetworkNodes.map((networkNode, index) => (
+                        <g key={networkNode.id}>
+                          <path d={`M${cameraNode.x} ${cameraNode.y} L${networkNode.x} ${networkNode.y}`} />
+                          <circle className={styles.linkPulse} cx={networkNode.x} cy={networkNode.y} r="11" />
+                          <circle className={styles.routePacket} data-route-packet="true" r="2.8">
+                            <animateMotion
+                              begin={`${index * -0.19}s`}
+                              dur={`${1.35 + (index % 4) * 0.16}s`}
+                              path={`M${cameraNode.x} ${cameraNode.y} L${networkNode.x} ${networkNode.y}`}
+                              repeatCount="indefinite"
+                            />
+                          </circle>
+                        </g>
                       ))}
                     </g>
                     <g className={styles.interactiveNodes}>
                       {initialNetworkNodes.map((networkNode) => (
                         <circle
-                          aria-label={`${networkNode.label}ノードへ接続`}
+                          aria-label={networkNode.active ? 'すべてのノード接続を解除' : `${networkNode.label}ノードへ接続`}
                           aria-pressed={networkNode.active ? undefined : connectedNetworkNodeIds.includes(networkNode.id)}
                           className={`${networkNode.active ? styles.activeNode : ''} ${connectedNetworkNodeIds.includes(networkNode.id) ? styles.linkedNode : ''}`}
                           cx={networkNode.x}
                           cy={networkNode.y}
                           key={networkNode.id}
                           onClick={() => toggleNetworkNode(networkNode)}
+                          onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                              event.preventDefault()
+                              toggleNetworkNode(networkNode)
+                            }
+                          }}
                           r={networkNode.active ? 8 : 6}
                           role="button"
                           tabIndex={0}

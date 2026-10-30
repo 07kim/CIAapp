@@ -353,9 +353,22 @@
 .graphNodes circle:nth-child(3n) { animation-delay: -1.2s; }
 .graphNodes circle:nth-child(4n) { fill: #a23840; animation-delay: -2.1s; }
 .graphActive { fill: none; stroke: #e24a54; stroke-width: 1.5; }
-.graphActive circle:first-child { stroke-dasharray: 9 8; transform-box: fill-box; transform-origin: center; animation: active-orbit 6s linear infinite; }
-.graphActive circle:nth-child(2) { fill: #e24a54; stroke: none; filter: drop-shadow(0 0 0.45rem rgb(226 74 84 / 70%)); }
+.graphActive > circle:first-child { stroke-dasharray: 9 8; transform-box: fill-box; transform-origin: center; animation: active-orbit 6s linear infinite; }
+.graphActive > circle:nth-child(2) { fill: #e24a54; stroke: none; filter: drop-shadow(0 0 0.45rem rgb(226 74 84 / 70%)); }
 .graphActive path { stroke-dasharray: 1 8; stroke-linecap: round; animation: active-route 2.8s linear infinite; }
+.graphActive .linkPulse {
+  fill: none;
+  stroke: #e24a54;
+  stroke-width: 1.2;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: linked-pulse 1.55s ease-out infinite;
+}
+.graphActive .routePacket {
+  fill: #fff;
+  stroke: none;
+  filter: drop-shadow(0 0 0.4rem rgb(226 74 84 / 95%));
+}
 .interactiveNodes circle {
   fill: #777d88;
   stroke: #0a0b0e;
@@ -559,6 +572,7 @@
 @keyframes cache-read { 0%, 62% { transform: translateX(-100%); } 78%, 100% { transform: translateX(100%); } }
 @keyframes graph-route { to { stroke-dashoffset: -96; } }
 @keyframes graph-node { to { opacity: 0.35; scale: 0.72; } }
+@keyframes linked-pulse { from { opacity: 0.95; scale: 0.35; } to { opacity: 0; scale: 1.45; } }
 @keyframes active-orbit { to { rotate: 1turn; } }
 @keyframes active-route { to { stroke-dashoffset: -36; } }
 
@@ -636,4 +650,5 @@
   .cacheLedger > div::after,
   .workspace > *,
   .authOverlay { animation: none; }
+  .routePacket { display: none; }
 }
