@@ -378,6 +378,9 @@
   position: absolute;
 }
 
+.archiveTrace,
+.archiveSweep { display: none; }
+
 .popupResult {
   inset: auto;
   top: 50%;
@@ -483,21 +486,43 @@
 .archiveUnlock .unlockKeyhole { fill: none; animation: archive-key-pulse 520ms ease-out 1.42s both; }
 .archiveUnlock small { position: absolute; top: calc(100% + 0.65rem); left: 50%; color: currentcolor; font-size: 0.36rem; font-weight: 500; letter-spacing: 0.12em; opacity: 0; translate: -50% 0.3rem; white-space: nowrap; animation: archive-release-label 340ms ease-out 1.78s forwards; }
 .compact .granted .verificationBox { border-color: transparent; }
-.compact .granted::before,
-.compact .granted::after {
+.compact .granted .handoffBloom { display: none; }
+.compact .granted .archiveTrace {
   position: absolute;
-  top: 0;
-  bottom: 0;
-  z-index: 5;
-  width: 50%;
-  border-color: rgb(114 200 135 / 44%);
-  background: rgb(8 23 15 / 94%);
-  content: '';
-  opacity: 0;
+  inset: 0.55rem;
+  z-index: 7;
+  display: block;
   pointer-events: none;
 }
-.compact .granted::before { left: 0; border-right: 1px solid; transform: translateX(-102%); animation: archive-seal-left 560ms cubic-bezier(0.7, 0, 0.2, 1) 2.18s both; }
-.compact .granted::after { right: 0; border-left: 1px solid; transform: translateX(102%); animation: archive-seal-right 560ms cubic-bezier(0.7, 0, 0.2, 1) 2.18s both; }
+.archiveTrace i { position: absolute; display: block; background: var(--color-success); box-shadow: 0 0 0.8rem rgb(114 200 135 / 48%); }
+.archiveTrace i:nth-child(1),
+.archiveTrace i:nth-child(3) { right: 0; left: 0; height: 1px; transform: scaleX(0); }
+.archiveTrace i:nth-child(2),
+.archiveTrace i:nth-child(4) { top: 0; bottom: 0; width: 1px; transform: scaleY(0); }
+.archiveTrace i:nth-child(1) { top: 0; transform-origin: left; animation: archive-trace-horizontal 220ms ease-out 1.96s forwards; }
+.archiveTrace i:nth-child(2) { right: 0; transform-origin: top; animation: archive-trace-vertical 180ms ease-out 2.16s forwards; }
+.archiveTrace i:nth-child(3) { bottom: 0; transform-origin: right; animation: archive-trace-horizontal 220ms ease-out 2.32s forwards; }
+.archiveTrace i:nth-child(4) { left: 0; transform-origin: bottom; animation: archive-trace-vertical 180ms ease-out 2.5s forwards; }
+.compact .granted .archiveSweep {
+  position: absolute;
+  inset: 0.55rem;
+  z-index: 6;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+.compact .granted .archiveSweep::before {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgb(114 200 135 / 85%) 18%, rgb(114 200 135 / 85%) 82%, transparent);
+  box-shadow: 0 0 1.1rem rgb(114 200 135 / 40%);
+  content: '';
+  opacity: 0;
+  translate: 0 -1px;
+  animation: archive-sweep-down 380ms cubic-bezier(0.4, 0, 0.2, 1) 2.25s forwards;
+}
 .denied .verificationBox { border-color: transparent; }
 .deniedMark { display: grid; width: 2.5rem; aspect-ratio: 1; background: currentcolor; clip-path: polygon(50% 4%, 97% 91%, 3% 91%); place-items: center; }
 .deniedMark b { color: #101015; font-family: var(--font-mono); font-size: 1.35rem; translate: 0 0.25rem; }
@@ -546,8 +571,13 @@
 @keyframes archive-shackle-open-in { to { opacity: 1; transform: translateY(-7px) rotate(-22deg); } }
 @keyframes archive-key-pulse { 0% { opacity: 0.25; } 50% { stroke-width: 4.5; filter: drop-shadow(0 0 0.35rem currentcolor); } }
 @keyframes archive-release-label { to { opacity: 0.8; translate: -50% 0; } }
-@keyframes archive-seal-left { 0% { opacity: 0; transform: translateX(-102%); } 15%, 70% { opacity: 1; transform: translateX(0); } 100% { opacity: 1; transform: translateX(-102%); } }
-@keyframes archive-seal-right { 0% { opacity: 0; transform: translateX(102%); } 15%, 70% { opacity: 1; transform: translateX(0); } 100% { opacity: 1; transform: translateX(102%); } }
+@keyframes archive-trace-horizontal { to { transform: scaleX(1); } }
+@keyframes archive-trace-vertical { to { transform: scaleY(1); } }
+@keyframes archive-sweep-down {
+  0% { top: 0; opacity: 0; }
+  15%, 78% { opacity: 1; }
+  100% { top: 100%; opacity: 0; }
+}
 @keyframes checking-out { to { opacity: 0; } }
 @keyframes result-message-in { to { opacity: 1; scale: 1; } }
 @keyframes granted-resolve { to { color: var(--color-success); } }
@@ -635,11 +665,16 @@
   .archiveUnlock .unlockShackleOpen,
   .archiveUnlock .unlockKeyhole,
   .archiveUnlock small,
-  .compact .granted::before,
-  .compact .granted::after { animation: none; }
+  .archiveTrace i,
+  .archiveSweep::before { animation: none; }
   .archiveUnlock .unlockShackleClosed { opacity: 0; }
   .archiveUnlock .unlockShackleOpen { opacity: 1; transform: translateY(-7px) rotate(-22deg); }
   .archiveUnlock small { opacity: 0.8; translate: -50% 0; }
+  .archiveTrace i:nth-child(1),
+  .archiveTrace i:nth-child(3) { transform: scaleX(1); }
+  .archiveTrace i:nth-child(2),
+  .archiveTrace i:nth-child(4) { transform: scaleY(1); }
+  .archiveSweep { display: none !important; }
   .diagnosticWindows span { opacity: 0.75; animation: none; }
   .checking { display: none; }
   .verificationBox,

@@ -1,7 +1,7 @@
 # 技術設計書
 
 - 文書状態: Draft
-- 最終更新日: 2026-10-29
+- 最終更新日: 2026-10-30
 
 ## 1. 採用構成
 
@@ -165,7 +165,7 @@ interface AccessLogRepository {
 - 入口認証の結果は入力パネル内へ小さい`popupResult`として絶対配置し、入力画面を暗幕越しに残す。映像個別認証は`inlineResult`で入力パネル全体を置き換える。どちらも左へ認証記号、右へ結果文、下へ進行表示を割り当てる。
 - 映像1・2の認証待ちは`pendingArchiveId`だけで表し、`CameraSystemScreen`の中央表示を認証専用画面へ差し替えない。`position: fixed`のモーダル暗幕を監視画面全体へ重ね、背景操作を遮断する。認証前の暗幕クリックまたはEscキーでは`pendingArchiveId`だけを解除し、直前の`selectedFileId`と中央表示を維持する。認証判定中は暗幕から閉じない。
 - `AuthPanel`の入口認証には`popupResult`、映像1・2には`compact`を指定する。`popupResult`は背景を暗くする影と小型の判定ウィンドウを表示し、`compact`は認証パネル全体の内部で結果へ切り替える。
-- `compact`かつ`granted`の場合だけ、SVG錠前のツルを開くCSSアニメーション、`ARCHIVE LOCK RELEASED`、左右の封印面を表示する。追加の認証状態は増やさず、既存の約2.8秒の`granted`状態内で完結させる。
+- `compact`かつ`granted`の場合だけ、SVG錠前のツルを開くCSSアニメーション、`ARCHIVE LOCK RELEASED`、四辺を順に描く外周線、上から下へ通過する走査線を表示する。中央分割用の疑似要素と入口用`handoffBloom`は個別認証では無効化し、追加の認証状態を増やさず既存の約2.8秒の`granted`状態内で完結させる。
 - 不正解結果には終了前の`opacity`・`clip-path`消去アニメーションを設定しない。reducerが約2.8秒後に`idle`へ戻すまで結果を保持し、同じReact更新で結果を外して入力状態を見せる。
 
 ### 仮監視映像素材
@@ -196,6 +196,14 @@ interface AccessLogRepository {
 - 待機領域の会社規模は、固定のカメラファブリック24ノードと現在のローカルバッファ5件で表す。別映像をデータとして追加せず、ノード図と診断値は操作不能な状態表示として描画する。
 - 24ノード状態図は`CameraSystemScreen`内の静的SVGとCSS Modulesで描画し、外部画像、Canvasライブラリ、追加データ取得へ依存しない。接続線と点の動きは`transform`、`opacity`、`stroke-dashoffset`に限定し、`prefers-reduced-motion`では停止する。
 - Illustratorの正式ロゴ原稿は`design/source/`へ保管し、実行時は`public/assets/brand/`の透過PNGだけを読む。透過PNGはService Workerの事前キャッシュへ含める。
+
+### システム効果音
+
+- `useUiSounds`を効果音の単一境界とし、画面コンポーネントごとにAudioContextを生成しない。
+- 最初の`pointerdown`または`keydown`でAudioContextを生成・再開する。
+- 効果音は短いオシレーターの組み合わせで生成し、音声素材、外部CDN、通信を必要としない。
+- reducerの状態は音声の成否へ依存させない。画面、認証、動画状態の変化を監視して副作用として再生する。
+- 動画メディアの音声トラックおよび音量操作は追加しない。
 
 ## 9. テスト方針
 

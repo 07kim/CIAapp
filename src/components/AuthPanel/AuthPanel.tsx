@@ -53,6 +53,10 @@ export function AuthPanel({
       role="status"
     >
       <span aria-hidden="true" className={styles.handoffBloom} />
+      <span aria-hidden="true" className={styles.archiveTrace}>
+        <i /><i /><i /><i />
+      </span>
+      <span aria-hidden="true" className={styles.archiveSweep} />
       <div aria-hidden="true" className={styles.securityMatrix}>
         <div className={styles.orbit}><i /></div>
         <div className={styles.verificationBox}>

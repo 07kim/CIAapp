@@ -11,6 +11,7 @@ import {
   isGateAnswerCorrect,
 } from '../features/authentication/answers'
 import { useIdleReset } from '../features/idle-timeout/useIdleReset'
+import { useUiSounds } from '../features/audio/useUiSounds'
 import { AccessLogScreen } from '../screens/AccessLogScreen/AccessLogScreen'
 import { CameraGateScreen } from '../screens/CameraGateScreen/CameraGateScreen'
 import { CameraSystemScreen } from '../screens/CameraSystemScreen/CameraSystemScreen'
@@ -24,47 +25,83 @@ const AUTH_RESULT_DURATION_MS = 2_800
 export function App() {
   const [state, dispatch] = useReducer(appReducer, initialAppState)
   const authenticationTimer = useRef<number | null>(null)
+  const unlockSoundTimer = useRef<number | null>(null)
+  const previousScreen = useRef(state.screen)
+  const previousAuthenticationStatus = useRef(state.authenticationStatus)
+  const previousIdleWarning = useRef(state.isIdleWarningOpen)
+  const { playSound } = useUiSounds()
 
   useEffect(
     () => () => {
       if (authenticationTimer.current !== null) {
         window.clearTimeout(authenticationTimer.current)
       }
+      if (unlockSoundTimer.current !== null) {
+        window.clearTimeout(unlockSoundTimer.current)
+      }
     },
     [],
   )
 
+  useEffect(() => {
+    if (previousScreen.current !== state.screen && state.screen !== 'desktop') {
+      playSound('launch')
+    }
+    previousScreen.current = state.screen
+  }, [playSound, state.screen])
+
+  useEffect(() => {
+    if (previousAuthenticationStatus.current !== state.authenticationStatus) {
+      if (state.authenticationStatus === 'granted') playSound('granted')
+      if (state.authenticationStatus === 'denied') playSound('denied')
+    }
+    previousAuthenticationStatus.current = state.authenticationStatus
+  }, [playSound, state.authenticationStatus])
+
+  useEffect(() => {
+    if (!previousIdleWarning.current && state.isIdleWarningOpen) playSound('warning')
+    previousIdleWarning.current = state.isIdleWarningOpen
+  }, [playSound, state.isIdleWarningOpen])
+
   const showGateResult = useCallback((answer: string) => {
     const success = isGateAnswerCorrect(answer)
+    playSound('auth-start')
     dispatch({ type: 'show-auth-result', result: success ? 'granted' : 'denied' })
     authenticationTimer.current = window.setTimeout(() => {
       dispatch({ type: 'finish-gate-auth', success })
     }, AUTH_RESULT_DURATION_MS)
-  }, [])
+  }, [playSound])
 
   const showArchiveResult = useCallback((file: ArchiveFile, answer: string) => {
     const success = Boolean(file.answer && isArchiveAnswerCorrect(answer, file.answer))
+    playSound('auth-start')
+    if (success) {
+      unlockSoundTimer.current = window.setTimeout(() => playSound('unlock'), 1_650)
+    }
     dispatch({ type: 'show-auth-result', result: success ? 'granted' : 'denied' })
     authenticationTimer.current = window.setTimeout(() => {
       dispatch({ type: 'finish-archive-auth', fileId: file.id, success })
     }, AUTH_RESULT_DURATION_MS)
-  }, [])
+  }, [playSound])
 
   const selectArchive = useCallback(
     (file: ArchiveFile) => {
       const isUnlocked = !file.locked || state.unlockedArchiveIds.includes(file.id)
+      playSound('select')
       dispatch(
         isUnlocked
           ? { type: 'select-file', fileId: file.id }
           : { type: 'request-archive-auth', fileId: file.id },
       )
     },
-    [state.unlockedArchiveIds],
+    [playSound, state.unlockedArchiveIds],
   )
 
   const setVideoStatus = useCallback((status: VideoStatus) => {
+    if (status === 'playing') playSound('play')
+    if (status === 'paused' || status === 'ended') playSound('pause')
     dispatch({ type: 'set-video-status', status })
-  }, [])
+  }, [playSound])
 
   const showIdleWarning = useCallback(() => {
     dispatch({ type: 'show-idle-warning' })
@@ -141,7 +178,7 @@ export function App() {
               onCancelArchiveAuth={() => dispatch({ type: 'cancel-archive-auth' })}
               onSelectArchive={selectArchive}
               onSelectSystemFile={(fileId) =>
-                dispatch({ type: 'select-file', fileId })
+                { playSound('select'); dispatch({ type: 'select-file', fileId }) }
               }
               onVideoStatusChange={setVideoStatus}
               pendingArchiveId={state.pendingArchiveId}
