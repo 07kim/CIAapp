@@ -156,6 +156,7 @@
 - 仮監視映像の再生位置を1秒間隔の更新から`requestAnimationFrame`へ変更し、シークバーが小数秒単位で連続して進むよう改善。
 - 監視待機画面の主要6ノードをドラッグ可能にし、ノード移動へ接続経路とラベルが追従する診断操作を追加。配置は保存せず謎進行へ影響させない。
 - Phase 12の型検査、Lint、全27テスト、本番ビルドに成功。
+- Phase 12をGitHubへpushし、Vercel本番が`index-Bpqi-r4n.js`と`index-Ce1yYhpi.css`を配信していることを確認。
 
 ### Not implemented
 
