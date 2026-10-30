@@ -52,14 +52,22 @@ export function CameraSystemScreen({
   selectedFileId,
   unlockedArchiveIds,
 }: CameraSystemScreenProps) {
-  const [selectedNetworkNodeId, setSelectedNetworkNodeId] = useState<string | null>(null)
+  const [connectedNetworkNodeIds, setConnectedNetworkNodeIds] = useState<string[]>([])
   const selectedFile = findSurveillanceFile(selectedFileId)
   const pendingFile = archiveFiles.find((file) => file.id === pendingArchiveId) ?? null
   const cameraNode = initialNetworkNodes.find((item) => item.id === 'cam-01')!
-  const selectedNetworkNode = initialNetworkNodes.find((item) => item.id === selectedNetworkNodeId) ?? null
-  const linkedRoute = selectedNetworkNode && selectedNetworkNode.id !== cameraNode.id
-    ? `M${cameraNode.x} ${cameraNode.y} L${selectedNetworkNode.x} ${selectedNetworkNode.y}`
-    : null
+  const connectedNetworkNodes = connectedNetworkNodeIds
+    .map((id) => initialNetworkNodes.find((item) => item.id === id))
+    .filter((item): item is NetworkNode => Boolean(item))
+  const toggleNetworkNode = (networkNode: NetworkNode) => {
+    if (networkNode.active) {
+      setConnectedNetworkNodeIds([])
+      return
+    }
+    setConnectedNetworkNodeIds((current) => current.includes(networkNode.id)
+      ? current.filter((id) => id !== networkNode.id)
+      : [...current, networkNode.id])
+  }
 
   return (
     <section className={styles.system} aria-label="監視映像アーカイブ">
@@ -172,7 +180,7 @@ export function CameraSystemScreen({
               <section className={styles.networkMap} aria-label="社内監視カメラネットワーク">
                 <header>
                   <span>CAMERA FABRIC / LIVE TOPOLOGY</span>
-                  <b><i aria-hidden="true" /> {selectedNetworkNode ? `LINK / ${selectedNetworkNode.label}` : '24 NODES ONLINE'}</b>
+                  <b><i aria-hidden="true" /> {connectedNetworkNodes.length ? `LINKS / ${connectedNetworkNodes.length}` : '24 NODES ONLINE'}</b>
                 </header>
                 <div
                   aria-label="監視ネットワークノード。選択するとCAM-01から経路を接続します"
@@ -203,17 +211,23 @@ export function CameraSystemScreen({
                     <g className={styles.graphActive}>
                       <circle cx={cameraNode.x} cy={cameraNode.y} r="19" />
                       <circle cx={cameraNode.x} cy={cameraNode.y} r="5" />
-                      {linkedRoute ? <path d={linkedRoute} key={selectedNetworkNodeId} /> : null}
+                      {connectedNetworkNodes.map((networkNode) => (
+                        <path
+                          d={`M${cameraNode.x} ${cameraNode.y} L${networkNode.x} ${networkNode.y}`}
+                          key={networkNode.id}
+                        />
+                      ))}
                     </g>
                     <g className={styles.interactiveNodes}>
                       {initialNetworkNodes.map((networkNode) => (
                         <circle
                           aria-label={`${networkNode.label}ノードへ接続`}
-                          className={`${networkNode.active ? styles.activeNode : ''} ${selectedNetworkNodeId === networkNode.id ? styles.linkedNode : ''}`}
+                          aria-pressed={networkNode.active ? undefined : connectedNetworkNodeIds.includes(networkNode.id)}
+                          className={`${networkNode.active ? styles.activeNode : ''} ${connectedNetworkNodeIds.includes(networkNode.id) ? styles.linkedNode : ''}`}
                           cx={networkNode.x}
                           cy={networkNode.y}
                           key={networkNode.id}
-                          onClick={() => setSelectedNetworkNodeId(networkNode.id)}
+                          onClick={() => toggleNetworkNode(networkNode)}
                           r={networkNode.active ? 8 : 6}
                           role="button"
                           tabIndex={0}
@@ -223,14 +237,14 @@ export function CameraSystemScreen({
                   </svg>
                   {initialNetworkNodes.map((networkNode) => (
                     <span
-                      className={`${styles.nodeLabel} ${networkNode.active ? styles.activeLabel : ''} ${selectedNetworkNodeId === networkNode.id ? styles.linkedLabel : ''}`}
+                      className={`${styles.nodeLabel} ${networkNode.active ? styles.activeLabel : ''} ${connectedNetworkNodeIds.includes(networkNode.id) ? styles.linkedLabel : ''}`}
                       key={networkNode.id}
                       style={{ '--x': `${(networkNode.x / 760) * 100}%`, '--y': `${(networkNode.y / 420) * 100}%` } as CSSProperties}
                     >
                       {networkNode.label}
                     </span>
                   ))}
-                  <span className={styles.dragHint}>SELECT NODE / LINK ROUTE</span>
+                  <span className={styles.dragHint}>SELECT NODES / BUILD ROUTES</span>
                 </div>
                 <div className={styles.graphPrompt}>
                   <span>LOCAL CACHE INTERCEPT</span>

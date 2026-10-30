@@ -194,7 +194,7 @@ interface AccessLogRepository {
 - 入退室ログは`AccessLogRepository`の4件を変更せず、左側の記録コンテキストと右側の時系列トレースへ表示する。狭幅では概要を上段、時系列を下段へ積み替える。
 - 監視映像未選択時の待機領域は、固定データからカメラノード、録画時刻範囲、ファイル数、暗号化数を表示し、軽量なCSS波形だけを連続描画する。新しい状態や外部取得は追加しない。
 - 待機領域の会社規模は、固定のカメラファブリック24ノードと現在のローカルバッファ5件で表す。別映像をデータとして追加せず、主要6ノードの選択状態だけを画面内に保持する。選択は謎やロックへ影響させない。
-- 24ノード状態図は`CameraSystemScreen`内のSVGとCSS Modulesで描画し、外部画像、Canvasライブラリ、追加データ取得へ依存しない。主要6ノードをSVG上のbutton相当要素として扱い、選択時に固定の`CAM-01`座標から対象座標へ接続線を描く。ドラッグ用のポインター追跡は持たず、図全体の文字選択を無効化する。接続線と点の常時モーションは`transform`、`opacity`、`stroke-dashoffset`に限定し、`prefers-reduced-motion`では停止する。
+- 24ノード状態図は`CameraSystemScreen`内のSVGとCSS Modulesで描画し、外部画像、Canvasライブラリ、追加データ取得へ依存しない。主要6ノードをSVG上のbutton相当要素として扱い、複数選択IDを画面内の配列で保持する。選択済みの各対象へ固定の`CAM-01`座標から接続線を描き、再選択で個別解除、`CAM-01`選択ですべて解除する。ドラッグ用のポインター追跡は持たず、図全体の文字選択を無効化する。接続線と点の常時モーションは`transform`、`opacity`、`stroke-dashoffset`に限定し、`prefers-reduced-motion`では停止する。
 - 仮静止画の再生位置は`requestAnimationFrame`の経過時間から算出し、小数秒の位置をrange入力へ反映する。表示時刻は従来どおり秒単位へ整形し、視覚的なシーク進行だけを連続化する。
 - Illustratorの正式ロゴ原稿は`design/source/`へ保管し、実行時は`public/assets/brand/`の透過PNGだけを読む。透過PNGはService Workerの事前キャッシュへ含める。
 
