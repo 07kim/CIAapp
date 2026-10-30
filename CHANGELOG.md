@@ -170,6 +170,7 @@
 - 監視ネットワークの操作対象を12ノードへ拡張し、複数接続線ごとに移動する信号粒子と接続先パルスを追加。
 - ノードのEnter・Space操作、個別解除、`CAM-01`からの全解除を回帰テストへ追加。
 - Phase 16の型検査、Lint、全27件の自動テスト、本番ビルド、8経路同時接続の実ブラウザ確認に成功。
+- Phase 16をGitHubへpushし、Vercel本番が`index-zkW0LlwJ.js`と`index-BHPELOvA.css`を配信していることを確認。
 
 ### Not implemented
 
