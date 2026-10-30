@@ -1,8 +1,9 @@
 const pad = (value: number) => String(value).padStart(2, '0')
 
 export const formatPlaybackTime = (totalSeconds: number) => {
-  const minutes = Math.floor(totalSeconds / 60)
-  const seconds = totalSeconds % 60
+  const wholeSeconds = Math.floor(totalSeconds)
+  const minutes = Math.floor(wholeSeconds / 60)
+  const seconds = wholeSeconds % 60
   return `${pad(minutes)}:${pad(seconds)}`
 }
 
@@ -15,7 +16,7 @@ export const formatRecordingTimestamp = (
 
   const [, prefix, hours, minutes] = match
   const baseSeconds = Number(hours) * 3_600 + Number(minutes) * 60
-  const timeOfDay = (baseSeconds + offsetSeconds) % 86_400
+  const timeOfDay = (baseSeconds + Math.floor(offsetSeconds)) % 86_400
   const displayedHours = Math.floor(timeOfDay / 3_600)
   const displayedMinutes = Math.floor((timeOfDay % 3_600) / 60)
   const displayedSeconds = timeOfDay % 60

@@ -30,7 +30,11 @@ describe('VideoPlayer', () => {
   it('formats playback time across minute boundaries', () => {
     expect(formatPlaybackTime(0)).toBe('00:00')
     expect(formatPlaybackTime(59)).toBe('00:59')
+    expect(formatPlaybackTime(59.82)).toBe('00:59')
     expect(formatPlaybackTime(90)).toBe('01:30')
+    expect(formatRecordingTimestamp('2026/11/20 23:55', 12.84)).toBe(
+      '2026/11/20 23:55:12',
+    )
     expect(formatRecordingTimestamp('2026/11/20 23:55', 90)).toBe(
       '2026/11/20 23:56:30',
     )
