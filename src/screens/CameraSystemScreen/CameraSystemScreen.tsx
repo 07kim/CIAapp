@@ -1,4 +1,4 @@
-import { useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
+import { useState, type CSSProperties } from 'react'
 
 import type { AuthenticationStatus, VideoStatus } from '../../app/app-state'
 import { AuthPanel } from '../../components/AuthPanel/AuthPanel'
@@ -52,26 +52,14 @@ export function CameraSystemScreen({
   selectedFileId,
   unlockedArchiveIds,
 }: CameraSystemScreenProps) {
-  const [networkNodes, setNetworkNodes] = useState(initialNetworkNodes)
-  const [draggingNodeId, setDraggingNodeId] = useState<string | null>(null)
-  const graphStageRef = useRef<HTMLDivElement>(null)
+  const [selectedNetworkNodeId, setSelectedNetworkNodeId] = useState<string | null>(null)
   const selectedFile = findSurveillanceFile(selectedFileId)
   const pendingFile = archiveFiles.find((file) => file.id === pendingArchiveId) ?? null
-
-  const moveNetworkNode = (event: ReactPointerEvent<HTMLDivElement>) => {
-    if (!draggingNodeId || !graphStageRef.current) return
-    const bounds = graphStageRef.current.getBoundingClientRect()
-    if (!bounds.width || !bounds.height) return
-    const x = Math.min(730, Math.max(30, ((event.clientX - bounds.left) / bounds.width) * 760))
-    const y = Math.min(390, Math.max(30, ((event.clientY - bounds.top) / bounds.height) * 420))
-    setNetworkNodes((nodes) =>
-      nodes.map((node) => (node.id === draggingNodeId ? { ...node, x, y } : node)),
-    )
-  }
-
-  const node = (id: string) => networkNodes.find((item) => item.id === id)!
-  const activeRoute = `M${node('entry').x} ${node('entry').y} L${node('cam-01').x} ${node('cam-01').y} L${node('executive').x} ${node('executive').y} L${node('perimeter').x} ${node('perimeter').y}`
-  const storageRoute = `M${node('office').x} ${node('office').y} L${node('cam-01').x} ${node('cam-01').y} L${node('storage').x} ${node('storage').y}`
+  const cameraNode = initialNetworkNodes.find((item) => item.id === 'cam-01')!
+  const selectedNetworkNode = initialNetworkNodes.find((item) => item.id === selectedNetworkNodeId) ?? null
+  const linkedRoute = selectedNetworkNode && selectedNetworkNode.id !== cameraNode.id
+    ? `M${cameraNode.x} ${cameraNode.y} L${selectedNetworkNode.x} ${selectedNetworkNode.y}`
+    : null
 
   return (
     <section className={styles.system} aria-label="監視映像アーカイブ">
@@ -184,15 +172,11 @@ export function CameraSystemScreen({
               <section className={styles.networkMap} aria-label="社内監視カメラネットワーク">
                 <header>
                   <span>CAMERA FABRIC / LIVE TOPOLOGY</span>
-                  <b><i aria-hidden="true" /> 24 NODES ONLINE</b>
+                  <b><i aria-hidden="true" /> {selectedNetworkNode ? `LINK / ${selectedNetworkNode.label}` : '24 NODES ONLINE'}</b>
                 </header>
                 <div
-                  aria-label="監視ネットワークノード。ドラッグして配置を確認できます"
+                  aria-label="監視ネットワークノード。選択するとCAM-01から経路を接続します"
                   className={styles.graphStage}
-                  onPointerCancel={() => setDraggingNodeId(null)}
-                  onPointerMove={moveNetworkNode}
-                  onPointerUp={() => setDraggingNodeId(null)}
-                  ref={graphStageRef}
                 >
                   <svg aria-label="監視ネットワーク構成" role="group" viewBox="0 0 760 420">
                     <g className={styles.graphRoutes}>
@@ -217,22 +201,19 @@ export function CameraSystemScreen({
                       <circle cx="716" cy="190" r="3" /><circle cx="724" cy="354" r="3" />
                     </g>
                     <g className={styles.graphActive}>
-                      <path d={activeRoute} />
-                      <path d={storageRoute} />
+                      <circle cx={cameraNode.x} cy={cameraNode.y} r="19" />
+                      <circle cx={cameraNode.x} cy={cameraNode.y} r="5" />
+                      {linkedRoute ? <path d={linkedRoute} key={selectedNetworkNodeId} /> : null}
                     </g>
-                    <g className={styles.draggableNodes}>
-                      {networkNodes.map((networkNode) => (
+                    <g className={styles.interactiveNodes}>
+                      {initialNetworkNodes.map((networkNode) => (
                         <circle
-                          aria-label={`${networkNode.label}ノードを移動`}
-                          className={networkNode.active ? styles.activeNode : undefined}
+                          aria-label={`${networkNode.label}ノードへ接続`}
+                          className={`${networkNode.active ? styles.activeNode : ''} ${selectedNetworkNodeId === networkNode.id ? styles.linkedNode : ''}`}
                           cx={networkNode.x}
                           cy={networkNode.y}
                           key={networkNode.id}
-                          onPointerDown={(event) => {
-                            event.preventDefault()
-                            event.currentTarget.setPointerCapture(event.pointerId)
-                            setDraggingNodeId(networkNode.id)
-                          }}
+                          onClick={() => setSelectedNetworkNodeId(networkNode.id)}
                           r={networkNode.active ? 8 : 6}
                           role="button"
                           tabIndex={0}
@@ -240,16 +221,16 @@ export function CameraSystemScreen({
                       ))}
                     </g>
                   </svg>
-                  {networkNodes.map((networkNode) => (
+                  {initialNetworkNodes.map((networkNode) => (
                     <span
-                      className={`${styles.nodeLabel} ${networkNode.active ? styles.activeLabel : ''}`}
+                      className={`${styles.nodeLabel} ${networkNode.active ? styles.activeLabel : ''} ${selectedNetworkNodeId === networkNode.id ? styles.linkedLabel : ''}`}
                       key={networkNode.id}
                       style={{ '--x': `${(networkNode.x / 760) * 100}%`, '--y': `${(networkNode.y / 420) * 100}%` } as CSSProperties}
                     >
                       {networkNode.label}
                     </span>
                   ))}
-                  <span className={styles.dragHint}>DRAG NODE / ROUTE INSPECTION</span>
+                  <span className={styles.dragHint}>SELECT NODE / LINK ROUTE</span>
                 </div>
                 <div className={styles.graphPrompt}>
                   <span>LOCAL CACHE INTERCEPT</span>

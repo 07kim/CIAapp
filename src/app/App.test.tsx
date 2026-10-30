@@ -21,7 +21,7 @@ describe('App', () => {
     expect(screen.getByText('DESKTOP SESSION')).toBeInTheDocument()
 
     fireEvent.doubleClick(screen.getByRole('button', { name: /監視カメラ/ }))
-    act(() => vi.advanceTimersByTime(900))
+    act(() => vi.advanceTimersByTime(1_500))
 
     expect(container.querySelector('[data-transition="authentication"]')).toBeInTheDocument()
     expect(screen.getByText('CREDENTIAL GATE')).toBeInTheDocument()
@@ -97,7 +97,11 @@ describe('App', () => {
     await user.dblClick(screen.getByRole('button', { name: /入退室ログ/ }))
 
     expect(
-      await screen.findByRole('heading', { name: '社長室 入退室ログ' }),
+      await screen.findByRole(
+        'heading',
+        { name: '社長室 入退室ログ' },
+        { timeout: 2_500 },
+      ),
     ).toBeVisible()
   })
 
@@ -106,7 +110,7 @@ describe('App', () => {
     render(<App />)
 
     fireEvent.doubleClick(screen.getByRole('button', { name: /監視カメラ/ }))
-    act(() => vi.advanceTimersByTime(900))
+    act(() => vi.advanceTimersByTime(1_500))
     const input = screen.getByLabelText('SYSTEM PASSWORD')
 
     fireEvent.change(input, { target: { value: 'ちがいます' } })
@@ -135,7 +139,7 @@ describe('App', () => {
     render(<App />)
 
     fireEvent.doubleClick(screen.getByRole('button', { name: /監視カメラ/ }))
-    act(() => vi.advanceTimersByTime(900))
+    act(() => vi.advanceTimersByTime(1_500))
     fireEvent.change(screen.getByLabelText('SYSTEM PASSWORD'), {
       target: { value: 'めんてなんす' },
     })
@@ -154,7 +158,7 @@ describe('App', () => {
     render(<App />)
 
     fireEvent.doubleClick(screen.getByRole('button', { name: /入退室ログ/ }))
-    act(() => vi.advanceTimersByTime(900))
+    act(() => vi.advanceTimersByTime(1_500))
 
     act(() => vi.advanceTimersByTime(10_000))
     expect(screen.getByRole('alert')).toHaveTextContent(

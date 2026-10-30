@@ -340,7 +340,9 @@
 .graphStage {
   position: relative;
   min-height: 16rem;
-  touch-action: none;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .graphStage svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
@@ -351,19 +353,21 @@
 .graphNodes circle:nth-child(3n) { animation-delay: -1.2s; }
 .graphNodes circle:nth-child(4n) { fill: #a23840; animation-delay: -2.1s; }
 .graphActive { fill: none; stroke: #e24a54; stroke-width: 1.5; }
+.graphActive circle:first-child { stroke-dasharray: 9 8; transform-box: fill-box; transform-origin: center; animation: active-orbit 6s linear infinite; }
+.graphActive circle:nth-child(2) { fill: #e24a54; stroke: none; filter: drop-shadow(0 0 0.45rem rgb(226 74 84 / 70%)); }
 .graphActive path { stroke-dasharray: 1 8; stroke-linecap: round; animation: active-route 2.8s linear infinite; }
-.draggableNodes circle {
+.interactiveNodes circle {
   fill: #777d88;
   stroke: #0a0b0e;
   stroke-width: 5;
-  cursor: grab;
+  cursor: pointer;
   filter: drop-shadow(0 0 0.32rem rgb(255 255 255 / 16%));
   transition: fill 160ms ease, filter 160ms ease;
 }
-.draggableNodes circle:hover,
-.draggableNodes circle:focus-visible { fill: #aeb3bd; filter: drop-shadow(0 0 0.5rem rgb(217 74 82 / 36%)); outline: none; }
-.draggableNodes circle:active { cursor: grabbing; }
-.draggableNodes .activeNode { fill: #e24a54; stroke: rgb(226 74 84 / 22%); filter: drop-shadow(0 0 0.55rem rgb(226 74 84 / 72%)); }
+.interactiveNodes circle:hover,
+.interactiveNodes circle:focus-visible { fill: #aeb3bd; filter: drop-shadow(0 0 0.5rem rgb(217 74 82 / 36%)); outline: none; }
+.interactiveNodes .activeNode { fill: #e24a54; stroke: rgb(226 74 84 / 22%); filter: drop-shadow(0 0 0.55rem rgb(226 74 84 / 72%)); }
+.interactiveNodes .linkedNode { fill: #f0a0a5; stroke: rgb(226 74 84 / 42%); filter: drop-shadow(0 0 0.72rem rgb(226 74 84 / 82%)); }
 
 .nodeLabel {
   position: absolute;
@@ -378,6 +382,7 @@
 }
 
 .activeLabel { border: 1px solid rgb(226 74 84 / 44%); color: #f09096; }
+.linkedLabel { color: #fff; box-shadow: inset 0 -1px #e24a54; }
 
 .dragHint {
   position: absolute;

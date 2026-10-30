@@ -10,7 +10,7 @@ type DesktopScreenProps = {
 
 type DesktopApp = 'camera' | 'access-log'
 
-const APP_LAUNCH_DURATION_MS = 900
+const APP_LAUNCH_DURATION_MS = 1_500
 
 const desktopApps: Record<DesktopApp, { label: string; systemLabel: string }> = {
   camera: { label: '監視カメラ', systemLabel: 'SURVEILLANCE SYSTEM' },
