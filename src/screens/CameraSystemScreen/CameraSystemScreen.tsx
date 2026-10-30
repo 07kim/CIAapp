@@ -1,4 +1,4 @@
-import type { CSSProperties } from 'react'
+import { useRef, useState, type CSSProperties, type PointerEvent as ReactPointerEvent } from 'react'
 
 import type { AuthenticationStatus, VideoStatus } from '../../app/app-state'
 import { AuthPanel } from '../../components/AuthPanel/AuthPanel'
@@ -24,6 +24,23 @@ type CameraSystemScreenProps = {
   onVideoStatusChange: (status: VideoStatus) => void
 }
 
+type NetworkNode = {
+  id: string
+  label: string
+  x: number
+  y: number
+  active?: boolean
+}
+
+const initialNetworkNodes: NetworkNode[] = [
+  { id: 'entry', label: 'ENTRY', x: 92, y: 98 },
+  { id: 'office', label: 'OFFICE', x: 188, y: 244 },
+  { id: 'cam-01', label: 'CAM-01 / ACTIVE', x: 318, y: 134, active: true },
+  { id: 'storage', label: 'STORAGE', x: 430, y: 78 },
+  { id: 'executive', label: 'EXECUTIVE', x: 520, y: 250 },
+  { id: 'perimeter', label: 'PERIMETER', x: 682, y: 304 },
+]
+
 export function CameraSystemScreen({
   authenticationStatus,
   onAuthenticateArchive,
@@ -35,8 +52,26 @@ export function CameraSystemScreen({
   selectedFileId,
   unlockedArchiveIds,
 }: CameraSystemScreenProps) {
+  const [networkNodes, setNetworkNodes] = useState(initialNetworkNodes)
+  const [draggingNodeId, setDraggingNodeId] = useState<string | null>(null)
+  const graphStageRef = useRef<HTMLDivElement>(null)
   const selectedFile = findSurveillanceFile(selectedFileId)
   const pendingFile = archiveFiles.find((file) => file.id === pendingArchiveId) ?? null
+
+  const moveNetworkNode = (event: ReactPointerEvent<HTMLDivElement>) => {
+    if (!draggingNodeId || !graphStageRef.current) return
+    const bounds = graphStageRef.current.getBoundingClientRect()
+    if (!bounds.width || !bounds.height) return
+    const x = Math.min(730, Math.max(30, ((event.clientX - bounds.left) / bounds.width) * 760))
+    const y = Math.min(390, Math.max(30, ((event.clientY - bounds.top) / bounds.height) * 420))
+    setNetworkNodes((nodes) =>
+      nodes.map((node) => (node.id === draggingNodeId ? { ...node, x, y } : node)),
+    )
+  }
+
+  const node = (id: string) => networkNodes.find((item) => item.id === id)!
+  const activeRoute = `M${node('entry').x} ${node('entry').y} L${node('cam-01').x} ${node('cam-01').y} L${node('executive').x} ${node('executive').y} L${node('perimeter').x} ${node('perimeter').y}`
+  const storageRoute = `M${node('office').x} ${node('office').y} L${node('cam-01').x} ${node('cam-01').y} L${node('storage').x} ${node('storage').y}`
 
   return (
     <section className={styles.system} aria-label="監視映像アーカイブ">
@@ -151,8 +186,15 @@ export function CameraSystemScreen({
                   <span>CAMERA FABRIC / LIVE TOPOLOGY</span>
                   <b><i aria-hidden="true" /> 24 NODES ONLINE</b>
                 </header>
-                <div className={styles.graphStage} aria-hidden="true">
-                  <svg viewBox="0 0 760 420" role="presentation">
+                <div
+                  aria-label="監視ネットワークノード。ドラッグして配置を確認できます"
+                  className={styles.graphStage}
+                  onPointerCancel={() => setDraggingNodeId(null)}
+                  onPointerMove={moveNetworkNode}
+                  onPointerUp={() => setDraggingNodeId(null)}
+                  ref={graphStageRef}
+                >
+                  <svg aria-label="監視ネットワーク構成" role="group" viewBox="0 0 760 420">
                     <g className={styles.graphRoutes}>
                       <path d="M92 98 210 76 318 134 430 78 590 112 690 72" />
                       <path d="M70 280 188 244 318 134 356 304 520 250 682 304" />
@@ -175,17 +217,39 @@ export function CameraSystemScreen({
                       <circle cx="716" cy="190" r="3" /><circle cx="724" cy="354" r="3" />
                     </g>
                     <g className={styles.graphActive}>
-                      <circle cx="318" cy="134" r="19" />
-                      <circle cx="318" cy="134" r="5" />
-                      <path d="M318 134 396 208 520 250" />
+                      <path d={activeRoute} />
+                      <path d={storageRoute} />
+                    </g>
+                    <g className={styles.draggableNodes}>
+                      {networkNodes.map((networkNode) => (
+                        <circle
+                          aria-label={`${networkNode.label}ノードを移動`}
+                          className={networkNode.active ? styles.activeNode : undefined}
+                          cx={networkNode.x}
+                          cy={networkNode.y}
+                          key={networkNode.id}
+                          onPointerDown={(event) => {
+                            event.preventDefault()
+                            event.currentTarget.setPointerCapture(event.pointerId)
+                            setDraggingNodeId(networkNode.id)
+                          }}
+                          r={networkNode.active ? 8 : 6}
+                          role="button"
+                          tabIndex={0}
+                        />
+                      ))}
                     </g>
                   </svg>
-                  <span className={styles.nodeLabel} style={{ '--x': '12%', '--y': '19%' } as CSSProperties}>ENTRY</span>
-                  <span className={styles.nodeLabel} style={{ '--x': '24%', '--y': '57%' } as CSSProperties}>OFFICE</span>
-                  <span className={`${styles.nodeLabel} ${styles.activeLabel}`} style={{ '--x': '40%', '--y': '28%' } as CSSProperties}>CAM-01 / ACTIVE</span>
-                  <span className={styles.nodeLabel} style={{ '--x': '64%', '--y': '17%' } as CSSProperties}>STORAGE</span>
-                  <span className={styles.nodeLabel} style={{ '--x': '70%', '--y': '62%' } as CSSProperties}>EXECUTIVE</span>
-                  <span className={styles.nodeLabel} style={{ '--x': '87%', '--y': '72%' } as CSSProperties}>PERIMETER</span>
+                  {networkNodes.map((networkNode) => (
+                    <span
+                      className={`${styles.nodeLabel} ${networkNode.active ? styles.activeLabel : ''}`}
+                      key={networkNode.id}
+                      style={{ '--x': `${(networkNode.x / 760) * 100}%`, '--y': `${(networkNode.y / 420) * 100}%` } as CSSProperties}
+                    >
+                      {networkNode.label}
+                    </span>
+                  ))}
+                  <span className={styles.dragHint}>DRAG NODE / ROUTE INSPECTION</span>
                 </div>
                 <div className={styles.graphPrompt}>
                   <span>LOCAL CACHE INTERCEPT</span>

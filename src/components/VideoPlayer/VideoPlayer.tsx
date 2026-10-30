@@ -18,6 +18,7 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
   const [status, setStatus] = useState<VideoStatus>('idle')
   const [isFullscreen, setIsFullscreen] = useState(false)
   const playerRef = useRef<HTMLDivElement>(null)
+  const positionRef = useRef(0)
 
   useEffect(() => {
     const updateFullscreenState = () => {
@@ -30,21 +31,31 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
 
   useEffect(() => {
     if (status !== 'playing') return
-    const timer = window.setInterval(() => {
-      setPosition((current) => {
-        const next = Math.min(file.duration, current + 1)
-        if (next >= file.duration) {
-          setStatus('ended')
-          onStatusChange('ended')
-        }
-        return next
-      })
-    }, 1_000)
-    return () => window.clearInterval(timer)
+    let animationFrame = 0
+    let previousFrame: number | null = null
+    const update = (timestamp: number) => {
+      if (previousFrame === null) previousFrame = timestamp
+      const elapsed = (timestamp - previousFrame) / 1_000
+      previousFrame = timestamp
+      const next = Math.min(file.duration, positionRef.current + elapsed)
+      positionRef.current = next
+      setPosition(next)
+      if (next >= file.duration) {
+        setStatus('ended')
+        onStatusChange('ended')
+        return
+      }
+      animationFrame = window.requestAnimationFrame(update)
+    }
+    animationFrame = window.requestAnimationFrame(update)
+    return () => window.cancelAnimationFrame(animationFrame)
   }, [file.duration, onStatusChange, status])
 
   const setPlaybackStatus = (nextStatus: VideoStatus) => {
-    if (nextStatus === 'playing' && position >= file.duration) setPosition(0)
+    if (nextStatus === 'playing' && position >= file.duration) {
+      positionRef.current = 0
+      setPosition(0)
+    }
     setStatus(nextStatus)
     onStatusChange(nextStatus)
   }
@@ -95,9 +106,12 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
           max={file.duration}
           min="0"
           onChange={(event) => {
-            setPosition(Number(event.target.value))
+            const nextPosition = Number(event.target.value)
+            positionRef.current = nextPosition
+            setPosition(nextPosition)
             if (status === 'ended') setPlaybackStatus('paused')
           }}
+          step="0.01"
           type="range"
           value={position}
         />

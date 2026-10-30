@@ -28,6 +28,8 @@ describe('CameraSystemScreen', () => {
     expect(screen.getByText('CAMERA FABRIC / LIVE TOPOLOGY')).toBeInTheDocument()
     expect(screen.getByText('24 NODES ONLINE')).toBeInTheDocument()
     expect(screen.getByText('CAM-01 / ACTIVE')).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'CAM-01 / ACTIVEノードを移動' })).toBeInTheDocument()
+    expect(screen.getByText('DRAG NODE / ROUTE INSPECTION')).toBeInTheDocument()
     expect(screen.getByText('OPERATOR UNLISTED')).toBeInTheDocument()
     expect(screen.getAllByText('5 RECORDS').length).toBeGreaterThanOrEqual(2)
     expect(screen.getByText('2 ENCRYPTED')).toBeInTheDocument()

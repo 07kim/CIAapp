@@ -40,6 +40,10 @@ describe('VideoPlayer', () => {
     render(<VideoPlayer file={longArchive} onStatusChange={vi.fn()} />)
 
     expect(screen.getByText('01:30')).toBeVisible()
+    expect(screen.getByRole('slider', { name: '再生位置' })).toHaveAttribute(
+      'step',
+      '0.01',
+    )
   })
 
   it('shows the configured temporary still image', () => {
