@@ -24,6 +24,7 @@ Phase 8までのアプリ基盤を実装しています。PCホーム、監視�
 ## 設計資料
 
 - `docs/HANDOFF_GUIDE.md` — 2プロジェクト共通の目的、最新ルール、禁止事項、引き継ぎ手順
+- `docs/DESIGN_RULES_AND_PROHIBITIONS.md` — デザイン4原則、一般UI基準、過去に却下された表現の再導入禁止台帳
 - `docs/PRODUCT_SPEC.md` — 確定した製品仕様と未決定事項
 - `docs/SCREEN_FLOW.md` — 画面遷移、ロック、リセット条件
 - `docs/ARCHITECTURE.md` — 技術構成、状態管理、データ・オフライン方針

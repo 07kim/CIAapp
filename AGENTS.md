@@ -12,8 +12,9 @@ Before proposing or making changes, read:
 2. `docs/SCREEN_FLOW.md` for navigation and reset rules.
 3. `docs/ARCHITECTURE.md` for technical boundaries.
 4. `docs/DECISIONS.md` for accepted decisions and unresolved choices.
-5. `PLANS.md` for phase status and the next approved unit of work.
-6. `CHANGELOG.md` for previously delivered changes.
+5. `docs/DESIGN_RULES_AND_PROHIBITIONS.md` for visual principles and rejected patterns that must not be reintroduced.
+6. `PLANS.md` for phase status and the next approved unit of work.
+7. `CHANGELOG.md` for previously delivered changes.
 
 If these files conflict, stop and report the conflict. Do not silently choose one interpretation.
 
@@ -23,6 +24,7 @@ If these files conflict, stop and report the conflict. Do not silently choose on
 - Screen transitions and state resets belong in `docs/SCREEN_FLOW.md`.
 - Technical structure and integration boundaries belong in `docs/ARCHITECTURE.md`.
 - Important accepted or rejected choices belong in `docs/DECISIONS.md`.
+- Cross-project visual principles and rejected patterns belong in `docs/DESIGN_RULES_AND_PROHIBITIONS.md`; it indexes rules but does not override the owning product documents.
 - Work status and phase sequencing belong in `PLANS.md`.
 - Delivered changes belong in `CHANGELOG.md`.
 
