@@ -39,6 +39,7 @@ Avoid copying the same requirement into several documents. Link to the owning do
 - Do not place secrets, credentials, deployment tokens, or private sheet identifiers in the repository.
 - Preserve the approved red/black visual direction and CIA Internet Co. branding.
 - Keep Japanese as the primary UI language with short English system labels for atmosphere.
+- Apply Apple Human Interface Guidelines to shared accessibility and interaction principles. For the iPad-based `cia-self` project, treat HIG as a required platform baseline without copying Apple's visual styling; document intentional event-specific exceptions.
 - A behavior change must update its owning specification in the same change.
 - A newly fixed bug must receive a regression test when practical.
 - Record meaningful completed work in `CHANGELOG.md`.
