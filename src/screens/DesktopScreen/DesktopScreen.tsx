@@ -6,15 +6,17 @@ import styles from './DesktopScreen.module.css'
 type DesktopScreenProps = {
   onOpenAccessLog: () => void
   onOpenCamera: () => void
+  onOpenSecurityAudit: () => void
 }
 
-type DesktopApp = 'camera' | 'access-log'
+type DesktopApp = 'camera' | 'access-log' | 'security-audit'
 
 const APP_LAUNCH_DURATION_MS = 1_500
 
 const desktopApps: Record<DesktopApp, { label: string; systemLabel: string }> = {
   camera: { label: '監視カメラ', systemLabel: 'SURVEILLANCE SYSTEM' },
   'access-log': { label: '入退室ログ', systemLabel: 'ACCESS CONTROL LOG' },
+  'security-audit': { label: 'セキュリティ監査', systemLabel: 'SECURITY CORRELATION' },
 }
 
 function formatTime(date: Date) {
@@ -53,7 +55,7 @@ function getCalendarDays(date: Date) {
   ]
 }
 
-export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenProps) {
+export function DesktopScreen({ onOpenAccessLog, onOpenCamera, onOpenSecurityAudit }: DesktopScreenProps) {
   const [now, setNow] = useState(() => new Date())
   const [startOpen, setStartOpen] = useState(false)
   const [networkOpen, setNetworkOpen] = useState(false)
@@ -90,6 +92,7 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
 
   const showCamera = searchQuery.length === 0 || '監視カメラ surveillance'.includes(searchQuery.toLowerCase())
   const showAccessLog = searchQuery.length === 0 || '入退室ログ access log'.includes(searchQuery.toLowerCase())
+  const showSecurityAudit = searchQuery.length === 0 || 'セキュリティ監査 security audit correlation'.includes(searchQuery.toLowerCase())
 
   const closeDesktopPanels = (event: MouseEvent<HTMLElement>) => {
     if (event.target === event.currentTarget) {
@@ -112,8 +115,10 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
     launchTimerRef.current = window.setTimeout(() => {
       if (app === 'camera') {
         onOpenCamera()
-      } else {
+      } else if (app === 'access-log') {
         onOpenAccessLog()
+      } else {
+        onOpenSecurityAudit()
       }
     }, APP_LAUNCH_DURATION_MS)
   }
@@ -161,6 +166,13 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
           onOpen={() => launchApp('access-log')}
           systemLabel="ACCESS LOG"
         />
+        <AppIcon
+          description="決済と端末操作の相関記録"
+          icon="audit"
+          label="セキュリティ監査"
+          onOpen={() => launchApp('security-audit')}
+          systemLabel="SECURITY AUDIT"
+        />
       </div>
 
       <aside className={styles.desktopWidget} aria-label="端末状態">
@@ -195,7 +207,13 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
                 入退室ログ
               </button>
             ) : null}
-            {!showCamera && !showAccessLog ? (
+            {showSecurityAudit ? (
+              <button onClick={() => launchApp('security-audit')} type="button">
+                <span className={styles.miniIcon}>⌁</span>
+                セキュリティ監査
+              </button>
+            ) : null}
+            {!showCamera && !showAccessLog && !showSecurityAudit ? (
               <p>一致するアプリはありません</p>
             ) : null}
           </div>
@@ -267,7 +285,7 @@ export function DesktopScreen({ onOpenAccessLog, onOpenCamera }: DesktopScreenPr
         >
           <div className={styles.launchWindow}>
             <span aria-hidden="true" className={styles.launchIndex}>
-              {launchingApp === 'camera' ? 'SURV' : 'LOG'}
+              {launchingApp === 'camera' ? 'SURV' : launchingApp === 'access-log' ? 'LOG' : 'AUDIT'}
             </span>
             <div aria-hidden="true" className={styles.launchGlyph}>
               <span /><i /><i />

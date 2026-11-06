@@ -8,6 +8,13 @@ describe('appReducer', () => {
     })
   })
 
+  it('opens the security audit from the desktop', () => {
+    expect(appReducer(initialAppState, { type: 'open-security-audit' })).toEqual({
+      ...initialAppState,
+      screen: 'security-audit',
+    })
+  })
+
   it('unlocks the camera gate only after successful authentication', () => {
     const gateState = appReducer(initialAppState, { type: 'open-camera' })
     expect(

@@ -6,11 +6,12 @@ import { vi } from 'vitest'
 import { App } from './App'
 
 describe('App', () => {
-  it('shows both applications on the desktop', () => {
+  it('shows all three applications on the desktop', () => {
     render(<App />)
 
     expect(screen.getByRole('button', { name: /監視カメラ/ })).toBeVisible()
     expect(screen.getByRole('button', { name: /入退室ログ/ })).toBeVisible()
+    expect(screen.getByRole('button', { name: /セキュリティ監査/ })).toBeVisible()
   })
 
   it('uses semantic screen labels instead of decorative chapter numbers', () => {
@@ -103,6 +104,22 @@ describe('App', () => {
         { timeout: 2_500 },
       ),
     ).toBeVisible()
+  })
+
+  it('opens the security audit without authentication', async () => {
+    const user = userEvent.setup()
+    render(<App />)
+
+    await user.dblClick(screen.getByRole('button', { name: /セキュリティ監査/ }))
+
+    expect(
+      await screen.findByRole(
+        'heading',
+        { name: 'セキュリティ監査' },
+        { timeout: 2_500 },
+      ),
+    ).toBeVisible()
+    expect(screen.getByText('ICOCAによる夜食購入')).toBeVisible()
   })
 
   it('denies a wrong camera answer and accepts maintenance in hiragana', async () => {

@@ -3,7 +3,7 @@ import styles from './AppIcon.module.css'
 type AppIconProps = {
   badge?: string
   description: string
-  icon: 'camera' | 'log'
+  icon: 'camera' | 'log' | 'audit'
   label: string
   onOpen: () => void
   systemLabel: string
@@ -34,6 +34,17 @@ function LogIcon() {
   )
 }
 
+function AuditIcon() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 64 64">
+      <path d="M10 14h17v14H10zM37 36h17v14H37z" />
+      <path d="M27 21h8c6 0 9 4 9 10v5M20 28v7c0 6 4 8 10 8h7" />
+      <circle cx="32" cy="32" r="4" />
+      <path d="M14 19h9M41 41h9M41 46h6" />
+    </svg>
+  )
+}
+
 export function AppIcon({
   badge,
   description,
@@ -42,6 +53,7 @@ export function AppIcon({
   onOpen,
   systemLabel,
 }: AppIconProps) {
+  const iconLabel = icon === 'camera' ? 'CAM' : icon === 'log' ? 'LOG' : 'AUDIT'
   return (
     <button
       className={styles.app}
@@ -56,8 +68,8 @@ export function AppIcon({
       type="button"
     >
       <span className={styles.iconFrame}>
-        <span aria-hidden="true" className={styles.iconIndex}>{icon === 'camera' ? 'CAM' : 'LOG'}</span>
-        {icon === 'camera' ? <CameraIcon /> : <LogIcon />}
+        <span aria-hidden="true" className={styles.iconIndex}>{iconLabel}</span>
+        {icon === 'camera' ? <CameraIcon /> : icon === 'log' ? <LogIcon /> : <AuditIcon />}
         {badge ? <span className={styles.badge}>!</span> : null}
       </span>
       <span className={styles.copy}>

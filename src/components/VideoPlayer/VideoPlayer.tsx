@@ -72,19 +72,34 @@ export function VideoPlayer({ file, onStatusChange }: VideoPlayerProps) {
     <div className={styles.player} ref={playerRef}>
       <div className={`${styles.viewport} ${status === 'playing' ? styles.playing : ''}`}>
         <div className={styles.mediaFrame}>
-          <img
-            alt={file.media.alt}
-            className={styles.mediaImage}
-            draggable="false"
-            src={file.media.src}
-          />
+          {file.media.kind === 'placeholder-image' ? (
+            <img
+              alt={file.media.alt}
+              className={styles.mediaImage}
+              draggable="false"
+              src={file.media.src}
+            />
+          ) : (
+            <div aria-label={file.media.alt} className={styles.signalLoss} role="img">
+              <div aria-hidden="true" className={styles.signalGlyph}><i /><i /><i /></div>
+              <strong>{file.media.message}</strong>
+              <span>{file.media.code}</span>
+              <small>20:15—20:18 / RECORDING SUSPENDED</small>
+            </div>
+          )}
         </div>
         <div className={styles.mediaShade} aria-hidden="true" />
         <div className={styles.noise} aria-hidden="true" />
         <div className={styles.frameGrid} aria-hidden="true" />
-        <span className={styles.rec}>● REC</span>
+        <span className={styles.rec}>
+          {file.media.kind === 'placeholder-image' ? '● REC' : '■ RECORDING STOPPED'}
+        </span>
         <span className={styles.channel}>{file.sceneLabel}</span>
-        <span className={styles.mediaStatus}>TEMPORARY STILL / LOCAL CACHE</span>
+        <span className={styles.mediaStatus}>
+          {file.media.kind === 'placeholder-image'
+            ? 'TEMPORARY STILL / LOCAL CACHE'
+            : 'NO VIDEO DATA / LOCAL EVENT LOG'}
+        </span>
         <time className={styles.timestamp}>
           {formatRecordingTimestamp(file.recordedAt, position)}
         </time>

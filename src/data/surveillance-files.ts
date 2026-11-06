@@ -10,11 +10,18 @@ export type ArchiveFile = {
   duration: number
   sceneLabel: string
   description: string
-  media: {
-    kind: 'placeholder-image'
-    src: string
-    alt: string
-  }
+  media:
+    | {
+        kind: 'placeholder-image'
+        src: string
+        alt: string
+      }
+    | {
+        kind: 'signal-loss'
+        alt: string
+        code: string
+        message: string
+      }
 }
 
 export type SystemFile = {
@@ -57,12 +64,13 @@ export const archiveFiles: ArchiveFile[] = [
     locked: true,
     answer: 'TAIATARI',
     duration: 42,
-    sceneLabel: 'CAM 01 · EXECUTIVE OFFICE',
-    description: '暗号化された監視映像。認証後に再生できます。',
+    sceneLabel: 'CAM 01 · MANUAL STOP',
+    description: '20:15〜20:18の間、監視システムが手動停止されたため映像データが欠落。',
     media: {
-      kind: 'placeholder-image',
-      src: '/assets/surveillance/placeholders/archive-2015.png',
-      alt: '映像2の仮素材。謎の人物が金庫のUSBメモリを持ち出す場面の説明。',
+      kind: 'signal-loss',
+      alt: '20時15分から20時18分まで手動停止され、映像が記録されていない状態。',
+      code: 'MANUAL_OVERRIDE',
+      message: 'ARCHIVE SIGNAL INTERRUPTED',
     },
   },
   {
@@ -128,7 +136,10 @@ export const systemFiles: SystemFile[] = [
     lines: [
       '[19:58:12] CAM-01 archive session initialized',
       '[20:00:00] motion flag raised / executive_office',
-      '[20:15:00] secure storage zone motion detected',
+      '[20:15:00] manual override accepted / operator console',
+      '[20:15:01] CAM-01 recording suspended',
+      '[20:18:00] CAM-01 recording resumed',
+      '[20:18:04] archive gap sealed / duration 00:03:00',
       '[20:29:43] employee cleaning window started',
       '[20:46:08] employee cleaning window closed',
       '[23:55:00] no motion / luminance below threshold',
@@ -144,7 +155,7 @@ export const systemFiles: SystemFile[] = [
       'CAM-01 ........ ONLINE',
       'CAM-02 ........ ONLINE',
       'ARCHIVE NODE ... READY',
-      'FRAME LOSS ..... 0.02%',
+      'MANUAL STOP .... 20:15-20:18',
       'AUDIO CHANNEL .. DISABLED',
       'RETENTION ...... LOCAL / 30 DAYS',
     ],

@@ -60,6 +60,27 @@ describe('VideoPlayer', () => {
     expect(screen.getByText('TEMPORARY STILL / LOCAL CACHE')).toBeVisible()
   })
 
+  it('shows a manual-stop record instead of fabricated footage', () => {
+    render(
+      <VideoPlayer
+        file={{
+          ...longArchive,
+          media: {
+            kind: 'signal-loss',
+            alt: '手動停止による映像欠落',
+            code: 'MANUAL_OVERRIDE',
+            message: 'ARCHIVE SIGNAL INTERRUPTED',
+          },
+        }}
+        onStatusChange={vi.fn()}
+      />,
+    )
+
+    expect(screen.getByRole('img', { name: '手動停止による映像欠落' })).toBeVisible()
+    expect(screen.getByText('20:15—20:18 / RECORDING SUSPENDED')).toBeVisible()
+    expect(screen.queryByText('TEMPORARY STILL / LOCAL CACHE')).not.toBeInTheDocument()
+  })
+
   it('requests fullscreen playback from its control', () => {
     const requestFullscreen = vi.fn().mockResolvedValue(undefined)
     Object.defineProperty(HTMLElement.prototype, 'requestFullscreen', {

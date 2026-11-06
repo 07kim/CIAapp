@@ -18,6 +18,8 @@ export function appReducer(state: AppState, action: AppAction): AppState {
       return { ...state, screen: 'camera-gate' }
     case 'open-access-log':
       return { ...state, screen: 'access-log' }
+    case 'open-security-audit':
+      return { ...state, screen: 'security-audit' }
     case 'show-auth-result':
       return { ...state, authenticationStatus: action.result }
     case 'finish-gate-auth':

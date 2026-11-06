@@ -16,6 +16,7 @@ import { AccessLogScreen } from '../screens/AccessLogScreen/AccessLogScreen'
 import { CameraGateScreen } from '../screens/CameraGateScreen/CameraGateScreen'
 import { CameraSystemScreen } from '../screens/CameraSystemScreen/CameraSystemScreen'
 import { DesktopScreen } from '../screens/DesktopScreen/DesktopScreen'
+import { SecurityAuditScreen } from '../screens/SecurityAuditScreen/SecurityAuditScreen'
 import { appReducer, initialAppState } from './app-reducer'
 import type { VideoStatus } from './app-state'
 import styles from './App.module.css'
@@ -136,7 +137,9 @@ export function App() {
       ? { mode: 'authentication', label: 'CREDENTIAL GATE' }
       : state.screen === 'camera-browser'
         ? { mode: 'authorized', label: 'ACCESS GRANTED / ARCHIVE ONLINE' }
-        : { mode: 'access', label: 'ACCESS TRACE' }
+        : state.screen === 'access-log'
+          ? { mode: 'access', label: 'ACCESS TRACE' }
+          : { mode: 'access', label: 'SECURITY CORRELATION' }
 
   const screen = (() => {
     switch (state.screen) {
@@ -146,6 +149,7 @@ export function App() {
             <DesktopScreen
               onOpenAccessLog={() => dispatch({ type: 'open-access-log' })}
               onOpenCamera={() => dispatch({ type: 'open-camera' })}
+              onOpenSecurityAudit={() => dispatch({ type: 'open-security-audit' })}
             />
           </AppShell>
         )
@@ -195,6 +199,16 @@ export function App() {
             onRequestHome={() => dispatch({ type: 'request-home' })}
           >
             <AccessLogScreen />
+          </AppShell>
+        )
+      case 'security-audit':
+        return (
+          <AppShell
+            title="セキュリティ監査"
+            subtitle="SECURITY CORRELATION"
+            onRequestHome={() => dispatch({ type: 'request-home' })}
+          >
+            <SecurityAuditScreen />
           </AppShell>
         )
     }

@@ -3,6 +3,7 @@ export type AppScreen =
   | 'camera-gate'
   | 'camera-browser'
   | 'access-log'
+  | 'security-audit'
 
 export type AuthenticationStatus = 'idle' | 'granted' | 'denied'
 export type VideoStatus = 'idle' | 'playing' | 'paused' | 'ended'
@@ -22,6 +23,7 @@ export type AppState = {
 export type AppAction =
   | { type: 'open-camera' }
   | { type: 'open-access-log' }
+  | { type: 'open-security-audit' }
   | { type: 'show-auth-result'; result: Exclude<AuthenticationStatus, 'idle'> }
   | { type: 'finish-gate-auth'; success: boolean }
   | { type: 'select-file'; fileId: string }

@@ -56,6 +56,32 @@
   filter: brightness(0.96) contrast(1.08) saturate(0.82);
 }
 
+.signalLoss {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0.65rem;
+  padding: 2rem;
+  background:
+    repeating-linear-gradient(0deg, transparent 0 8px, rgb(255 255 255 / 2%) 9px),
+    #07080a;
+  color: #d7d7d9;
+  text-align: center;
+}
+
+.signalLoss strong { font-size: clamp(0.85rem, 2.1vw, 1.35rem); letter-spacing: 0.12em; }
+.signalLoss span { color: var(--color-danger); font-size: 0.65rem; letter-spacing: 0.18em; }
+.signalLoss small { color: rgb(232 234 238 / 48%); font-size: 0.55rem; letter-spacing: 0.12em; }
+.signalGlyph { position: relative; width: 4.2rem; aspect-ratio: 1; border: 1px solid rgb(217 74 82 / 42%); border-radius: 50%; }
+.signalGlyph::before,
+.signalGlyph::after { position: absolute; top: 50%; left: 50%; width: 1px; height: 5rem; background: rgb(217 74 82 / 55%); content: ''; transform: translate(-50%, -50%) rotate(45deg); }
+.signalGlyph::after { transform: translate(-50%, -50%) rotate(-45deg); }
+.signalGlyph i { position: absolute; top: 50%; left: 50%; width: 0.35rem; aspect-ratio: 1; border-radius: 50%; background: var(--color-danger); translate: -50% -50%; animation: signal-pulse 1.6s ease-in-out infinite alternate; }
+.signalGlyph i:nth-child(2) { width: 1.8rem; border: 1px solid rgb(217 74 82 / 35%); background: transparent; animation-delay: -0.5s; }
+.signalGlyph i:nth-child(3) { width: 3rem; border: 1px dashed rgb(217 74 82 / 22%); background: transparent; animation-delay: -1s; }
+
 .mediaShade {
   z-index: 1;
   pointer-events: none;
@@ -181,6 +207,7 @@
 @keyframes rec-pulse { 50% { opacity: 0.35; } }
 @keyframes archive-drift { to { transform: scale(1.016) translate3d(-0.18%, -0.12%, 0); } }
 @keyframes controls-in { from { opacity: 0; transform: translate3d(0, 0.75rem, 0); } }
+@keyframes signal-pulse { to { opacity: 0.35; transform: scale(1.08); } }
 
 @media (prefers-reduced-motion: reduce) {
   .playing::after,
@@ -188,5 +215,6 @@
   .frameGrid,
   .rec,
   .mediaImage,
+  .signalGlyph i,
   .controls { animation: none; }
 }
